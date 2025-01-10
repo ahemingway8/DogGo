@@ -103,3 +103,23 @@ class EventRepository:
         except Exception as e:
             print(e)
             return Result(success=False, error="Could not delete the event")
+
+    def get_by_id(self, event_id: int) -> Result[EventOut]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=class_row(EventOut)) as db:
+                    result = db.execute(
+                        """
+                        SELECT id, name, description, address, date_time, picture_url
+                        FROM events
+                        Where id =%s;
+                        """,
+                        [event_id]
+                    )
+                    event = db.fetchnone()
+                    if not event:
+                        return Result(success=False, error=f"Event with id {event_id} not found")
+                    return Result(success=True, data=event)
+        except Exception as e:
+            print(e)
+            return Result(success=False, error="Failed to retrieve event")

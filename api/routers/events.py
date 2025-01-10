@@ -41,3 +41,10 @@ def delete_event(
     if not result.success:
         response.status_code = 404
     return result
+
+@router.get("/api/events/{event_id}", response_model=Result[EventOut])
+def get_event_details(
+    event_id: int,
+    repo: EventRepository = Depends(),
+) -> Result[EventOut]:
+    return repo.get_by_id(event_id)
