@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Response
-from typing import Union, List
+from utils.result import Result
+from typing import List
 from queries.events_queries import (
-    Error,
     EventIn,
     EventRepository,
     EventOut
@@ -9,35 +9,35 @@ from queries.events_queries import (
 
 router = APIRouter()
 
-@router.post("/api/events", response_model=Union [EventOut, Error])
+@router.post("/api/events", response_model=Result[EventOut])
 def create_event(
     event: EventIn,
     response: Response,
     repo: EventRepository = Depends()
-):
+) -> Result[EventOut]:
     return repo.create(event)
 
-@router.get("/api/events", response_model=Union [List[EventOut], Error])
+@router.get("/api/events", response_model=Result[List[EventOut]])
 def get_all(
     repo: EventRepository = Depends(),
-):
+) -> Result[EventOut]:
     return repo.get_all()
 
-@router.put("/api/events/{event_id}", response_model=Union[EventOut, Error])
+@router.put("/api/events/{event_id}", response_model=Result[EventOut])
 def update_event (
     event_id: int,
     event: EventIn,
     repo: EventRepository = Depends(),
-) -> Union[Error, EventOut]:
+) -> Result[EventOut]:
     return repo.update(event_id, event)
 
-@router.delete("/api/events/{event_id}", response_model=Union[bool, Error])
+@router.delete("/api/events/{event_id}", response_model=Result[bool])
 def delete_event(
     event_id: int,
     response: Response,
     repo: EventRepository = Depends()
-):
+) -> Result[bool]:
     result = repo.delete(event_id)
-    if isinstance(result, Error):
+    if not result.success:
         response.status_code = 404
     return result

@@ -1,11 +1,12 @@
-from typing import Union, List
-from models.events import Error, EventIn, EventOut
+from typing import List
+from utils.result import Result
+from models.events import EventIn, EventOut
 from queries.pool import pool
 from psycopg.rows import class_row
 
 class EventRepository:
 
-    def update(self, event_id: int, event: EventIn) -> Union[EventOut, Error]:
+    def update(self, event_id: int, event: EventIn) -> Result[EventOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(EventOut)) as db:
@@ -32,15 +33,15 @@ class EventRepository:
                     )
                     updated_event = db.fetchone()
                     if updated_event is None:
-                        return Error(message=f"Event with id {event_id} not found")
-                    return updated_event
+                        return Result(success=False, error=f"Event with id {event_id} was not found")
+                    return Result(success=True, data=updated_event)
 
         except Exception as e:
             print(e)
-            return Error(message="Event update failed")
+            return Result(success=False, error="Event update failed")
 
 
-    def get_all(self) -> Union[Error, List[EventOut]]:
+    def get_all(self) -> Result[List[EventOut]]:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(EventOut)) as db:
@@ -51,12 +52,12 @@ class EventRepository:
                         ORDER BY date_time;
                         """
                     )
-                    return db.fetchall()
+                    return Result(success=True, data=db.fetchall())
         except Exception as error:
             print(error)
-            return {"message": "Could not get all events"}
+            return Result(success=False, error="Could not get all events")
 
-    def create(self, event: EventIn) -> Union[Error, EventOut]:
+    def create(self, event: EventIn) -> Result[EventOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(EventOut)) as db:
@@ -79,13 +80,13 @@ class EventRepository:
                         ]
                     )
                     event = db.fetchone()
-                    return event
+                    return Result(success=True, data=event)
 
         except Exception as e:
             print(e)
-            return Error(message="Event creation failed")
+            return Result(success=False, error="Event creation failed")
 
-    def delete(self, event_id: int) -> Union[bool, Error]:
+    def delete(self, event_id: int) -> Result[bool]:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(EventOut)) as db:
@@ -97,8 +98,8 @@ class EventRepository:
                         [event_id]
                     )
                     if db.rowcount == 0:
-                        return Error(message="Event not found or could not be deleted")
-                    return True
+                        return Result(success=False, error="Event not found or could not be deleted")
+                    return Result(success=True, data=True)
         except Exception as e:
             print(e)
-            return Error(message="Could not delete the event")
+            return Result(success=False, error="Could not delete the event")
