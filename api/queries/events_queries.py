@@ -104,3 +104,21 @@ class EventRepository:
         except Exception as e:
             print(e)
             return Error(message="Event creation failed")
+
+    def delete(self, event_id: int) -> Union[bool, Error]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=class_row(EventOut)) as db:
+                    db.execute(
+                        """
+                        DELETE FROM events
+                        WHERE id = %s;
+                        """,
+                        [event_id]
+                    )
+                    if db.rowcount == 0:
+                        return Error(message="Event not found or could not be deleted")
+                    return True
+        except Exception as e:
+            print(e)
+            return Error(message="Could not delete the event")

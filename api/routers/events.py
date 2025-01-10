@@ -30,3 +30,14 @@ def update_event (
     repo: EventRepository = Depends(),
 ) -> Union[Error, EventOut]:
     return repo.update(event_id, event)
+
+@router.delete("/api/events/{event_id}", response_model=Union[bool, Error])
+def delete_event(
+    event_id: int,
+    response: Response,
+    repo: EventRepository = Depends()
+):
+    result = repo.delete(event_id)
+    if isinstance(result, Error):
+        response.status_code = 404
+    return result
