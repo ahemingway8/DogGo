@@ -20,7 +20,7 @@ services:
             DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
             SIGNING_KEY: ${SIGNING_KEY}
             WAIT_HOSTS: db:5432
-            GEOAPIFY_API_KEY: adce64483166411ea2b05bba75990fdb
+            GEOAPIFY_API_KEY: ${GEOAPIFY_API_KEY}
         build:
             context: api
             dockerfile: Dockerfile.dev
