@@ -22,3 +22,11 @@ def get_all(
     repo: EventRepository = Depends(),
 ):
     return repo.get_all()
+
+@router.put("/api/events/{event_id}", response_model=Union[EventOut, Error])
+def update_event (
+    event_id: int,
+    event: EventIn,
+    repo: EventRepository = Depends(),
+) -> Union[Error, EventOut]:
+    return repo.update(event_id, event)
