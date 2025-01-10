@@ -3,7 +3,7 @@ Entry point for the FastAPI Application
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth_router, events
+from routers import auth_router, events, locations
 import os
 
 app = FastAPI()
@@ -18,6 +18,7 @@ app.add_middleware(
 
 app.include_router(auth_router.router)
 app.include_router(events.router)
+app.include_router(locations.router)
 
 
 
