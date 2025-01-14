@@ -38,4 +38,3 @@ async def event_page(user=Depends(try_get_jwt_user_data)):
     if not user:
         raise HTTPException(status_code=401, detail="Not Authorized")
     return {"message": "Find Dog-Friendly Events!"}
-
