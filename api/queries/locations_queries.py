@@ -28,7 +28,6 @@ class LocationRepository:
         }
 
         try:
-            # Check if API key is configured
             if not params["apiKey"]:
                 print("No API key found in environment")
                 return Result(
@@ -39,7 +38,6 @@ class LocationRepository:
 
             print(f"Making request to Geoapify with params: categories={categories}, lat={latitude}, lon={longitude}, radius={radius}")
 
-            # Make API request
             response = requests.get(geoapify_url, params=params)
 
             print(f"Geoapify response status: {response.status_code}")
@@ -49,11 +47,9 @@ class LocationRepository:
             response.raise_for_status()
             data = response.json()
 
-            # Print the number of features received
             features = data.get("features", [])
             print(f"Received {len(features)} locations from Geoapify")
 
-            # Transform API response into LocationOut objects
             locations = [
                 LocationOut(
                     name=feature["properties"].get("name", "Unnamed"),
@@ -81,7 +77,7 @@ class LocationRepository:
         except Exception as e:
             print(f"Unexpected error in search_locations: {str(e)}")
             import traceback
-            print(traceback.format_exc())  # This will print the full error traceback
+            print(traceback.format_exc())
             return Result(
                 success=False,
                 data=None,
