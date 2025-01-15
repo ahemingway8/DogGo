@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import ErrorNotification from './components/ErrorNotification'
+import Navbar from './components/navbar'
 import './App.css'
+
 
 const API_HOST = import.meta.env.VITE_API_HOST
 
@@ -15,7 +17,9 @@ function App() {
     return (
         <div className="min-h-screen bg-gray-50">
             <div className="container mx-auto px-4">
-                <header className="App-header">{/* <Nav /> */}</header>
+                <header className="App-header"></header>
+                <Navbar />
+
                 <Outlet />
                 <ErrorNotification error={error} />
             </div>
