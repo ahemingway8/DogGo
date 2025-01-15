@@ -3,6 +3,7 @@ from pydantic import BaseModel
 
 T = TypeVar("T")
 
+
 class Result(BaseModel, Generic[T]):
     success: bool
     data: Union[T, None] = None
