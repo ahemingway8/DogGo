@@ -1,6 +1,7 @@
 """
 Pydantic Models for the JWT Payload
 """
+
 from pydantic import BaseModel
 
 
