@@ -10,15 +10,20 @@ router = APIRouter()
 
 GEOAPIFY_API_KEY = getenv("GEOAPIFY_API_KEY")
 
+
 @router.get("/api/search-places", response_model=Result[List[LocationOut]])
 def search_places_by_address(
     response: Response,
-    address: str = Query(..., description="The address to search nearby pet-friendly locations."),
+    address: str = Query(
+        ..., description="The address to search nearby pet-friendly locations."
+    ),
     categories: str = Query(
         "pet.shop,pet.veterinary,pet.service",
-        description="Comma-separated list of categories (e.g.,pet.shop,pet.veterinary,pet.service)"
+        description="Comma-separated list of categories (e.g.,pet.shop,pet.veterinary,pet.service)",
     ),
-    radius: int = Query(5000, description="Search radius in meters (default: 5000)"),
+    radius: int = Query(
+        5000, description="Search radius in meters (default: 5000)"
+    ),
     repo: LocationRepository = Depends(),
 ) -> Result[List[LocationOut]]:
     """
@@ -27,9 +32,7 @@ def search_places_by_address(
     if not GEOAPIFY_API_KEY:
         response.status_code = 500
         return Result(
-            success=False,
-            data=None,
-            error="Geoapify API key not configured"
+            success=False, data=None, error="Geoapify API key not configured"
         )
     geocode_url = f"https://api.geoapify.com/v1/geocode/search?text={address}&filter=countrycode:us&apiKey={GEOAPIFY_API_KEY}"
 
@@ -40,11 +43,7 @@ def search_places_by_address(
 
         if not geocode_data.get("features"):
             response.status_code = 404
-            return Result(
-                success=False,
-                data=None,
-                error="Address not found"
-            )
+            return Result(success=False, data=None, error="Address not found")
 
         location = geocode_data["features"][0]["geometry"]["coordinates"]
         longitude, latitude = location
@@ -52,7 +51,9 @@ def search_places_by_address(
         result = repo.search_locations(categories, latitude, longitude, radius)
 
         if not result.success:
-            response.status_code = 500 if "API key not configured" in str(result.error) else 404
+            response.status_code = (
+                500 if "API key not configured" in str(result.error) else 404
+            )
         return result
 
     except requests.exceptions.RequestException as e:
@@ -60,7 +61,7 @@ def search_places_by_address(
         return Result(
             success=False,
             data=None,
-            error=f"Error in geocoding address: {str(e)}"
+            error=f"Error in geocoding address: {str(e)}",
         )
 
 
@@ -69,11 +70,13 @@ def search_pet_friendly_locations(
     response: Response,
     categories: str = Query(
         "pet.shop",
-        description="Comma-separated list of categories (e.g., pet.shop,pet.veterinary)"
+        description="Comma-separated list of categories (e.g., pet.shop,pet.veterinary)",
     ),
     latitude: float = Query(..., description="Latitude of the location"),
     longitude: float = Query(..., description="Longitude of the location"),
-    radius: int = Query(5000, description="Search radius in meters (default:5000)"),
+    radius: int = Query(
+        5000, description="Search radius in meters (default:5000)"
+    ),
     repo: LocationRepository = Depends(),
 ) -> Result[List[LocationOut]]:
     result = repo.search_locations(categories, latitude, longitude, radius)

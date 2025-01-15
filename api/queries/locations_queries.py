@@ -1,6 +1,5 @@
 import requests
 from typing import List
-from pydantic import BaseModel
 from os import getenv
 from models.locations import LocationOut
 from utils.result import Result
@@ -8,16 +7,15 @@ from utils.result import Result
 
 class LocationRepository:
     def search_locations(
-            self,
-            categories: str,
-            latitude: float,
-            longitude: float,
-            radius: int = 5000
+        self,
+        categories: str,
+        latitude: float,
+        longitude: float,
+        radius: int = 5000,
     ) -> Result[List[LocationOut]]:
         geoapify_url = "https://api.geoapify.com/v2/places"
         api_key = getenv("GEOAPIFY_API_KEY")
 
-        # Debug prints
         print(f"API Key present: {bool(api_key)}")
 
         params = {
@@ -33,10 +31,12 @@ class LocationRepository:
                 return Result(
                     success=False,
                     data=None,
-                    error="Geoapify API key not configured"
+                    error="Geoapify API key not configured",
                 )
 
-            print(f"Making request to Geoapify with params: categories={categories}, lat={latitude}, lon={longitude}, radius={radius}")
+            print(
+                f"Making request to Geoapify with params: categories={categories}, lat={latitude}, lon={longitude}, radius={radius}"
+            )
 
             response = requests.get(geoapify_url, params=params)
 
@@ -53,7 +53,9 @@ class LocationRepository:
             locations = [
                 LocationOut(
                     name=feature["properties"].get("name", "Unnamed"),
-                    address=feature["properties"].get("formatted", "No address"),
+                    address=feature["properties"].get(
+                        "formatted", "No address"
+                    ),
                     category=feature["properties"].get("categories", []),
                     latitude=feature["properties"].get("lat"),
                     longitude=feature["properties"].get("lon"),
@@ -61,25 +63,20 @@ class LocationRepository:
                 for feature in features
             ]
 
-            return Result(
-                success=True,
-                data=locations,
-                error=None
-            )
+            return Result(success=True, data=locations, error=None)
 
         except requests.exceptions.RequestException as e:
             print(f"Geoapify API request error: {str(e)}")
             return Result(
-                success=False,
-                data=None,
-                error=f"Geoapify API error: {str(e)}"
+                success=False, data=None, error=f"Geoapify API error: {str(e)}"
             )
         except Exception as e:
             print(f"Unexpected error in search_locations: {str(e)}")
             import traceback
+
             print(traceback.format_exc())
             return Result(
                 success=False,
                 data=None,
-                error=f"An unexpected error occurred: {str(e)}"
+                error=f"An unexpected error occurred: {str(e)}",
             )

@@ -12,6 +12,6 @@ steps = [
         """,
         """
         DROP TABLE events;
-        """
+        """,
     ]
 ]
