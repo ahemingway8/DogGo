@@ -7,7 +7,9 @@ const Navbar = () => {
     const navigate = useNavigate()
     const { isLoggedIn, logout } = useAuthService()
     const [dropdownOpen, setDropdownOpen] = useState(false)
+    const [hamburgerOpen, setHamburgerOpen] = useState(false)
 
+    const toggleHamburger = () => setHamburgerOpen(!hamburgerOpen)
     const toggleDropdown = () => setDropdownOpen(!dropdownOpen)
 
     const handleLogout = async () => {
@@ -17,13 +19,42 @@ const Navbar = () => {
     }
 
     return (
-        <nav className="bg-gray-800 text-white">
+        <nav className="bg-gray-800 text-white fixed w-full z-10 top-0 left-0 shadow-md">
             <div className="container mx-auto flex justify-between items-center py-4 px-6">
-                <div className="text-xl font-bold">
-                    <Link to="/">Dog-Friendly</Link>
+                {/* Logo in the middle */}
+                <div className="flex-1 text-center">
+                    <Link to="/" className="text-xl font-bold">
+                        Dog-Friendly
+                    </Link>
                 </div>
 
-                <ul className="flex space-x-6">
+                {/* Hamburger Icon for Smaller Screens */}
+                <button
+                    onClick={toggleHamburger}
+                    className="lg:hidden flex items-center justify-center text-white"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M4 6h16M4 12h16M4 18h16"
+                        />
+                    </svg>
+                </button>
+
+                {/* Navigation Links */}
+                <ul
+                    className={`lg:flex space-x-6 lg:space-x-8 transition-all ${
+                        hamburgerOpen ? 'block' : 'hidden'
+                    }`}
+                >
                     <li>
                         <Link to="/places" className="hover:text-green-400">
                             Places
@@ -34,31 +65,30 @@ const Navbar = () => {
                             Events
                         </Link>
                     </li>
+                    {isLoggedIn && (
+                        <li>
+                            <Link
+                                to="/event/create"
+                                className="hover:text-green-400"
+                            >
+                                Add an Event
+                            </Link>
+                        </li>
+                    )}
 
+                    {/* Account Dropdown */}
                     <li className="relative">
                         <button
                             onClick={toggleDropdown}
                             className="flex items-center gap-2 text-white hover:text-green-400"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="size-6"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                            </svg>
-
+                            <span>Account</span>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
-                                className={`w-5 h-5 transform transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`}
+                                className="w-5 h-5"
                             >
                                 <path
                                     strokeLinecap="round"
@@ -110,4 +140,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar;
+export default Navbar
