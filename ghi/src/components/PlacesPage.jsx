@@ -8,7 +8,7 @@ const PlacesPage = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    const filerOptions = [
+    const filterOptions = [
         { label: 'Pet Shops', value: 'pet.shop' },
         { label: 'Dog Parks', value: 'pet.dog_park' },
         { label: 'Veterinarians', value: 'pet.veterinary' },
@@ -54,36 +54,6 @@ const PlacesPage = () => {
             setLoading(false);
         }
     };
-       /* if (!address.trim()) {
-            setError('Address cannot be empty.')
-            return
-        }
-
-        setError(null)
-        try {
-            const response = await fetch(
-                `${
-                    import.meta.env.VITE_API_HOST
-                }/api/locations?latitude=40.7128&longitude=-74.0060&categories=pet.shop&radius=5000`,
-                {
-                    method: 'GET',
-                    headers: {
-                        'content-Type': 'application/json',
-                    },
-                }
-            )
-
-            if (!response.ok) {
-                const errorData = await response.json()
-                throw new Error(errorData.error || 'Failed to fetch locations.')
-            }
-
-            const data = await response.json()
-            setLocations(data.data || [])
-        } catch (err) {
-            setError(err.message || 'an unexpected error occured.')
-        }
-    } */
 
     return (
         <div className="min-h-screen p-4 bg-gray-50">
@@ -128,6 +98,10 @@ const PlacesPage = () => {
                 {error && <p className="text-red-500">{error}</p>}
                 {locations.length > 0 && (
                     <div className="results">
+                        <PlacesMap
+                            locations={locations}
+                            center={[40.7128, -74.0060]}
+                        />
                         <h2 className="text-lg font-bold mb-2">Pet-Friendly Locations</h2>
                         <ul className="sp[ace-y-2 mb-8">
                             {locations.map((location, index) => (
@@ -145,10 +119,6 @@ const PlacesPage = () => {
                             ))}
                         </ul>
 
-                        <PlacesMap
-                            locations={locations}
-                            center={[40.7128, -74.0060]}
-                        />
                     </div>
                 )}
             </div>

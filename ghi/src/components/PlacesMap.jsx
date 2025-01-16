@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Popup } from 'https://cdn.esm.sh/react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
@@ -42,4 +42,4 @@ const PlacesMap = ({ locations, center }) => {
     );
 };
 
-export default PlacesMap
+export default PlacesMap;
