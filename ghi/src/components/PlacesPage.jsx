@@ -63,6 +63,8 @@ const handleSearch = async () => {
         // First, geocode the address using our backend API
         const coords = await geocodeAddress(address);
 
+        setMapCenter([coords.latitude, coords.longitude]);
+
         const categories = filters.join(',');
 
         const response = await fetch(
