@@ -4,7 +4,7 @@ import useAuthService from '../hooks/useAuthService'
 
 const Navbar = () => {
     const navigate = useNavigate()
-    const { isLoggedIn, logout } = useAuthService()
+    const { isLoggedIn, signout } = useAuthService()
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false)
 
@@ -12,7 +12,7 @@ const Navbar = () => {
     const toggleProfileDropdown = () => setProfileDropdownOpen(!profileDropdownOpen)
 
     const handleLogout = async () => {
-        await logout()
+        await signout()
         navigate('/')
     }
 
