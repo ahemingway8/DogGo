@@ -2,63 +2,104 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useAuthService from '../hooks/useAuthService'
 
-
 const Navbar = () => {
     const navigate = useNavigate()
     const { isLoggedIn, logout } = useAuthService()
-    const [dropdownOpen, setDropdownOpen] = useState(false)
+    const [menuOpen, setMenuOpen] = useState(false)
+    const [profileDropdownOpen, setProfileDropdownOpen] = useState(false)
 
-    const toggleDropdown = () => setDropdownOpen(!dropdownOpen)
+    const toggleMenu = () => setMenuOpen(!menuOpen)
+    const toggleProfileDropdown = () => setProfileDropdownOpen(!profileDropdownOpen)
 
     const handleLogout = async () => {
-        // Call your logout function, which could clear the token and perform any server-side logout logic
         await logout()
-        navigate('/') // Redirect to homepage
+        navigate('/')
     }
 
     return (
-        <nav className="bg-gray-800 text-white">
-            <div className="container mx-auto flex justify-between items-center py-4 px-6">
-                <div className="text-xl font-bold">
-                    <Link to="/">Dog-Friendly</Link>
-                </div>
+        <>
+            <nav className="bg-[#6F8B51] text-white fixed top-0 left-0 right-0 z-20">
+                <div className="container mx-auto flex justify-between items-center py-4 px-6">
 
-                <ul className="flex space-x-6">
-                    <li>
-                        <Link to="/places" className="hover:text-green-400">
-                            Places
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="/events" className="hover:text-green-400">
-                            Events
-                        </Link>
-                    </li>
-
-                    <li className="relative">
+                    <div className="relative">
                         <button
-                            onClick={toggleDropdown}
-                            className="flex items-center gap-2 text-white hover:text-green-400"
+                            onClick={toggleMenu}
+                            className="text-white hover:text-green-400 focus:outline-none"
+                            aria-label="Toggle menu"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                fill="none" viewBox="0 0 24 24"
+                                fill="none"
+                                viewBox="0 0 24 24"
                                 strokeWidth={1.5}
                                 stroke="currentColor"
-                                className="size-6"
+                                className="w-6 h-6"
                             >
                                 <path
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                                />
                             </svg>
+                        </button>
 
+
+                        {menuOpen && (
+                            <div className="absolute left-0 mt-2 w-48 bg-white text-gray-800 shadow-md rounded-lg">
+                                <ul className="py-2">
+                                    <li>
+                                        <Link
+                                            to="/places"
+                                            className="block px-4 py-2 hover:bg-gray-100"
+                                            onClick={() => setMenuOpen(false)}
+                                        >
+                                            Places
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link
+                                            to="/events"
+                                            className="block px-4 py-2 hover:bg-gray-100"
+                                            onClick={() => setMenuOpen(false)}
+                                        >
+                                            Events
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="text-xl font-bold">
+                        <Link to="/" className="hover:text-green-400">DogGo</Link>
+                    </div>
+
+
+                    <div className="relative">
+                        <button
+                            onClick={toggleProfileDropdown}
+                            className="flex items-center gap-2 text-white hover:text-green-400"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="w-6 h-6"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                                />
+                            </svg>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
-                                className={`w-5 h-5 transform transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`}
+                                className={`w-5 h-5 transform transition-transform duration-200 ${profileDropdownOpen ? 'rotate-180' : ''}`}
                             >
                                 <path
                                     strokeLinecap="round"
@@ -68,15 +109,16 @@ const Navbar = () => {
                                 />
                             </svg>
                         </button>
-                        {dropdownOpen && (
+                        {profileDropdownOpen && (
                             <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 shadow-md rounded-lg">
-                                <ul className="space-y-2 p-3">
+                                <ul className="py-2">
                                     {!isLoggedIn ? (
                                         <>
                                             <li>
                                                 <Link
                                                     to="/signin"
-                                                    className="block hover:bg-gray-100 p-2 rounded"
+                                                    className="block px-4 py-2 hover:bg-gray-100"
+                                                    onClick={() => setProfileDropdownOpen(false)}
                                                 >
                                                     Login
                                                 </Link>
@@ -84,7 +126,8 @@ const Navbar = () => {
                                             <li>
                                                 <Link
                                                     to="/signup"
-                                                    className="block hover:bg-gray-100 p-2 rounded"
+                                                    className="block px-4 py-2 hover:bg-gray-100"
+                                                    onClick={() => setProfileDropdownOpen(false)}
                                                 >
                                                     Sign Up
                                                 </Link>
@@ -93,8 +136,11 @@ const Navbar = () => {
                                     ) : (
                                         <li>
                                             <button
-                                                onClick={handleLogout}
-                                                className="block w-full text-left hover:bg-gray-100 p-2 rounded"
+                                                onClick={() => {
+                                                    handleLogout();
+                                                    setProfileDropdownOpen(false);
+                                                }}
+                                                className="block w-full text-left px-4 py-2 hover:bg-gray-100"
                                             >
                                                 Logout
                                             </button>
@@ -103,11 +149,14 @@ const Navbar = () => {
                                 </ul>
                             </div>
                         )}
-                    </li>
-                </ul>
-            </div>
-        </nav>
+                    </div>
+                </div>
+            </nav>
+
+
+            <div className="h-16"></div>
+        </>
     )
 }
 
-export default Navbar;
+export default Navbar
