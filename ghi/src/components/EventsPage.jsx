@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuthService from '../hooks/useAuthService';
 
@@ -172,26 +172,26 @@ const EventsListPage = () => {
                     </p>
                 </div>
             ) : (
-                <div className="grid gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {filteredEvents.map((event) => (
                         <div
                             key={event.id}
                             className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 border border-gray-100 overflow-hidden"
                         >
                             {event.picture_url && (
-                                <img
-                                    src={event.picture_url}
-                                    alt={event.name}
-                                    className="w-full h-48 object-cover"
-                                />
+                                <div className="w-full h-46 overflow-hidden">
+                                    <img
+                                        src={event.picture_url}
+                                        alt={event.name}
+                                        className="w-full h-48 object-cover"
+                                    />
+                                </div>
                             )}
                             <div className="p-6">
                                 <h3 className="text-xl font-semibold text-gray-800 mb-2">
                                     {event.name}
                                 </h3>
-                                <p className="text-gray-600 mb-4">
-                                    {event.description}
-                                </p>
+
                                 <div className="flex flex-wrap gap-4 text-sm text-gray-600">
                                     <div className="flex items-center">
                                         <svg
