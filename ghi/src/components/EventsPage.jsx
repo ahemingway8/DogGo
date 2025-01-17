@@ -1,92 +1,128 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import useAuthService from '../hooks/useAuthService'
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useAuthService from '../hooks/useAuthService';
+
+const API_HOST = import.meta.env.VITE_API_HOST;
+
+if (!API_HOST) {
+    throw new Error('VITE_API_HOST is not defined');
+}
 
 const EventsListPage = () => {
-    const [events, setEvents] = useState([])
-    const [filteredEvents, setFilteredEvents] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
-    const [error, setError] = useState(null)
-    const [searchTerm, setSearchTerm] = useState('')
-    const navigate = useNavigate()
-    const { isLoggedIn } = useAuthService()
+    const [events, setEvents] = useState([]);
+    const [filteredEvents, setFilteredEvents] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate();
+    const { isLoggedIn } = useAuthService();
 
     useEffect(() => {
-        fetchEvents()
-    }, [])
+        fetchEvents();
+    }, []);
 
     useEffect(() => {
-        filterEvents()
-    }, [searchTerm, events])
+        filterEvents();
+    }, [searchTerm, events]);
 
     const fetchEvents = async () => {
         try {
-            setIsLoading(true)
-            const response = await fetch('/api/events')
-            const data = await response.json()
+            setIsLoading(true);
+            const response = await fetch(`${API_HOST}/api/events`, {
+                credentials: 'include'
+            });
+            const data = await response.json();
 
             if (data.success) {
-                setEvents(data.data)
+                setEvents(data.data);
             } else {
-                setError('Failed to load events')
+                setError(data.error || 'Failed to load events');
             }
         } catch (err) {
-            setError('Failed to fetch events')
+            setError('Failed to fetch events');
+            console.error(err);
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
-    }
+    };
 
     const filterEvents = () => {
         if (!searchTerm) {
-            setFilteredEvents(events)
-            return
+            setFilteredEvents(events);
+            return;
         }
 
         const filtered = events.filter(
             (event) =>
-                event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                event.description
-                    .toLowerCase()
-                    .includes(searchTerm.toLowerCase()) ||
-                event.location.toLowerCase().includes(searchTerm.toLowerCase())
-        )
+                event.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                event.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                event.address?.toLowerCase().includes(searchTerm.toLowerCase())
+        );
 
-        setFilteredEvents(filtered)
-    }
+        setFilteredEvents(filtered);
+    };
 
     const handleCreateEventClick = () => {
         if (isLoggedIn) {
-            navigate('/events/new')
+            navigate('/events/new');
         } else {
-            navigate('/signup')
+            navigate('/signin');
         }
-    }
+    };
 
-    const formatDate = (dateString) => {
-        return new Date(dateString).toLocaleDateString('en-US', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-        })
-    }
+    const handleDeleteEvent = async (eventId) => {
+        if (!window.confirm('Are you sure you want to delete this event?')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_HOST}/api/events/${eventId}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                await fetchEvents(); // Refresh the events list
+            } else {
+                setError(data.error || 'Failed to delete event');
+            }
+        } catch (err) {
+            setError('Failed to delete event');
+            console.error(err);
+        }
+    };
+
+    const formatDateTime = (dateTimeStr) => {
+        try {
+            const date = new Date(dateTimeStr);
+            return date.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        } catch (err) {
+            console.error('Error formatting date:', err);
+            return dateTimeStr;
+        }
+    };
 
     if (isLoading) {
         return (
             <div className="flex justify-center items-center min-h-screen">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#6F8B51]"></div>
             </div>
-        )
+        );
     }
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-6">
             <div className="mb-8">
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-3xl font-bold text-gray-900">
-                        Dog Events
-                    </h1>
+                    <h1 className="text-3xl font-bold text-gray-900">Dog Events</h1>
                     <button
                         onClick={handleCreateEventClick}
                         className="px-4 py-2 bg-[#6F8B51] text-white rounded-lg hover:bg-[#5a7242] transition-colors"
@@ -142,9 +178,16 @@ const EventsListPage = () => {
                             key={event.id}
                             className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 border border-gray-100 overflow-hidden"
                         >
+                            {event.picture_url && (
+                                <img
+                                    src={event.picture_url}
+                                    alt={event.name}
+                                    className="w-full h-48 object-cover"
+                                />
+                            )}
                             <div className="p-6">
                                 <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                                    {event.title}
+                                    {event.name}
                                 </h3>
                                 <p className="text-gray-600 mb-4">
                                     {event.description}
@@ -165,7 +208,7 @@ const EventsListPage = () => {
                                                 d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"
                                             />
                                         </svg>
-                                        {formatDate(event.date)}
+                                        {formatDateTime(event.date_time)}
                                     </div>
                                     <div className="flex items-center">
                                         <svg
@@ -187,39 +230,39 @@ const EventsListPage = () => {
                                                 d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
                                             />
                                         </svg>
-                                        {event.location}
+                                        {event.address}
                                     </div>
                                 </div>
 
-                                <div className="mt-4 flex gap-2">
-                                    <button
-                                        onClick={() =>
-                                            navigate(`/events/${event.id}`)
-                                        }
-                                        className="px-4 py-2 bg-[#6F8B51] text-white rounded-lg hover:bg-[#5a7242] transition-colors"
-                                    >
-                                        View Details
-                                    </button>
-                                    {isLoggedIn && (
+                                {isLoggedIn && (
+                                    <div className="mt-4 flex gap-2">
                                         <button
-                                            onClick={() =>
-                                                navigate(
-                                                    `/events/edit/${event.id}`
-                                                )
-                                            }
+                                            onClick={() => navigate(`/events/${event.id}`)}
+                                            className="px-4 py-2 bg-[#6F8B51] text-white rounded-lg hover:bg-[#5a7242] transition-colors"
+                                        >
+                                            View Details
+                                        </button>
+                                        <button
+                                            onClick={() => navigate(`/events/edit/${event.id}`)}
                                             className="px-4 py-2 border border-[#6F8B51] text-[#6F8B51] rounded-lg hover:bg-[#6F8B51] hover:text-white transition-colors"
                                         >
                                             Edit
                                         </button>
-                                    )}
-                                </div>
+                                        <button
+                                            onClick={() => handleDeleteEvent(event.id)}
+                                            className="px-4 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors"
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ))}
                 </div>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default EventsListPage
+export default EventsListPage;
