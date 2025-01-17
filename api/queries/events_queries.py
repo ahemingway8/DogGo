@@ -126,7 +126,7 @@ class EventRepository:
                         """,
                         [event_id],
                     )
-                    event = db.fetchnone()
+                    event = db.fetchone()
                     if not event:
                         return Result(
                             success=False,
