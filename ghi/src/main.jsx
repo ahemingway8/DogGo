@@ -1,14 +1,13 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-
-import SignInForm from './components/SignInForm'
-import SignUpForm from './components/SignUpForm'
-import HomePage from './components/HomePage'
-import App from './App'
-import AuthProvider from './components/AuthProvider'
-
-import './index.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import SignInForm from './components/SignInForm';
+import SignUpForm from './components/SignUpForm';
+import HomePage from './components/HomePage';
+import PlacesPage from './components/PlacesPage';
+import AuthProvider from './components/AuthProvider';
+import App from './App';
+import './index.css';
 
 const BASE_URL = import.meta.env.BASE_URL
 if (!BASE_URL) {
@@ -32,6 +31,10 @@ const router = createBrowserRouter(
                 {
                     path: 'signin',
                     element: <SignInForm />,
+                },
+                {
+                    path: 'places',
+                    element: <PlacesPage />,
                 },
             ],
         },

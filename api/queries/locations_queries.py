@@ -82,3 +82,41 @@ class LocationRepository:
                 data=None,
                 error=f"An unexpected error occurred: {str(e)}",
             )
+
+    def geocode_address(self, address: str):
+        api_key = getenv("GEOAPIFY_API_KEY")
+        print(f"Geocoding address: {address}")  # Debug print
+        print(f"API Key present: {bool(api_key)}")  # Verify API key exists without exposing it
+
+        url = "https://api.geoapify.com/v1/geocode/search"
+        params = {
+            "text": address,
+            "apiKey": api_key
+        }
+
+        try:
+            print(f"Making request to Geoapify: {url}")  # Debug print
+            response = requests.get(url, params=params)
+            print(f"Geoapify response status: {response.status_code}")  # Debug print
+
+            response.raise_for_status()
+            data = response.json()
+
+            if data.get("features") and len(data["features"]) > 0:
+                location = data["features"][0]
+                result = {
+                    "success": True,
+                    "data": {
+                        "latitude": location["properties"]["lat"],
+                        "longitude": location["properties"]["lon"]
+                    }
+                }
+                print(f"Geocoding successful: {result}")  # Debug print
+                return result
+
+            print("No location found in response")  # Debug print
+            return {"success": False, "error": "Address not found"}
+
+        except Exception as e:
+            print(f"Geocoding error: {str(e)}")  # Already present
+            return {"success": False, "error": str(e)}

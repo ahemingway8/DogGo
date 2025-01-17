@@ -32,3 +32,12 @@ def search_pet_friendly_locations(
         else:
             response.status_code = 404
     return result
+
+# Add this new endpoint to your existing locations.py
+@router.get("/api/geocode")
+async def geocode_address(
+    response: Response,
+    address: str = Query(..., description="Address to geocode"),
+    repo: LocationRepository = Depends()
+):
+    return repo.geocode_address(address)
