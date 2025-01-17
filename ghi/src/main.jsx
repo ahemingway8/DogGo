@@ -4,6 +4,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
 import SignInForm from './components/SignInForm'
 import SignUpForm from './components/SignUpForm'
+import HomePage from './components/HomePage'
 import App from './App'
 import AuthProvider from './components/AuthProvider'
 
@@ -20,6 +21,10 @@ const router = createBrowserRouter(
             path: '/',
             element: <App />,
             children: [
+                {
+                    index: true,
+                    element: <HomePage />,
+                },
                 {
                     path: 'signup',
                     element: <SignUpForm />,
@@ -41,12 +46,7 @@ if (!rootElement) {
     throw new Error('root element was not found!')
 }
 
-// Log out the environment variables while you are developing and deploying
-// This will help debug things
-console.table(import.meta.env)
-
-const root = ReactDOM.createRoot(rootElement)
-root.render(
+ReactDOM.createRoot(rootElement).render(
     <React.StrictMode>
         <AuthProvider>
             <RouterProvider router={router} />
