@@ -50,9 +50,15 @@ class EventRepository:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(EventOut)) as db:
-                    result = db.execute(
+                    db.execute(
                         """
-                        SELECT id, name, description, address, date_time, picture_url
+                        SELECT
+                            id,
+                            name,
+                            description,
+                            address,
+                            date_time,
+                            picture_url
                         FROM events
                         ORDER BY date_time;
                         """
@@ -70,10 +76,16 @@ class EventRepository:
                         str(event.picture_url) if event.picture_url else None
                     )
 
-                    result = db.execute(
+                    db.execute(
                         """
                         INSERT INTO events
-                            (name, description, address, date_time, picture_url)
+                            (
+                                name,
+                                description,
+                                address,
+                                date_time,
+                                picture_url
+                            )
                             VALUES
                                 (%s, %s, %s, %s, %s)
                             RETURNING *;
@@ -118,7 +130,7 @@ class EventRepository:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(EventOut)) as db:
-                    result = db.execute(
+                    db.execute(
                         """
                         SELECT id, name, description, address, date_time, picture_url
                         FROM events

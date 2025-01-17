@@ -1,6 +1,5 @@
 import requests
 from typing import List
-from pydantic import BaseModel
 from os import getenv
 from models.locations import LocationOut
 from utils.result import Result
@@ -17,7 +16,6 @@ class LocationRepository:
         geoapify_url = "https://api.geoapify.com/v2/places"
         api_key = getenv("GEOAPIFY_API_KEY")
 
-        # Debug prints
         print(f"API Key present: {bool(api_key)}")
 
         params = {
@@ -28,7 +26,6 @@ class LocationRepository:
         }
 
         try:
-            # Check if API key is configured
             if not params["apiKey"]:
                 print("No API key found in environment")
                 return Result(
@@ -41,7 +38,6 @@ class LocationRepository:
                 f"Making request to Geoapify with params: categories={categories}, lat={latitude}, lon={longitude}, radius={radius}"
             )
 
-            # Make API request
             response = requests.get(geoapify_url, params=params)
 
             print(f"Geoapify response status: {response.status_code}")
@@ -51,11 +47,9 @@ class LocationRepository:
             response.raise_for_status()
             data = response.json()
 
-            # Print the number of features received
             features = data.get("features", [])
             print(f"Received {len(features)} locations from Geoapify")
 
-            # Transform API response into LocationOut objects
             locations = [
                 LocationOut(
                     name=feature["properties"].get("name", "Unnamed"),

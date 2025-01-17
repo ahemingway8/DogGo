@@ -2,6 +2,9 @@ from fastapi import APIRouter, Depends, Query, Response
 from typing import List
 from queries.locations_queries import LocationRepository, LocationOut
 from utils.result import Result
+from os import getenv
+import requests
+
 
 router = APIRouter()
 
