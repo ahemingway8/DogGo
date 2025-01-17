@@ -1,6 +1,7 @@
 """
 Pydantic Models for Users.
 """
+
 from pydantic import BaseModel
 
 

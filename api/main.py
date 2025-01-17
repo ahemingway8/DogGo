@@ -1,6 +1,7 @@
 """
 Entry point for the FastAPI Application
 """
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import auth_router, events, locations
@@ -21,7 +22,6 @@ app.include_router(events.router)
 app.include_router(locations.router)
 
 
-
 @app.get("/api/launch-details")
 def launch_details():
     return {
@@ -30,6 +30,6 @@ def launch_details():
             "week": 17,
             "day": 5,
             "hour": 19,
-            "min": "00"
+            "min": "00",
         }
     }

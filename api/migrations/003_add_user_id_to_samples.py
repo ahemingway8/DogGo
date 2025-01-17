@@ -8,6 +8,6 @@ steps = [
         # "Down" SQL statement
         """
         DROP COLUMN user_id;
-        """
+        """,
     ],
 ]
