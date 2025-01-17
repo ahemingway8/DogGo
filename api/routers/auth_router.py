@@ -1,6 +1,7 @@
 """
 User Authentication API Router
 """
+
 from fastapi import (
     Depends,
     Request,

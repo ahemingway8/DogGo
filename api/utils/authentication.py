@@ -1,6 +1,7 @@
 """
 Helper functions for implementing authentication
 """
+
 import os
 import bcrypt
 from calendar import timegm

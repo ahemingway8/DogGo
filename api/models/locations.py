@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
+
 class LocationOut(BaseModel):
     name: str
     address: str
