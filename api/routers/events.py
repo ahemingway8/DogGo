@@ -1,15 +1,26 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends, Response, HTTPException, status
 from utils.result import Result
 from typing import List
-from queries.events_queries import EventIn, EventRepository, EventOut
+from queries.events_queries import (
+    EventIn,
+    EventRepository,
+    EventOut
+)
+from utils.authentication import try_get_jwt_user_data
+from models.jwt import JWTUserData
 
 router = APIRouter()
 
 
 @router.post("/api/events", response_model=Result[EventOut])
 def create_event(
-    event: EventIn, response: Response, repo: EventRepository = Depends()
+    event: EventIn,
+    response: Response,
+    user: JWTUserData = Depends(try_get_jwt_user_data),
+    repo: EventRepository = Depends()
 ) -> Result[EventOut]:
+    if not user:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You need to be logged in to create an event")
     return repo.create(event)
 
 
