@@ -74,7 +74,9 @@ class LocationRepository:
             print(f"Unexpected error in search_locations: {str(e)}")
             import traceback
 
-            print(traceback.format_exc())
+            print(
+                traceback.format_exc()
+            )  # This will print the full error traceback
             return Result(
                 success=False,
                 data=None,
