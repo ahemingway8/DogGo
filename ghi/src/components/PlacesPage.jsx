@@ -13,7 +13,7 @@ const PlacesPage = () => {
         { label: 'Pet Shops', value: 'pet.shop' },
         { label: 'Dog Parks', value: 'pet.dog_park' },
         { label: 'Veterinarians', value: 'pet.veterinary' },
-        { label: 'Pet Grooming Salons', value: 'pet.services' },
+        { label: 'Pet Grooming Salons', value: 'pet.service' },
     ];
 
     const handleFilterChange = (value) => {
@@ -47,10 +47,9 @@ const geocodeAddress = async (address) => {
 
 // Update your existing handleSearch function
 const handleSearch = async () => {
-    if (filters.length === 0) {
-        setError('Please select at least one filter.');
-        return;
-    }
+
+    const categories = filters.length > 0 ? filters.join(',') : 'pet';
+
     if (!address.trim()) {
         setError('Please enter an address.');
         return;
@@ -65,7 +64,7 @@ const handleSearch = async () => {
 
         setMapCenter([coords.latitude, coords.longitude]);
 
-        const categories = filters.join(',');
+        
 
         const response = await fetch(
             `${import.meta.env.VITE_API_HOST}/api/locations?` +
