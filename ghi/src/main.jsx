@@ -4,6 +4,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import SignInForm from './components/SignInForm';
 import SignUpForm from './components/SignUpForm';
 import HomePage from './components/HomePage';
+import EventsListPage from './components/EventsPage';
 import PlacesPage from './components/PlacesPage';
 import AuthProvider from './components/AuthProvider';
 import App from './App';
@@ -35,6 +36,10 @@ const router = createBrowserRouter(
                 {
                     path: 'places',
                     element: <PlacesPage />,
+                },
+                {
+                    path: 'events',
+                    element: <EventsListPage />,
                 },
             ],
         },
