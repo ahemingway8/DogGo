@@ -7,10 +7,22 @@ from psycopg.rows import class_row
 
 class EventRepository:
 
-    def update(self, event_id: int, event: EventIn) -> Result[EventOut]:
+    def update(self, event_id: int, event: EventIn, user_id: int) -> Result[EventOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(EventOut)) as db:
+                    db.execute(
+                        """
+                        SELECT id FROM events
+                        WHERE id = %s AND created_by = %s
+                        """,
+                        [event_id, user_id]
+                    )
+                    if db.fetchone() is None:
+                        return Result(
+                            success=False,
+                            error="Unauthorized - You don't have permission to update this event"
+                        )
                     picture_url = (
                         str(event.picture_url) if event.picture_url else None
                     )
@@ -22,7 +34,7 @@ class EventRepository:
                             , address = %s
                             , date_time = %s
                             , picture_url = %s
-                        WHERE id = %s
+                        WHERE id = %s AND created_by = %s
                         RETURNING *;
                         """,
                         [
@@ -32,6 +44,7 @@ class EventRepository:
                             event.date_time,
                             picture_url,
                             event_id,
+                            user_id,
                         ],
                     )
                     updated_event = db.fetchone()
@@ -58,7 +71,8 @@ class EventRepository:
                             description,
                             address,
                             date_time,
-                            picture_url
+                            picture_url,
+                            created_by
                         FROM events
                         ORDER BY date_time;
                         """
@@ -84,10 +98,11 @@ class EventRepository:
                                 description,
                                 address,
                                 date_time,
-                                picture_url
+                                picture_url,
+                                created_by
                             )
                             VALUES
-                                (%s, %s, %s, %s, %s)
+                                (%s, %s, %s, %s, %s, %s)
                             RETURNING *;
                         """,
                         [
@@ -96,6 +111,7 @@ class EventRepository:
                             event.address,
                             event.date_time,
                             picture_url,
+                            event.created_by,
                         ],
                     )
                     event = db.fetchone()
@@ -105,16 +121,28 @@ class EventRepository:
             print(e)
             return Result(success=False, error="Event creation failed")
 
-    def delete(self, event_id: int) -> Result[bool]:
+    def delete(self, event_id: int, user_id: int) -> Result[bool]:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(EventOut)) as db:
                     db.execute(
                         """
-                        DELETE FROM events
-                        WHERE id = %s;
+                        SELECT id FROM events
+                        WHERE id = %s AND created_by = %s
                         """,
-                        [event_id],
+                        [event_id, user_id]
+                    )
+                    if db.fetchone() is None:
+                        return Result(
+                            success=False,
+                            error="Unauthorized - You don't have permission to delete this event"
+                        )
+                    db.execute(
+                        """
+                        DELETE FROM events
+                        WHERE id = %s AND created_by = %s;
+                        """,
+                        [event_id, user_id],
                     )
                     if db.rowcount == 0:
                         return Result(
@@ -132,7 +160,7 @@ class EventRepository:
                 with conn.cursor(row_factory=class_row(EventOut)) as db:
                     db.execute(
                         """
-                        SELECT id, name, description, address, date_time, picture_url
+                        SELECT id, name, description, address, date_time, picture_url, created_by
                         FROM events
                         Where id =%s;
                         """,

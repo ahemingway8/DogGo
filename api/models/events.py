@@ -13,6 +13,7 @@ class EventIn(BaseModel):
     address: str
     date_time: datetime
     picture_url: Optional[HttpUrl]
+    created_by: int = None
 
 
 class EventOut(BaseModel):
@@ -22,3 +23,4 @@ class EventOut(BaseModel):
     address: str
     date_time: datetime
     picture_url: Optional[HttpUrl]
+    created_by: int

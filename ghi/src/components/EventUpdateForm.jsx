@@ -22,6 +22,7 @@ const EventsEditForm = () => {
         address: "",
         date_time: "",
         picture_url: "",
+        created_by: null
     });
 
     useEffect(() => {
@@ -44,6 +45,11 @@ const EventsEditForm = () => {
 
                 if(data.success) {
                     const event = data.data;
+                    if (event.created_by !== user?.id) {
+                        setError("You don't have permission to edit this event");
+                        navigate('/events');
+                        return;
+                    }
                     const formattedDateTime = new Date(event.date_time)
                         .toISOString()
                         .slice(0, 16);
@@ -71,6 +77,11 @@ const EventsEditForm = () => {
         const handleSubmit = async (e) => {
             e.preventDefault();
             setError(null);
+
+            if(!user || formData.created_by !== user.id) {
+                setError("You don't have permission to edit this event");
+                return;
+            }
 
             try {
                 const response = await fetch(`${API_HOST}/api/events/${id}`, {

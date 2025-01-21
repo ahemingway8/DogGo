@@ -1,3 +1,4 @@
+import useAuthService from '../hooks/useAuthService';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -13,6 +14,7 @@ const EventDetailPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const { user } = useAuthService();
 
     useEffect(() => {
         fetchEventDetail();
@@ -69,6 +71,30 @@ const EventDetailPage = () => {
         );
     }
 
+    const handleDelete = async () => {
+        if (!window.confirm('Are you sure you want to delete this event?')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_HOST}/api/events/${id}`, {
+                method: 'DELETE',
+                credentials: 'include'
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                navigate('/events');
+            } else {
+                setError(data.error || 'Failed to delete event');
+            }
+        } catch (err) {
+            setError('Failed to delete event');
+        }
+    };
+
+    const canModifyEvent = user && event && event.created_by === user.id;
+
     return (
         <div className="max-w-6xl mx-auto px-4 py-6">
             <div className="mb-8">
@@ -114,6 +140,22 @@ const EventDetailPage = () => {
                     >
                         Back to Events List
                     </button>
+                    {canModifyEvent && (
+                            <>
+                                <button
+                                    onClick={() => navigate(`/events/edit/${id}`)}
+                                    className="px-4 py-2 bg-[#6F8B51] text-white rounded-lg hover:bg-[#5a7242] transition-colors"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={handleDelete}
+                                    className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                                >
+                                    Delete
+                                </button>
+                            </>
+                        )}
                 </div>
             </div>
         </div>

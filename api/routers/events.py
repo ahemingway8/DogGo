@@ -20,6 +20,7 @@ def create_event(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="You need to be logged in to create an event",
         )
+    event.created_by = user.id
     return repo.create(event)
 
 
@@ -34,17 +35,44 @@ def get_all(
 def update_event(
     event_id: int,
     event: EventIn,
+    user: JWTUserData = Depends(try_get_jwt_user_data),
     repo: EventRepository = Depends(),
 ) -> Result[EventOut]:
-    return repo.update(event_id, event)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="You need to be logged in to update an event",
+        )
+
+    result = repo.update(event_id, event, user.id)
+    if not result.success and "Unauthorized" in str(result.error):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail=result.error
+        )
+    return result
 
 
 @router.delete("/api/events/{event_id}", response_model=Result[bool])
 def delete_event(
-    event_id: int, response: Response, repo: EventRepository = Depends()
+    event_id: int,
+    response: Response,
+    user: JWTUserData = Depends(try_get_jwt_user_data),
+    repo: EventRepository = Depends()
 ) -> Result[bool]:
-    result = repo.delete(event_id)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="You need to be logged in to delete an event",
+        )
+
+    result = repo.delete(event_id, user.id)
     if not result.success:
+        if "Unauthorized" in str(result.error):
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=result.error
+            )
         response.status_code = 404
     return result
 
