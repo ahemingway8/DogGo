@@ -8,11 +8,15 @@ const HomePage = () => {
   const handleSpotClick = () => {
     if (!isLoggedIn) {
       navigate('/places');
+    } else {
+      navigate('/places');
     }
   };
 
   const handleEventClick = () => {
     if (!isLoggedIn) {
+      navigate('/events');
+    } else {
       navigate('/events');
     }
   };
