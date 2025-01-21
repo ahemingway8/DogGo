@@ -6,6 +6,7 @@ import SignUpForm from './components/SignUpForm';
 import HomePage from './components/HomePage';
 import EventsListPage from './components/EventsPage';
 import EventForm from './components/EventForm';
+import EventsEditForm from './components/EventUpdateForm';
 import EventDetailPage from './components/EventsDetail';
 import PlacesPage from './components/PlacesPage';
 import AuthProvider from './components/AuthProvider';
@@ -50,6 +51,10 @@ const router = createBrowserRouter(
                 {
                     path: 'events/:id',
                     element: <EventDetailPage />,
+                },
+                {
+                    path: 'events/edit/:id',
+                    element: <EventsEditForm />,
                 },
             ],
         },
