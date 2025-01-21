@@ -7,16 +7,12 @@ const HomePage = () => {
 
   const handleSpotClick = () => {
     if (!isLoggedIn) {
-      navigate('/signup');
-    } else {
       navigate('/places');
     }
   };
 
   const handleEventClick = () => {
     if (!isLoggedIn) {
-      navigate('/signup');
-    } else {
       navigate('/events');
     }
   };
