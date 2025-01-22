@@ -15,7 +15,7 @@ const EventsListPage = () => {
     const [error, setError] = useState(null);
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate();
-    const { isLoggedIn } = useAuthService();
+    const { isLoggedIn, user } = useAuthService();
 
     useEffect(() => {
         fetchEvents();
@@ -117,6 +117,10 @@ const EventsListPage = () => {
             </div>
         );
     }
+
+    const canModifyEvent = (event) => {
+        return user && event.created_by === user.id;
+    };
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-6">
@@ -233,8 +237,6 @@ const EventsListPage = () => {
                                         {event.address}
                                     </div>
                                 </div>
-
-                                {isLoggedIn && (
                                     <div className="mt-4 flex gap-2">
                                         <button
                                             onClick={() => navigate(`/events/${event.id}`)}
@@ -242,20 +244,23 @@ const EventsListPage = () => {
                                         >
                                             View Details
                                         </button>
-                                        <button
-                                            onClick={() => navigate(`/events/edit/${event.id}`)}
-                                            className="px-4 py-2 border border-[#6F8B51] text-[#6F8B51] rounded-lg hover:bg-[#6F8B51] hover:text-white transition-colors"
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => handleDeleteEvent(event.id)}
-                                            className="px-4 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors"
-                                        >
-                                            Delete
-                                        </button>
+                                        {isLoggedIn && canModifyEvent(event) && (
+                                            <>
+                                                <button
+                                                    onClick={() => navigate(`/events/edit/${event.id}`)}
+                                                    className="px-4 py-2 border border-[#6F8B51] text-[#6F8B51] rounded-lg hover:bg-[#6F8B51] hover:text-white transition-colors"
+                                                >
+                                                    Edit
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteEvent(event.id)}
+                                                    className="px-4 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </>
+                                        )}
                                     </div>
-                                )}
                             </div>
                         </div>
                     ))}

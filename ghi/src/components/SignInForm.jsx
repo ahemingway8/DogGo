@@ -25,7 +25,7 @@ export default function SignInForm() {
                 className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md space-y-4"
             >
                 <h2 className="text-2xl font-bold text-center text-gray-700">
-                    Sign In
+                    Log In
                 </h2>
 
                 {error && (

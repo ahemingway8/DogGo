@@ -12,7 +12,7 @@ if (!API_HOST) {
 const EventsEditForm = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { isLoggedIn } = useAuthService();
+    const { isLoggedIn, user } = useAuthService();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -22,6 +22,7 @@ const EventsEditForm = () => {
         address: "",
         date_time: "",
         picture_url: "",
+        created_by: null
     });
 
     useEffect(() => {
@@ -44,6 +45,11 @@ const EventsEditForm = () => {
 
                 if(data.success) {
                     const event = data.data;
+                    if (event.created_by !== user?.id) {
+                        setError("You don't have permission to edit this event");
+                        navigate('/events');
+                        return;
+                    }
                     const formattedDateTime = new Date(event.date_time)
                         .toISOString()
                         .slice(0, 16);
@@ -53,7 +59,8 @@ const EventsEditForm = () => {
                         description: event.description,
                         address: event.address,
                         date_time: formattedDateTime,
-                        picture_url: event.picture_url || ""
+                        picture_url: event.picture_url || "",
+                        created_by: event.created_by
                     });
                 } else {
                     setError(data.error || "Failed to load event");
@@ -72,6 +79,11 @@ const EventsEditForm = () => {
             e.preventDefault();
             setError(null);
 
+            if(!user || formData.created_by !== user.id) {
+                setError("You don't have permission to edit this event");
+                return;
+            }
+
             try {
                 const response = await fetch(`${API_HOST}/api/events/${id}`, {
                     method: "PUT",
@@ -82,7 +94,8 @@ const EventsEditForm = () => {
                     body: JSON.stringify({
                         ...formData,
                         date_time: new Date(formData.date_time).toISOString(),
-                        picture_url: formData.picture_url || null
+                        picture_url: formData.picture_url || null,
+                        created_by: user.id
                     }),
                 });
 
@@ -94,7 +107,8 @@ const EventsEditForm = () => {
                     setError(data.error || "Failed to update event");
                 }
             } catch (err) {
-                setError("Failed to update event")
+                setError("Failed to update event");
+                console.error(err);
             }
         };
 
