@@ -12,7 +12,7 @@ if (!API_HOST) {
 const EventsEditForm = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { isLoggedIn } = useAuthService();
+    const { isLoggedIn, user } = useAuthService();
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -59,7 +59,8 @@ const EventsEditForm = () => {
                         description: event.description,
                         address: event.address,
                         date_time: formattedDateTime,
-                        picture_url: event.picture_url || ""
+                        picture_url: event.picture_url || "",
+                        created_by: event.created_by
                     });
                 } else {
                     setError(data.error || "Failed to load event");
@@ -93,7 +94,8 @@ const EventsEditForm = () => {
                     body: JSON.stringify({
                         ...formData,
                         date_time: new Date(formData.date_time).toISOString(),
-                        picture_url: formData.picture_url || null
+                        picture_url: formData.picture_url || null,
+                        created_by: user.id
                     }),
                 });
 
@@ -105,7 +107,8 @@ const EventsEditForm = () => {
                     setError(data.error || "Failed to update event");
                 }
             } catch (err) {
-                setError("Failed to update event")
+                setError("Failed to update event");
+                console.error(err);
             }
         };
 

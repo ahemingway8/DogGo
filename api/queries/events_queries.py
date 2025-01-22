@@ -13,7 +13,7 @@ class EventRepository:
                 with conn.cursor(row_factory=class_row(EventOut)) as db:
                     db.execute(
                         """
-                        SELECT id FROM events
+                        SELECT * FROM events
                         WHERE id = %s AND created_by = %s
                         """,
                         [event_id, user_id]
@@ -26,6 +26,7 @@ class EventRepository:
                     picture_url = (
                         str(event.picture_url) if event.picture_url else None
                     )
+
                     db.execute(
                         """
                         UPDATE events
@@ -56,7 +57,7 @@ class EventRepository:
                     return Result(success=True, data=updated_event)
 
         except Exception as e:
-            print(e)
+            print(f"Event update failed with error: {str(e)}")
             return Result(success=False, error="Event update failed")
 
     def get_all(self) -> Result[List[EventOut]]:
