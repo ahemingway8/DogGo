@@ -7,7 +7,7 @@ const HomePage = () => {
 
   const handleSpotClick = () => {
     if (!isLoggedIn) {
-      navigate('/signup');
+      navigate('/places');
     } else {
       navigate('/places');
     }
@@ -15,7 +15,7 @@ const HomePage = () => {
 
   const handleEventClick = () => {
     if (!isLoggedIn) {
-      navigate('/signup');
+      navigate('/events');
     } else {
       navigate('/events');
     }
