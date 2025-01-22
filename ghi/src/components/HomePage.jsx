@@ -35,14 +35,14 @@ const HomePage = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             onClick={handleSpotClick}
-            className="px-6 py-3 text-black bg-tan rounded-lg hover:bg-dark-tan transition-colors"
+            className="px-6 py-3 text-white bg-green rounded-lg hover:bg-light-green transition-colors"
           >
             Find Dog-Friendly Spots
           </button>
 
           <button
             onClick={handleEventClick}
-            className="px-6 py-3 text-black bg-tan rounded-lg hover:bg-dark-tan transition-colors"
+            className="px-6 py-3 text-white bg-green rounded-lg hover:bg-light-green transition-colors"
           >
             Find Dog Events
           </button>

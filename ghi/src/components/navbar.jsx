@@ -56,7 +56,7 @@ const Navbar = () => {
                                     <li>
                                         <Link
                                             to="/places"
-                                            className="block px-4 py-2 hover:bg-dark-tan"
+                                            className="block px-4 py-2 hover:bg-gray"
                                             onClick={() => setMenuOpen(false)}
                                         >
                                             Places
@@ -65,7 +65,7 @@ const Navbar = () => {
                                     <li>
                                         <Link
                                             to="/events"
-                                            className="block px-4 py-2 hover:bg-dark-tan"
+                                            className="block px-4 py-2 hover:bg-gray"
                                             onClick={() => setMenuOpen(false)}
                                         >
                                             Events
@@ -84,7 +84,7 @@ const Navbar = () => {
                     <div className="relative">
                         <button
                             onClick={toggleProfileDropdown}
-                            className="flex items-center gap-2 text-white hover:text-green-400"
+                            className="flex items-center gap-2 text-white hover:text-tan"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

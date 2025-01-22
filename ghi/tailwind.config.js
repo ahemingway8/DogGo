@@ -8,6 +8,7 @@ export default {
      colors: {
       'gray-50': '#D9C4A9',
       'black': '#3E3E3E',
+      'gray': '#CCCCCC',
       'white': '#F3F3F3',
       'tan': '#D9C4A9',
       'dark-tan': '#A69681',
