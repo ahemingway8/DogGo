@@ -43,3 +43,19 @@ class FakeLocationRepository:
                 data=None,
                 error="No locations found"
             )
+
+app.dependency_overrides[LocationRepository] = FakeLocationRepository
+
+#Test Cases
+def test_search_locations_with_valid_category():
+    response = client.get("/locations/search", params={
+        "categories": "pet.shop",
+        "latitude": 40.7128,
+        "longitude": -74.0060,
+        "radius": 5000
+    })
+    assert response.status_code == 200
+    data = response.json()
+    assert data["success"] is True
+    assert len(data["data"]) == 2
+    assert data['data'][0]["name"] == "C Pet Store"
