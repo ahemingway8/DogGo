@@ -18,39 +18,45 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className="bg-[#6F8B51] text-white fixed top-0 left-0 right-0 z-20">
+            <nav className="bg-light-green text-white fixed top-0 left-0 right-0 z-20">
                 <div className="container mx-auto flex justify-between items-center py-4 px-6">
 
                     <div className="relative">
                         <button
                             onClick={toggleMenu}
-                            className="text-white hover:text-green-400 focus:outline-none"
+                            className="text-white hover:text-tan focus:outline-none"
                             aria-label="Toggle menu"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="w-6 h-6"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-                                />
+                            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 48 48">
+                            <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                            stroke-width="3" d="M36.1,7.5h2.4c1.1,0,2,0.9,2,2v3c0,1.1-0.9,2-2,2H18">
+                            </path>
+                            <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-miterlimit="10" stroke-width="3" d="M13,14.5H9.5c-1.1,0-2-0.9-2-2v-3c0-1.1,0.9-2,2-2h21.3">
+                            </path>
+                            <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-miterlimit="10" stroke-width="3" d="M13.3,27.5H9.5c-1.1,0-2-0.9-2-2v-3c0-1.1,0.9-2,2-2h20">
+                            </path>
+                            <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-miterlimit="10" stroke-width="3" d="M35,20.5h3.5c1.1,0,2,0.9,2,2v3c0,1.1-0.9,2-2,2h-20">
+                            </path>
+                            <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                            stroke-width="3" d="M13.5,40.5h-4c-1.1,0-2-0.9-2-2v-3c0-1.1,0.9-2,2-2h19.6">
+                            </path>
+                            <path fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10"
+                            stroke-width="3" d="M34.2,33.5h4.3c1.1,0,2,0.9,2,2v3c0,1.1-0.9,2-2,2h-20">
+                            </path>
                             </svg>
                         </button>
 
 
                         {menuOpen && (
-                            <div className="absolute left-0 mt-2 w-48 bg-white text-gray-800 shadow-md rounded-lg">
+                            <div className="absolute left-0 mt-2 w-48 bg-white text-black shadow-md rounded-lg">
                                 <ul className="py-2">
                                     <li>
                                         <Link
                                             to="/places"
-                                            className="block px-4 py-2 hover:bg-gray-100"
+                                            className="block px-4 py-2 hover:bg-dark-tan"
                                             onClick={() => setMenuOpen(false)}
                                         >
                                             Places
@@ -59,7 +65,7 @@ const Navbar = () => {
                                     <li>
                                         <Link
                                             to="/events"
-                                            className="block px-4 py-2 hover:bg-gray-100"
+                                            className="block px-4 py-2 hover:bg-dark-tan"
                                             onClick={() => setMenuOpen(false)}
                                         >
                                             Events

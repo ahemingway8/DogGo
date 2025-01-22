@@ -22,27 +22,27 @@ const HomePage = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-[#F3F3F3]">
+    <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-white">
       <div className="max-w-2xl mx-auto text-center">
-        <h1 className="text-4xl font-bold text-[#3E3E3E] mb-4">
+        <h1 className="text-4xl font-bold text-black mb-4">
           Discover Dog-Friendly Places Near You
         </h1>
 
-        <p className="text-lg text-[#3E3E3E] mb-8">
+        <p className="text-lg text-black mb-8">
           Find restaurants, parks, cafes, and more where your dog is welcome
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button
             onClick={handleSpotClick}
-            className="px-6 py-3 text-[#3E3E3E] bg-[#D9C4A9] rounded-lg hover:bg-[#A69681] transition-colors"
+            className="px-6 py-3 text-black bg-tan rounded-lg hover:bg-dark-tan transition-colors"
           >
             Find Dog-Friendly Spots
           </button>
 
           <button
             onClick={handleEventClick}
-            className="px-6 py-3 text-[#3E3E3E] bg-[#D9C4A9] rounded-lg hover:bg-[#A69681] transition-colors"
+            className="px-6 py-3 text-black bg-tan rounded-lg hover:bg-dark-tan transition-colors"
           >
             Find Dog Events
           </button>
