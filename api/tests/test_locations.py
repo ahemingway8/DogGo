@@ -41,7 +41,7 @@ class FakeLocationRepository:
             return Result(
                 success=False,
                 data=None,
-                error="Nop locations found for this category"
+                error="No locations found for this category"
             )
         elif not categories:
             return Result(
@@ -84,4 +84,4 @@ def test_search_locations_with_invalid_category():
     data = response.json()
 
     assert data["success"] is False
-    assert data["error"] == "Nop locations found for this category"
+    assert data["error"] == "No locations found for this category"
