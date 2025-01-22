@@ -125,35 +125,53 @@ class EventRepository:
     def delete(self, event_id: int, user_id: int) -> Result[bool]:
         try:
             with pool.connection() as conn:
-                with conn.cursor(row_factory=class_row(EventOut)) as db:
+                with conn.cursor() as db:  # Remove the row_factory here since we just need to check
+                    print(f"Attempting to delete event {event_id} by user {user_id}")
+
+                    # First check if the event exists and user owns it
                     db.execute(
                         """
-                        SELECT id FROM events
-                        WHERE id = %s AND created_by = %s
+                        SELECT id, created_by
+                        FROM events
+                        WHERE id = %s
                         """,
-                        [event_id, user_id]
+                        [event_id]
                     )
-                    if db.fetchone() is None:
+                    event = db.fetchone()
+
+                    if not event:
+                        print("Event not found")
                         return Result(
                             success=False,
-                            error="Unauthorized - You don't have permission to delete this event"
+                            error="not_found"
                         )
+
+                    # Check if user owns the event - event[1] is created_by
+                    if event[1] != user_id:
+                        print(f"Unauthorized: event created by {event[1]}, user is {user_id}")
+                        return Result(
+                            success=False,
+                            error="unauthorized"
+                        )
+
+                    # Now perform the delete
                     db.execute(
                         """
                         DELETE FROM events
                         WHERE id = %s AND created_by = %s;
                         """,
-                        [event_id, user_id],
+                        [event_id, user_id]
                     )
+
+                    # Check if deletion was successful
                     if db.rowcount == 0:
-                        return Result(
-                            success=False,
-                            error="Event not found or could not be deleted",
-                        )
+                        return Result(success=False, error="deletion_failed")
+
                     return Result(success=True, data=True)
+
         except Exception as e:
-            print(e)
-            return Result(success=False, error="Could not delete the event")
+            print(f"Error in delete: {str(e)}")
+            return Result(success=False, error="deletion_failed")
 
     def get_by_id(self, event_id: int) -> Result[EventOut]:
         try:
