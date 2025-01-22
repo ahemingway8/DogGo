@@ -125,10 +125,9 @@ class EventRepository:
     def delete(self, event_id: int, user_id: int) -> Result[bool]:
         try:
             with pool.connection() as conn:
-                with conn.cursor() as db:  # Remove the row_factory here since we just need to check
+                with conn.cursor() as db:
                     print(f"Attempting to delete event {event_id} by user {user_id}")
 
-                    # First check if the event exists and user owns it
                     db.execute(
                         """
                         SELECT id, created_by
@@ -146,7 +145,6 @@ class EventRepository:
                             error="not_found"
                         )
 
-                    # Check if user owns the event - event[1] is created_by
                     if event[1] != user_id:
                         print(f"Unauthorized: event created by {event[1]}, user is {user_id}")
                         return Result(
@@ -154,7 +152,6 @@ class EventRepository:
                             error="unauthorized"
                         )
 
-                    # Now perform the delete
                     db.execute(
                         """
                         DELETE FROM events
@@ -163,7 +160,6 @@ class EventRepository:
                         [event_id, user_id]
                     )
 
-                    # Check if deletion was successful
                     if db.rowcount == 0:
                         return Result(success=False, error="deletion_failed")
 
