@@ -1,8 +1,8 @@
 from fastapi.testclient import TestClient
-from main import app
-from queries.locations_queries import LocationRepository
-from models.locations import LocationOut
-from utils.result import Result
+from api.main import app
+from api.queries.locations_queries import LocationRepository
+from api.models.locations import LocationOut
+from api.utils.result import Result
 from typing import List
 
 client = TestClient(app)
