@@ -1,8 +1,8 @@
 from fastapi.testclient import TestClient
-from api.main import app
-from api.queries.locations_queries import LocationRepository
-from api.models.locations import LocationOut
-from api.utils.result import Result
+from queries.locations_queries import LocationRepository
+from main import app
+from models.locations import LocationOut
+from utils.result import Result
 from typing import List
 
 client = TestClient(app)
@@ -28,7 +28,7 @@ class FakeLocationRepository:
                         longitude=-74.0060
                     ),
                     LocationOut(
-                        name=" Pet Store",
+                        name="Pet Store",
                         address="123 Pet, Anytown",
                         category=["pet.shop"],
                         latitude=45.7128,
@@ -37,18 +37,30 @@ class FakeLocationRepository:
                 ],
                 error=None
             )
+        elif categories == "invalid.category":
+            return Result(
+                success=False,
+                data=None,
+                error="Nop locations found for this category"
+            )
         elif not categories:
             return Result(
                 success=False,
                 data=None,
                 error="No locations found"
             )
+        else:
+            return Result(
+                success=False,
+                data=None,
+                error="Invalid category"
+            )
 
 app.dependency_overrides[LocationRepository] = FakeLocationRepository
 
 #Test Cases
 def test_search_locations_with_valid_category():
-    response = client.get("/locations/search", params={
+    response = client.get("/api/locations/", params={
         "categories": "pet.shop",
         "latitude": 40.7128,
         "longitude": -74.0060,
@@ -59,3 +71,17 @@ def test_search_locations_with_valid_category():
     assert data["success"] is True
     assert len(data["data"]) == 2
     assert data['data'][0]["name"] == "C Pet Store"
+    assert data['data'][1]["name"] == "Pet Store"
+
+def test_search_locations_with_invalid_category():
+    response = client.get("/api/locations/", params={
+        "categories": "invalid.category",
+        "latitude": 40.7128,
+        "longitude": -74.0060,
+        "radius": 5000
+    })
+    assert response.status_code == 404
+    data = response.json()
+
+    assert data["success"] is False
+    assert data["error"] == "Nop locations found for this category"
