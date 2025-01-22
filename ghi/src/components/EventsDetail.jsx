@@ -96,15 +96,15 @@ const EventDetailPage = () => {
                     </div>
                     <div className="text-sm text-gray-600">
                         <p className="mb-4">
-                            <strong>Date/Time:</strong>
+                            <strong>Date/Time: </strong>
                             {formatDate(event.date_time)}
                         </p>
                         <p className="mb-4">
-                            <strong>Address:</strong>
+                            <strong>Address: </strong>
                             {event.address}
                         </p>
                         <p className="mb-4">
-                            <strong>Description:</strong>
+                            <strong>Description: </strong>
                             {event.description}
                         </p>
                     </div>
