@@ -22,7 +22,7 @@ export default function SignInForm() {
   style={{ backgroundImage: "url('/backroundDog.jpg')" }} >
             <form
                 onSubmit={handleFormSubmit}
-                className="w-full max-w-sm bg-light-green bg-opacity-80 p-6 rounded-lg shadow-md space-y-4"
+                className="w-full max-w-sm bg-light-green bg-opacity-75 p-6 rounded-lg shadow-md space-y-4"
             >
                 <h2 className="text-2xl font-bold text-center text-white">
                     Sign Up

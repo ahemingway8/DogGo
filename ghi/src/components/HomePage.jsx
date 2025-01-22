@@ -24,12 +24,12 @@ const HomePage = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-cover bg-center bg-no-repeat"
   style={{ backgroundImage: "url('/backroundDog.jpg')" }} >
-      <div className="max-w-2xl mx-auto text-center bg-white bg-opacity-80 p-6 rounded-lg">
-        <h1 className="text-4xl font-bold text-black mb-4">
+      <div className="max-w-2xl mx-auto text-center bg-light-green bg-opacity-75 p-6 rounded-lg">
+        <h1 className="text-4xl font-bold text-white mb-4">
           Discover Dog-Friendly Places Near You
         </h1>
 
-        <p className="text-lg text-black mb-8">
+        <p className="text-lg text-white mb-8">
           Find restaurants, parks, cafes, and more where your dog is welcome
         </p>
 
