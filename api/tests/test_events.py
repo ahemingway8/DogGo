@@ -28,6 +28,20 @@ class FakeEventRepository:
             return Result(success=True, data=True)
         return Result(success=False, error="not_found")
 
+    def get_all(self) -> Result[list[EventOut]]:
+        return Result(
+            success=True,
+            data=[EventOut(
+                id=1,
+                name="Test Event",
+                description="Test Description",
+                address="123 Test St",
+                date_time="2025-02-15T10:00:00",
+                picture_url=None,
+                created_by=123
+            )]
+        )
+
 async def override_auth():
     return JWTUserData(id=1, username="test_user")
 
@@ -83,3 +97,26 @@ def test_delete_event_not_found():
     assert response.status_code == 404
     data = response.json()
     assert "Event not found" in data["detail"]
+
+def test_get_all_events():
+    app.dependency_overrides[EventRepository] = FakeEventRepository
+
+    response = client.get("/api/events")
+
+    assert response.status_code == 200
+    result = response.json()
+    assert result["success"] == True
+    assert isinstance(result["data"], list)
+
+def test_get_all_events_error():
+    class ErrorEventRepository(FakeEventRepository):
+        def get_all(self):
+            return Result(success=False, error="Database error")
+
+    app.dependency_overrides[EventRepository] = ErrorEventRepository
+
+    response = client.get("/api/events")
+    assert response.status_code == 200
+    result = response.json()
+    assert result["success"] is False
+    assert result["error"] == "Database error"
