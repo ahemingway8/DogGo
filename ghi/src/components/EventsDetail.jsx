@@ -99,7 +99,7 @@ const EventDetailPage = () => {
         <div className="max-w-6xl mx-auto px-4 py-6">
             <div className="mb-8">
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-3xl font-bold text-gray-900">{event?.name}</h1>
+                    <h1 className="text-3xl font-bold text-black">{event?.name}</h1>
                 </div>
 
                 {event.picture_url ? (
@@ -111,16 +111,16 @@ const EventDetailPage = () => {
                         />
                     </div>
                 ) : (
-                    <div className="w-full h-80 bg-gray-300 mb-6 flex justify-center items-center">
-                        <span className="text-gray-500">No image available</span>
+                    <div className="w-full h-80 bg-light-green mb-6 flex justify-center items-center">
+                        <span className="text-white">No image available</span>
                     </div>
                 )}
 
-                <div className="bg-white rounded-lg shadow-md border border-gray-100 p-6">
+                <div className="bg-light-green rounded-lg shadow-md border border-light-green    p-6">
                     <div className="mb-4">
-                        <h3 className="text-xl font-semibold text-gray-800">Event Details</h3>
+                        <h3 className="text-xl font-semibold text-white">Event Details</h3>
                     </div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-white">
                         <p className="mb-4">
                             <strong>Date/Time: </strong>
                             {formatDate(event.date_time)}
@@ -136,7 +136,7 @@ const EventDetailPage = () => {
                     </div>
                     <button
                         onClick={() => navigate('/events')}
-                        className="mt-4 px-4 py-2 bg-[#6F8B51] text-white rounded-lg hover:bg-[#5a7242] transition-colors"
+                        className="mt-4 px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
                     >
                         Back to Events List
                     </button>
@@ -144,13 +144,13 @@ const EventDetailPage = () => {
                             <>
                                 <button
                                     onClick={() => navigate(`/events/edit/${id}`)}
-                                    className="px-4 py-2 bg-[#6F8B51] text-white rounded-lg hover:bg-[#5a7242] transition-colors"
+                                    className="px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
                                 >
                                     Edit
                                 </button>
                                 <button
                                     onClick={handleDelete}
-                                    className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                                    className="px-4 py-2 bg-red text-white rounded-lg hover:bg-dark-red transition-colors"
                                 >
                                     Delete
                                 </button>

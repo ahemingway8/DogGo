@@ -7,8 +7,7 @@ const PlacesPage = () => {
     const [filters, setFilters] = useState([]);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [mapCenter, setMapCenter] = useState([40.7128, -74.0060]); // Default to NYC but will update
-
+    const [mapCenter, setMapCenter] = useState([40.7128, -74.0060]);
     const filterOptions = [
         { label: 'Pet Shops', value: 'pet.shop' },
         { label: 'Dog Parks', value: 'pet.dog_park' },
@@ -24,7 +23,6 @@ const PlacesPage = () => {
         );
     };
 
-    // Add this new function to your PlacesPage component
 const geocodeAddress = async (address) => {
     const response = await fetch(
         `${import.meta.env.VITE_API_HOST}/api/geocode?address=${encodeURIComponent(address)}`,
@@ -45,7 +43,6 @@ const geocodeAddress = async (address) => {
     return data.data;
 };
 
-// Update your existing handleSearch function
 const handleSearch = async () => {
 
     const categories = filters.length > 0 ? filters.join(',') : 'pet';
@@ -59,12 +56,11 @@ const handleSearch = async () => {
     setError(null);
 
     try {
-        // First, geocode the address using our backend API
         const coords = await geocodeAddress(address);
 
         setMapCenter([coords.latitude, coords.longitude]);
 
-        
+
 
         const response = await fetch(
             `${import.meta.env.VITE_API_HOST}/api/locations?` +
@@ -105,7 +101,7 @@ const handleSearch = async () => {
                             placeholder="Enter an address, city, or zip"
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
-                            className="w-full p-2 border border-gray-300 rounded"
+                            className="w-full p-2 border border-green rounded"
                             onKeyPress={(e) => {
                                 if (e.key === 'Enter') handleSearch();
                             }}
@@ -114,7 +110,7 @@ const handleSearch = async () => {
 
                     <button
                         onClick={handleSearch}
-                        className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
+                        className="px-4 py-2 bg-green text-white rounded hover:bg-dark-green transition-colors"
                         disabled={loading}
                     >
                         {loading ? 'Searching...' : 'Search'}

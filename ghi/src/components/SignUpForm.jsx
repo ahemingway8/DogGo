@@ -18,17 +18,18 @@ export default function SignInForm() {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
+        <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-cover bg-center bg-no-repeat"
+  style={{ backgroundImage: "url('/backroundDog.jpg')" }} >
             <form
                 onSubmit={handleFormSubmit}
-                className="w-full max-w-sm bg-white p-6 rounded-lg shadow-md space-y-4"
+                className="w-full max-w-sm bg-light-green bg-opacity-75 p-6 rounded-lg shadow-md space-y-4"
             >
-                <h2 className="text-2xl font-bold text-center text-gray-700">
+                <h2 className="text-2xl font-bold text-center text-white">
                     Sign Up
                 </h2>
 
                 {error && (
-                    <div className="text-red-500 text-sm p-2 border border-red-400 rounded bg-red-100">
+                    <div className="text-black text-sm p-2 border border-red rounded bg-red">
                         {error.message}
                     </div>
                 )}
@@ -36,7 +37,7 @@ export default function SignInForm() {
                 <div className="space-y-2">
                     <label
                         htmlFor="username"
-                        className="block text-gray-600 font-medium"
+                        className="block text-white font-medium"
                     >
                         Username
                     </label>
@@ -47,14 +48,14 @@ export default function SignInForm() {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         placeholder="Enter Username"
-                        className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"
+                        className="w-full px-4 py-2 border border-green rounded focus:outline-none focus:ring focus:ring-white"
                     />
                 </div>
 
                 <div className="space-y-2">
                     <label
                         htmlFor="password"
-                        className="block text-gray-600 font-medium"
+                        className="block text-white font-medium"
                     >
                         Password
                     </label>
@@ -65,13 +66,13 @@ export default function SignInForm() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Enter Password"
-                        className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-blue-300"
+                        className="w-full px-4 py-2 border border-green rounded focus:outline-none focus:ring focus:ring-white"
                     />
                 </div>
 
                 <button
                     type="submit"
-                    className="w-full py-2 px-4 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 focus:outline-none focus:ring focus:ring-green-300"
+                    className="w-full py-2 px-4 bg-white text-black font-semibold rounded-lg hover:bg-gray focus:outline-none focus:ring focus:ring-white"
                 >
                     Sign Up
                 </button>
@@ -79,4 +80,3 @@ export default function SignInForm() {
         </div>
     )
 }
-

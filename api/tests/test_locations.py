@@ -109,3 +109,4 @@ def test_geocode_address():
         "longitude": -74.0060,
         "address": "123 Main St"
     }
+    assert data["error"] == "No locations found for this category"
