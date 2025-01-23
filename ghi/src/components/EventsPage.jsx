@@ -126,10 +126,10 @@ const EventsListPage = () => {
         <div className="max-w-6xl mx-auto px-4 py-6">
             <div className="mb-8">
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-3xl font-bold text-gray-900">Dog Events</h1>
+                    <h1 className="text-3xl font-bold text-black">Dog Events</h1>
                     <button
                         onClick={handleCreateEventClick}
-                        className="px-4 py-2 bg-[#6F8B51] text-white rounded-lg hover:bg-[#5a7242] transition-colors"
+                        className="px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
                     >
                         Create Event
                     </button>
@@ -142,7 +142,7 @@ const EventsListPage = () => {
                         viewBox="0 0 24 24"
                         strokeWidth={1.5}
                         stroke="currentColor"
-                        className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                        className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-black"
                     >
                         <path
                             strokeLinecap="round"
@@ -155,12 +155,12 @@ const EventsListPage = () => {
                         placeholder="Search events..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#6F8B51] focus:border-transparent"
+                        className="w-full pl-10 pr-4 py-2 border border-green rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
                     />
                 </div>
 
                 {error && (
-                    <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-6">
+                    <div className="bg-red text-black p-4 rounded-lg mb-6">
                         {error}
                     </div>
                 )}
@@ -168,19 +168,19 @@ const EventsListPage = () => {
 
             {filteredEvents.length === 0 ? (
                 <div className="text-center py-12">
-                    <h3 className="text-lg font-medium text-gray-600">
+                    <h3 className="text-lg font-medium text-black">
                         No events found
                     </h3>
-                    <p className="text-gray-500 mt-2">
+                    <p className="text-black mt-2">
                         Check back later for more events!
                     </p>
                 </div>
             ) : (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {filteredEvents.map((event) => (
                         <div
                             key={event.id}
-                            className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 border border-gray-100 overflow-hidden"
+                            className="bg-light-green rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 border border-light-green overflow-hidden"
                         >
                             {event.picture_url && (
                                 <div className="w-full h-46 overflow-hidden">
@@ -192,11 +192,11 @@ const EventsListPage = () => {
                                 </div>
                             )}
                             <div className="p-6">
-                                <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                                <h3 className="text-xl font-semibold text-white mb-2">
                                     {event.name}
                                 </h3>
 
-                                <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                                <div className="flex flex-wrap gap-4 text-sm text-white">
                                     <div className="flex items-center">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -240,7 +240,7 @@ const EventsListPage = () => {
                                     <div className="mt-4 flex gap-2">
                                         <button
                                             onClick={() => navigate(`/events/${event.id}`)}
-                                            className="px-4 py-2 bg-[#6F8B51] text-white rounded-lg hover:bg-[#5a7242] transition-colors"
+                                            className="px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
                                         >
                                             View Details
                                         </button>
@@ -248,13 +248,13 @@ const EventsListPage = () => {
                                             <>
                                                 <button
                                                     onClick={() => navigate(`/events/edit/${event.id}`)}
-                                                    className="px-4 py-2 border border-[#6F8B51] text-[#6F8B51] rounded-lg hover:bg-[#6F8B51] hover:text-white transition-colors"
+                                                    className="px-4 py-2 border border-green bg-green text-white rounded-lg hover:bg-dark-green hover:text-white transition-colors"
                                                 >
                                                     Edit
                                                 </button>
                                                 <button
                                                     onClick={() => handleDeleteEvent(event.id)}
-                                                    className="px-4 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-colors"
+                                                    className="px-4 py-2 border border-red bg-red text-white rounded-lg hover:bg-dark-red hover:text-white transition-colors"
                                                 >
                                                     Delete
                                                 </button>
