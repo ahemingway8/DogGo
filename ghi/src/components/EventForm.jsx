@@ -115,24 +115,24 @@ const EventForm = () => {
     return (
         <div className="max-w-2xl mx-auto px-4 py-6 relative">
             <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-                <PawPrint className="absolute z-[-1] -rotate-45 top-12 left-12 text-dark-tan opacity-70 scale-75" />
-                <PawPrint className="absolute z-[-2] -rotate-12 top-24 left-1/4 text-dark-tan opacity-70" />
-                <PawPrint className="absolute z-[-3] rotate-45 top-16 right-1/3 text-dark-tan opacity-70 scale-90" />
+                <PawPrint className="absolute z-[-1] -rotate-45 top-12 left-12 text-dark-tan opacity-80 scale-75" />
+                <PawPrint className="absolute z-[-2] -rotate-12 top-24 left-1/4 text-dark-tan opacity-30" />
+                <PawPrint className="absolute z-[-3] rotate-45 top-16 right-1/3 text-dark-tan opacity-50 scale-90" />
                 <PawPrint className="absolute z-[-4] -rotate-90 top-8 right-24 text-dark-tan opacity-70 scale-75" />
 
-                <PawPrint className="absolute z-[-5] rotate-12 top-1/3 left-36 text-dark-tan opacity-70 scale-110" />
-                <PawPrint className="absolute z-[-6] -rotate-30 top-1/2 left-1/4 text-dark-tan opacity-70" />
-                <PawPrint className="absolute z-[-7] rotate-60 top-1/2 right-1/4 text-dark-tan opacity-70" />
-                <PawPrint className="absolute z-[-8] -rotate-15 top-1/3 right-36 text-dark-tan opacity-70 scale-90" />
+                <PawPrint className="absolute z-[-5] rotate-12 top-1/3 left-36 text-dark-tan opacity-25 scale-110" />
+                <PawPrint className="absolute z-[-6] -rotate-30 top-1/2 left-1/4 text-dark-tan opacity-90" />
+                <PawPrint className="absolute z-[-7] rotate-60 top-1/2 right-1/4 text-dark-tan opacity-40" />
+                <PawPrint className="absolute z-[-8] -rotate-15 top-1/3 right-36 text-dark-tan opacity-20 scale-90" />
 
-                <PawPrint className="absolute z-[-9] rotate-90 bottom-24 left-24 text-dark-tan opacity-70 scale-75" />
-                <PawPrint className="absolute z-[-10] rotate-45 bottom-36 left-1/3 text-dark-tan opacity-70" />
-                <PawPrint className="absolute z-[-11] -rotate-45 bottom-48 right-1/3 text-dark-tan opacity-70 scale-110" />
-                <PawPrint className="absolute z-[-12] rotate-180 bottom-24 right-24 text-dark-tan opacity-70 scale-75" />
+                <PawPrint className="absolute z-[-9] rotate-90 bottom-24 left-24 text-dark-tan opacity-75 scale-75" />
+                <PawPrint className="absolute z-[-10] rotate-45 bottom-36 left-1/3 text-dark-tan opacity-60" />
+                <PawPrint className="absolute z-[-11] -rotate-45 bottom-48 right-1/3 text-dark-tan opacity-75 scale-110" />
+                <PawPrint className="absolute z-[-12] rotate-180 bottom-24 right-24 text-dark-tan opacity-35 scale-75" />
 
-                <PawPrint className="absolute z-[-13] rotate-15 top-1/2 left-1/2 text-dark-tan opacity-70 scale-125" />
-                <PawPrint className="absolute z-[-14] -rotate-75 bottom-1/3 left-1/2 text-dark-tan opacity-70 scale-90" />
-                <PawPrint className="absolute z-[-15] rotate-30 top-2/3 right-1/2 text-dark-tan opacity-70 scale-100" />
+                <PawPrint className="absolute z-[-13] rotate-15 top-1/2 left-1/2 text-dark-tan opacity-80 scale-125" />
+                <PawPrint className="absolute z-[-14] -rotate-75 bottom-1/3 left-1/2 text-dark-tan opacity-45 scale-90" />
+                <PawPrint className="absolute z-[-15] rotate-30 top-2/3 right-1/2 text-dark-tan opacity-25 scale-100" />
             </div>
 
             <div className="relative z-10 bg-white/70 backdrop-blur-sm rounded-lg p-6">
