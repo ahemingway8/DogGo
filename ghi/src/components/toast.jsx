@@ -9,7 +9,7 @@ const ToastComponent = ({ message, duration = 3000, onClose}) => {
     return () => clearTimeout(timer)
     }, [duration, onClose])
     return (
-        <div className="fixed bottom-4 right-4 bg-white rounded-lg shadow-lg p-4 text-gray-800 duration-500 ease-in-out opacity-100 translate-t-0 animate-bounce">
+        <div className="fixed top-20 right-4 bg-white rounded-lg shadow-lg p-4 text-gray-800 duration-500 ease-in-out opacity-100 translate-t-0 animate-bounce">
             <div className="flex items-center gap-2">
                 <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center">
                     <svg
