@@ -29,7 +29,7 @@ export default function SignInForm() {
                 </h2>
 
                 {error && (
-                    <div className="text-red-500 text-sm p-2 border border-red-400 rounded bg-red-100">
+                    <div className="text-black text-sm p-2 border border-red rounded bg-red">
                         {error.message}
                     </div>
                 )}
