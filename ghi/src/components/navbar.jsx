@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useAuthService from '../hooks/useAuthService'
+import { useToast } from './toast'
 
 const Navbar = () => {
     const navigate = useNavigate()
     const { isLoggedIn, signout } = useAuthService()
+    const { Toast, showToast } = useToast()
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false)
 
@@ -12,9 +14,18 @@ const Navbar = () => {
     const toggleProfileDropdown = () => setProfileDropdownOpen(!profileDropdownOpen)
 
     const handleLogout = async () => {
-        await signout()
-        navigate('/')
+        try {
+            await signout()
+            showToast('Successfully logged out')
+            setTimeout(() => {
+                navigate('/')
+            }, 500)
+        } catch (error) {
+            console.error('Logout error', error)
+            showToast('Error logging out')
+        }
     }
+
 
     return (
         <>
@@ -161,6 +172,7 @@ const Navbar = () => {
 
 
             <div className="h-16"></div>
+            {Toast}
         </>
     )
 }
