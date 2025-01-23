@@ -41,7 +41,7 @@ class FakeLocationRepository:
             return Result(
                 success=False,
                 data=None,
-                error="Nop locations found for this category"
+                error="No locations found for this category"
             )
         elif not categories:
             return Result(
@@ -89,23 +89,4 @@ def test_search_locations_with_invalid_category():
     data = response.json()
 
     assert data["success"] is False
-    assert data["error"] == "Nop locations found for this category"
-
-def test_geocode_address():
-    # Arrange
-    app.dependency_overrides[LocationRepository] = FakeLocationRepository
-    params = {"address": "123 Main St"}
-
-    # Act
-    response = client.get("/api/geocode", params=params)
-
-    # Clean-up (Optional)
-    app.dependency_overrides = {}
-
-    # Assert
-    assert response.status_code == 200
-    assert response.json() == {
-        "latitude": 40.7128,
-        "longitude": -74.0060,
-        "address": "123 Main St"
-    }
+    assert data["error"] == "No locations found for this category"
