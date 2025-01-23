@@ -19,39 +19,44 @@ class EmptyEventRepository:
             }
         }
 
-    def test_create_event_unauthorized():
+def test_create_event_unauthorized():
 
-        app.dependency_overrides[EventRepository] = lambda: None
+    app.dependency_overrides[EventRepository] = lambda: None
 
-        response = client.post("/api/events", json={
-            "name": "Test Event",
-            "description": "Test Description",
-            "address": "123 Test Street",
-            "date_time": "2024-02-15T10:00:00"
-        })
+    response = client.post("/api/events", json={
+        "name": "Test Event",
+        "description": "Test Description",
+        "address": "123 Test Street",
+        "date_time": "2024-02-15T10:00:00",
+        "picture_url": None
+    })
 
-        app.dependency_overrides = {}
+    app.dependency_overrides = {}
 
-        assert response.status_code == 401
-        assert "logged in" in response.json()["detail"]
+    assert response.status_code == 401, f"Unexpected response: {response.json()}"
+    assert "logged in" in response.json()["detail"]
 
-    def test_create_event_success():
+def test_create_event_success():
 
-        app.dependency_overrides[EventRepository] = EmptyEventRepository
+    app.dependency_overrides[EventRepository] = EmptyEventRepository
 
-        event_data = {
-            "name": "New Event",
-            "description": "Event description",
-            "address": "456 Event Street",
-            "date_time": "2024-02-15T10:00:00",
-            "picture_url": ""
-        }
+    event_data = {
+        "name": "New Event",
+        "description": "Event description",
+        "address": "456 Event Street",
+        "date_time": "2024-02-15T10:00:00",
+        "picture_url": None
+    }
 
-        response = client.post("/api/events", json=event_data)
+    headers = {
+        "Authorization": "Bearer YOUR_VALID_JWT_TOKEN"
+    }
 
-        app.dependency_overrides = {}
+    response = client.post("/api/events", json=event_data, headers=headers)
 
-        assert response.status_code == 200
-        result = response.json()
-        assert result["data"]["name"] == event_data["name"]
-        assert result["data"]["created_by"] == 123
+    app.dependency_overrides = {}
+
+    assert response.status_code == 200, f"Unexpected response: {response.json()}"
+    result = response.json()
+    assert result["data"]["name"] == event_data["name"]
+    assert result["data"]["created_by"] == 123
