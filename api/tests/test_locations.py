@@ -55,7 +55,12 @@ class FakeLocationRepository:
                 data=None,
                 error="Invalid category"
             )
-
+    def geocode_address(self, address):
+        return {
+            "latitude": 40.7128,
+            "longitude": -74.0060,
+            "address": address
+        }
 app.dependency_overrides[LocationRepository] = FakeLocationRepository
 
 #Test Cases
