@@ -123,7 +123,7 @@ const EventDetailPage = () => {
                 <PawPrint className="absolute z-[-14] -rotate-75 bottom-1/3 left-1/2 text-dark-tan opacity-45 scale-90" />
                 <PawPrint className="absolute z-[-15] rotate-30 top-2/3 right-1/2 text-dark-tan opacity-25 scale-100" />
             </div>
-            <div className="max-w-6xl mx-auto px-4 py-6 bg-white/20 backdrop-blur-sm">
+            <div className="max-w-6xl mx-auto px-4 py-6 bg-white/20 backdrop-blur-sm rounded-lg">
                 <div className="mb-8 rounded-lg p-4">
                     <div className="flex justify-between items-center mb-6">
                         <h1 className="text-3xl font-bold text-black">{event?.name}</h1>
