@@ -11,10 +11,10 @@ const ToastComponent = ({ message, duration = 3000, onClose}) => {
     return (
         <div className="fixed top-20 right-4 bg-white rounded-lg shadow-lg p-4 text-black duration-500 ease-in-out opacity-100 translate-t-0 animate-bounce z-20">
             <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center">
+                <div className="h-8 w-8 rounded-full bg-green flex items-center justify-center">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        className="h-5 w-5 text-green-500"
+                        className="h-5 w-5 text-green"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         >
