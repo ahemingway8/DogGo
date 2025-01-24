@@ -11,7 +11,7 @@ const Navbar = () => {
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false)
 
     const handleMenuMouseEnter = () => setMenuOpen(true)
-    const handleMenuMouseLeave = (e) => {
+    const handleMenuMouseLeave = () => {
         setTimeout(() => {
             if (!document.querySelector('.menu-dropdown:hover')) {
                 setMenuOpen(false)
@@ -20,7 +20,7 @@ const Navbar = () => {
     }
 
     const handleProfileMouseEnter = () => setProfileDropdownOpen(true)
-    const handleProfileMouseLeave = (e) => {
+    const handleProfileMouseLeave = () => {
         setTimeout(() => {
             if (!document.querySelector('.profile-dropdown:hover')) {
                 setProfileDropdownOpen(false)
