@@ -77,10 +77,6 @@ const EventsListPage = () => {
     };
 
     const handleDeleteEvent = async (eventId) => {
-        if (!window.confirm('Are you sure you want to delete this event?')) {
-            return;
-        }
-
         try {
             const response = await fetch(`${API_HOST}/api/events/${eventId}`, {
                 method: 'DELETE',
