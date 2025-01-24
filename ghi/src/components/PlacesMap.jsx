@@ -18,7 +18,7 @@ const MapCenterUpdater = ({ center }) => {
     return null
 };
 
-const PlacesMap = ({ locations, center }) => {
+const PlacesMap = ({ locations = [], center }) => {
     return (
         <MapContainer
             center={center}
@@ -42,8 +42,6 @@ const PlacesMap = ({ locations, center }) => {
                         <strong>{location.name}</strong>
                         <br />
                         {location.address}
-                        <br />
-                        Distance: {location.distance}
                     </Popup>
                 </Marker>
             ))}
