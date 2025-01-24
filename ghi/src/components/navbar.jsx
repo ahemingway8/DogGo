@@ -10,8 +10,23 @@ const Navbar = () => {
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false)
 
-    const toggleMenu = () => setMenuOpen(!menuOpen)
-    const toggleProfileDropdown = () => setProfileDropdownOpen(!profileDropdownOpen)
+    const handleMenuMouseEnter = () => setMenuOpen(true)
+    const handleMenuMouseLeave = () => {
+        setTimeout(() => {
+            if (!document.querySelector('.menu-dropdown:hover')) {
+                setMenuOpen(false)
+            }
+        }, 100)
+    }
+
+    const handleProfileMouseEnter = () => setProfileDropdownOpen(true)
+    const handleProfileMouseLeave = () => {
+        setTimeout(() => {
+            if (!document.querySelector('.profile-dropdown:hover')) {
+                setProfileDropdownOpen(false)
+            }
+        }, 100)
+    }
 
     const handleLogout = async () => {
         try {
@@ -31,10 +46,12 @@ const Navbar = () => {
         <>
             <nav className="bg-green text-white fixed top-0 left-0 right-0 z-20">
                 <div className="container mx-auto flex justify-between items-center py-4 px-6">
-
-                    <div className="relative">
+                    <div
+                        className="relative"
+                        onMouseEnter={handleMenuMouseEnter}
+                        onMouseLeave={handleMenuMouseLeave}
+                    >
                         <button
-                            onClick={toggleMenu}
                             className="text-white hover:text-tan focus:outline-none"
                             aria-label="Toggle menu"
                         >
@@ -60,9 +77,11 @@ const Navbar = () => {
                             </svg>
                         </button>
 
-
                         {menuOpen && (
-                            <div className="absolute left-0 mt-2 w-48 bg-green text-white shadow-md rounded-lg">
+                            <div
+                                className="menu-dropdown absolute left-0 mt-2 w-48 bg-green text-white shadow-md rounded-lg"
+                                onMouseLeave={handleMenuMouseLeave}
+                            >
                                 <ul className="py-2">
                                     <li>
                                         <Link
@@ -91,10 +110,12 @@ const Navbar = () => {
                         <Link to="/" className="hover:text-tan">DogGo!</Link>
                     </div>
 
-
-                    <div className="relative">
+                    <div
+                        className="relative"
+                        onMouseEnter={handleProfileMouseEnter}
+                        onMouseLeave={handleProfileMouseLeave}
+                    >
                         <button
-                            onClick={toggleProfileDropdown}
                             className="flex items-center gap-2 text-white hover:text-tan"
                         >
                             <svg
@@ -127,7 +148,10 @@ const Navbar = () => {
                             </svg>
                         </button>
                         {profileDropdownOpen && (
-                            <div className="absolute right-0 mt-2 w-48 bg-green text-white shadow-md rounded-lg">
+                            <div
+                                className="profile-dropdown absolute right-0 mt-2 w-48 bg-green text-white shadow-md rounded-lg"
+                                onMouseLeave={handleProfileMouseLeave}
+                            >
                                 <ul className="py-2">
                                     {!isLoggedIn ? (
                                         <>
