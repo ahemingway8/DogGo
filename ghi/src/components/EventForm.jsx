@@ -8,7 +8,7 @@ if (!API_HOST) {
     throw new Error("VITE_API_HOST is not defined");
 }
 
-const DEFAULT_IMAGE_URL = "https://cdn.discordapp.com/attachments/841856767125618698/1332081468930789396/icons8-event-96.png?ex=6793f50b&is=6792a38b&hm=49c76271b6ca0961e46a4ed15ec5f1ee97427e68bbf9f4f995599dab315b206d&"
+const DEFAULT_IMAGE_URL = "https://i.pinimg.com/736x/f0/bc/0d/f0bc0d4bb78706f1b3a92097bd79dd4f.jpg"
 
 const PawPrint = ({ className }) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="125" height="125" viewBox="0 0 48 48" className={`fill-dark-tan ${className}`}>

@@ -19,7 +19,7 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Gluten', 'serif'], // Add your Google Font here
-                heading: ['DynaPuff', 'serif'],
+                heading: ['Gluten', 'serif'],
             },
         },
     },

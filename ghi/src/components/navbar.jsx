@@ -44,7 +44,7 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className="bg-green text-white fixed top-0 left-0 right-0 z-20">
+            <nav className="bg-green text-white fixed top-0 left-0 right-0 z-20 border-green p-1">
                 <div className="container mx-auto flex justify-between items-center py-4 px-6">
                     <div
                         className="relative"
