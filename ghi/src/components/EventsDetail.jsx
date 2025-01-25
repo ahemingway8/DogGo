@@ -1,6 +1,7 @@
 import useAuthService from '../hooks/useAuthService';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useToast } from './toast';
 
 const API_HOST = import.meta.env.VITE_API_HOST;
 
@@ -20,6 +21,7 @@ const EventDetailPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const { showToast, hideToast, Toast } = useToast()
     const { user } = useAuthService();
 
     useEffect(() => {
@@ -77,11 +79,15 @@ const EventDetailPage = () => {
         );
     }
 
-    const handleDelete = async () => {
-        if (!window.confirm('Are you sure you want to delete this event?')) {
-            return;
-        }
+    const handleDelete = () => {
+        showToast({
+            message: "Are you sure you want to delete this event?",
+            showConfirm: true,
+            onConfirm: confirmDelete
+        });
+    };
 
+    const confirmDelete = async () => {
         try {
             const response = await fetch(`${API_HOST}/api/events/${id}`, {
                 method: 'DELETE',
@@ -90,6 +96,7 @@ const EventDetailPage = () => {
 
             const data = await response.json();
             if (data.success) {
+                hideToast();
                 navigate('/events');
             } else {
                 setError(data.error || 'Failed to delete event');
@@ -103,6 +110,7 @@ const EventDetailPage = () => {
 
     return (
         <>
+            {Toast}
             <div className="fixed inset-0 pointer-events-none overflow-hidden -z-9">
                 <PawPrint className="absolute z-[-1] -rotate-45 top-12 left-12 text-dark-tan opacity-80 scale-75" />
                 <PawPrint className="absolute z-[-2] -rotate-12 top-24 left-1/4 text-dark-tan opacity-30" />
@@ -123,7 +131,7 @@ const EventDetailPage = () => {
                 <PawPrint className="absolute z-[-14] -rotate-75 bottom-1/3 left-1/2 text-dark-tan opacity-45 scale-90" />
                 <PawPrint className="absolute z-[-15] rotate-30 top-2/3 right-1/2 text-dark-tan opacity-25 scale-100" />
             </div>
-            <div className="max-w-6xl mx-auto px-4 py-6 bg-white/20 backdrop-blur-sm">
+            <div className="max-w-6xl mx-auto px-4 py-6 bg-white/20 backdrop-blur-sm rounded-lg">
                 <div className="mb-8 rounded-lg p-4">
                     <div className="flex justify-between items-center mb-6">
                         <h1 className="text-3xl font-bold text-black">{event?.name}</h1>
