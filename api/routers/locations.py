@@ -12,7 +12,9 @@ def search_pet_friendly_locations(
     response: Response,
     categories: str = Query(
         "pet.shop",
-        description="Comma-separated list of categories (e.g., pet.shop,pet.veterinary)",
+        description=
+            "Comma-separated list of categories"
+            "(e.g., pet.shop,pet.veterinary)",
     ),
     latitude: float = Query(..., description="Latitude of the location"),
     longitude: float = Query(..., description="Longitude of the location"),
