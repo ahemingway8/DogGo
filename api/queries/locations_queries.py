@@ -30,7 +30,6 @@ class LocationRepository:
                     data=None,
                     error="Geoapify API key not configured",
                 )
-            
             response = requests.get(geoapify_url, params=params)
             response.raise_for_status()
             data = response.json()
