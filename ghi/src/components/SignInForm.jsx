@@ -19,8 +19,10 @@ export default function SignInForm() {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-cover bg-center bg-no-repeat"
-  style={{ backgroundImage: "url('/backroundDog.jpg')" }} >
+        <div
+            className="flex flex-col items-center justify-center min-h-screen p-4 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: "url('/backroundDog.jpg')" }}
+        >
             <form
                 onSubmit={handleFormSubmit}
                 className="w-full max-w-sm bg-light-green bg-opacity-75 p-6 rounded-lg shadow-md space-y-4"
