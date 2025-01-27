@@ -9,7 +9,7 @@ stages:
 # Run flake8 to check for code quality
 # And also optionally run unit tests
 tests:
-    image: python:3-bullseye
+    image: python:3.10-bullseye
     stage: test
     script:
         - pip install flake8
