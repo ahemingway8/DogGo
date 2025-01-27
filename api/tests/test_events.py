@@ -8,6 +8,7 @@ from models.events import EventOut
 
 client = TestClient(app)
 
+
 class FakeEventRepository:
     def create(self, event) -> Result[EventOut]:
         return Result(
@@ -22,7 +23,7 @@ class FakeEventRepository:
                 created_by=123
             )
         )
-# April's tests
+
     def delete(self, event_id: int, user_id: int) -> Result[bool]:
         if event_id == 1:
             return Result(success=True, data=True)
@@ -42,8 +43,10 @@ class FakeEventRepository:
             )]
         )
 
+
 async def override_auth():
     return JWTUserData(id=1, username="test_user")
+
 
 def test_create_event_unauthorized():
     app.dependency_overrides = {}
@@ -58,6 +61,7 @@ def test_create_event_unauthorized():
 
     assert response.status_code == 401
     assert "logged in" in response.json()["detail"]
+
 
 def test_create_event_success():
     app.dependency_overrides[EventRepository] = FakeEventRepository
@@ -78,7 +82,7 @@ def test_create_event_success():
     assert result["data"]["name"] == event_data["name"]
     assert result["data"]["created_by"] == 123
 
-# Hayden's Tests
+
 def test_delete_event_success():
     app.dependency_overrides[EventRepository] = FakeEventRepository
     app.dependency_overrides[try_get_jwt_user_data] = override_auth
@@ -89,6 +93,7 @@ def test_delete_event_success():
     assert data["success"] is True
     assert data["data"] is True
 
+
 def test_delete_event_not_found():
     app.dependency_overrides[EventRepository] = FakeEventRepository
     app.dependency_overrides[try_get_jwt_user_data] = override_auth
@@ -98,6 +103,7 @@ def test_delete_event_not_found():
     data = response.json()
     assert "Event not found" in data["detail"]
 
+
 def test_get_all_events():
     app.dependency_overrides[EventRepository] = FakeEventRepository
 
@@ -105,8 +111,9 @@ def test_get_all_events():
 
     assert response.status_code == 200
     result = response.json()
-    assert result["success"] == True
+    assert result["success"] is True
     assert isinstance(result["data"], list)
+
 
 def test_get_all_events_error():
     class ErrorEventRepository(FakeEventRepository):

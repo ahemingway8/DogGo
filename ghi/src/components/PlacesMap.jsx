@@ -1,22 +1,22 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
-import L from 'leaflet';
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
-import markerIcon from 'leaflet/dist/images/marker-icon.png';
-import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
+import L from 'leaflet'
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
+import markerIcon from 'leaflet/dist/images/marker-icon.png'
+import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 
-delete L.Icon.Default.prototype._getIconUrl;
+delete L.Icon.Default.prototype._getIconUrl
 L.Icon.Default.mergeOptions({
     iconRetinaUrl: markerIcon2x,
     iconUrl: markerIcon,
     shadowUrl: markerShadow,
-});
+})
 
 const MapCenterUpdater = ({ center }) => {
     const map = useMap()
     map.setView(center, map.getZoom())
     return null
-};
+}
 
 const PlacesMap = ({ locations = [], center }) => {
     return (
@@ -47,6 +47,6 @@ const PlacesMap = ({ locations = [], center }) => {
             ))}
         </MapContainer>
     )
-};
+}
 
-export default PlacesMap;
+export default PlacesMap

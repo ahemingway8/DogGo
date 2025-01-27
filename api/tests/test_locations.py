@@ -6,7 +6,8 @@ from utils.result import Result
 from typing import List
 
 client = TestClient(app)
-# Ciera's Tests
+
+
 class FakeLocationRepository:
     def search_locations(
             self,
@@ -50,11 +51,14 @@ class FakeLocationRepository:
             }
         )
 
+
 def setup_function():
     app.dependency_overrides[LocationRepository] = FakeLocationRepository
 
+
 def teardown_function():
     app.dependency_overrides = {}
+
 
 def test_search_locations_with_valid_category():
     setup_function()
@@ -70,6 +74,7 @@ def test_search_locations_with_valid_category():
     assert len(data["data"]) == 2
     assert data["data"][0]["name"] == "C Pet Store"
 
+
 def test_search_locations_with_invalid_category():
     setup_function()
     response = client.get("/api/locations/", params={
@@ -82,6 +87,7 @@ def test_search_locations_with_invalid_category():
     data = response.json()
     assert data["success"] is False
     assert data["error"] == "No locations found for this category"
+
 
 def test_geocode_address():
     setup_function()

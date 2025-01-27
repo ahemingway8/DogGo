@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react'
 
 const ToastComponent = ({
     message,
@@ -52,32 +52,27 @@ const useToast = () => {
             setToast({
                 message: params,
                 duration: 3000,
-                showConfirm: false
-            });
+                showConfirm: false,
+            })
         } else {
             setToast({
                 message: params.message,
                 duration: params.duration || 3000,
                 showConfirm: params.showConfirm || false,
-                onConfirm: params.onConfirm
-            });
+                onConfirm: params.onConfirm,
+            })
         }
-    };
+    }
 
     const hideToast = () => {
         setToast(null)
-    };
+    }
 
     return {
-        Toast: toast ? (
-            <ToastComponent
-            {...toast}
-            onClose={hideToast}
-            />
-        ) : null,
+        Toast: toast ? <ToastComponent {...toast} onClose={hideToast} /> : null,
         showToast,
-        hideToast
-    };
+        hideToast,
+    }
 }
 
 export { useToast }
