@@ -2,8 +2,6 @@ from fastapi import APIRouter, Depends, Query, Response
 from typing import List
 from queries.locations_queries import LocationRepository, LocationOut
 from utils.result import Result
-from os import getenv
-import requests
 
 
 router = APIRouter()
@@ -14,7 +12,8 @@ def search_pet_friendly_locations(
     response: Response,
     categories: str = Query(
         "pet.shop",
-        description="Comma-separated list of categories (e.g., pet.shop,pet.veterinary)",
+        description="Comma-separated list of categories "
+                    "(e.g., pet.shop,pet.veterinary)",
     ),
     latitude: float = Query(..., description="Latitude of the location"),
     longitude: float = Query(..., description="Longitude of the location"),
@@ -33,11 +32,11 @@ def search_pet_friendly_locations(
             response.status_code = 404
     return result
 
-# Add this new endpoint to your existing locations.py
+
 @router.get("/api/geocode")
 async def geocode_address(
     response: Response,
     address: str = Query(..., description="Address to geocode"),
-    repo: LocationRepository = Depends()
+    repo: LocationRepository = Depends(),
 ):
     return repo.geocode_address(address)

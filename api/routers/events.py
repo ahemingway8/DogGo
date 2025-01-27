@@ -47,8 +47,7 @@ def update_event(
     result = repo.update(event_id, event, user.id)
     if not result.success and "Unauthorized" in str(result.error):
         raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail=result.error
+            status_code=status.HTTP_403_FORBIDDEN, detail=result.error
         )
     return result
 
@@ -57,7 +56,7 @@ def update_event(
 def delete_event(
     event_id: int,
     user: JWTUserData = Depends(try_get_jwt_user_data),
-    repo: EventRepository = Depends()
+    repo: EventRepository = Depends(),
 ) -> Result[bool]:
     if not user:
         raise HTTPException(
@@ -72,17 +71,16 @@ def delete_event(
         if result.error == "unauthorized":
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
-                detail="You don't have permission to delete this event"
+                detail="You don't have permission to delete this event",
             )
         elif result.error == "not_found":
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Event not found"
+                status_code=status.HTTP_404_NOT_FOUND, detail="Event not found"
             )
         else:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail="Failed to delete event"
+                detail="Failed to delete event",
             )
 
     return result
