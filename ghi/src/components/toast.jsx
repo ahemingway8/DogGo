@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 
+// eslint-disable-next-line react-refresh/only-export-components
 const ToastComponent = ({
     message,
     duration = 3000,
