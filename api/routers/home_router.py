@@ -4,14 +4,16 @@ from utils.authentication import try_get_jwt_user_data
 
 app = FastAPI()
 
-@app.get("/")
 
+@app.get("/")
 async def main_page():
     return {
-        "message" : "Discover Dog-Friendly Places Near You!",
+        "message": "Discover Dog-Friendly Places Near You!",
         "buttons": [
-            {"label": "Find Dog-Friendly Spots!", "action": "/redirect/places"},
-            {"label": "Find Events Near You!", "action": "/redirect/events"},
+            {"label": "Find Dog-Friendly Spots!",
+                "action": "/redirect/places"},
+            {"label": "Find Events Near You!",
+                "action": "/redirect/events"},
         ],
     }
 
@@ -21,7 +23,7 @@ async def redirect_user(page_name: str, user=Depends(try_get_jwt_user_data)):
     if page_name not in ["places", "events"]:
         raise HTTPException(status_code=404, detail="Invalid Page")
     if user:
-        return RedirectResponse(url=f"/{"page_name"}")
+        return RedirectResponse(url=f"/{page_name}")
     else:
         return RedirectResponse(url="/signup")
 
