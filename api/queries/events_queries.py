@@ -7,7 +7,12 @@ from psycopg.rows import class_row
 
 class EventRepository:
 
-    def update(self, event_id: int, event: EventIn, user_id: int) -> Result[EventOut]:
+    def update(
+            self,
+            event_id: int,
+            event: EventIn,
+            user_id: int
+    ) -> Result[EventOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor(row_factory=class_row(EventOut)) as db:
@@ -21,7 +26,7 @@ class EventRepository:
                     if db.fetchone() is None:
                         return Result(
                             success=False,
-                            error="Unauthorized - You don't have permission to update this event"
+                            error="Unauthorized - Need Permission"
                         )
                     picture_url = (
                         str(event.picture_url) if event.picture_url else None
@@ -56,8 +61,7 @@ class EventRepository:
                         )
                     return Result(success=True, data=updated_event)
 
-        except Exception as e:
-            print(f"Event update failed with error: {str(e)}")
+        except Exception:
             return Result(success=False, error="Event update failed")
 
     def get_all(self) -> Result[List[EventOut]]:
@@ -79,8 +83,7 @@ class EventRepository:
                         """
                     )
                     return Result(success=True, data=db.fetchall())
-        except Exception as error:
-            print(error)
+        except Exception:
             return Result(success=False, error="Could not get all events")
 
     def create(self, event: EventIn) -> Result[EventOut]:
@@ -118,15 +121,13 @@ class EventRepository:
                     event = db.fetchone()
                     return Result(success=True, data=event)
 
-        except Exception as e:
-            print(e)
+        except Exception:
             return Result(success=False, error="Event creation failed")
 
     def delete(self, event_id: int, user_id: int) -> Result[bool]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
-                    print(f"Attempting to delete event {event_id} by user {user_id}")
 
                     db.execute(
                         """
@@ -139,14 +140,12 @@ class EventRepository:
                     event = db.fetchone()
 
                     if not event:
-                        print("Event not found")
                         return Result(
                             success=False,
                             error="not_found"
                         )
 
                     if event[1] != user_id:
-                        print(f"Unauthorized: event created by {event[1]}, user is {user_id}")
                         return Result(
                             success=False,
                             error="unauthorized"
@@ -165,8 +164,7 @@ class EventRepository:
 
                     return Result(success=True, data=True)
 
-        except Exception as e:
-            print(f"Error in delete: {str(e)}")
+        except Exception:
             return Result(success=False, error="deletion_failed")
 
     def get_by_id(self, event_id: int) -> Result[EventOut]:
@@ -175,7 +173,9 @@ class EventRepository:
                 with conn.cursor(row_factory=class_row(EventOut)) as db:
                     db.execute(
                         """
-                        SELECT id, name, description, address, date_time, picture_url, created_by
+                        SELECT id, name, description,
+                            address, date_time, picture_url,
+                            created_by
                         FROM events
                         Where id =%s;
                         """,
@@ -188,6 +188,5 @@ class EventRepository:
                             error=f"Event with id {event_id} not found",
                         )
                     return Result(success=True, data=event)
-        except Exception as e:
-            print(e)
+        except Exception:
             return Result(success=False, error="Failed to retrieve event")
