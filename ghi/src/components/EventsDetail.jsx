@@ -147,18 +147,16 @@ const EventDetailPage = () => {
                     </div>
 
                     {event.picture_url ? (
-                        <div className="w-full h-full object-cover overflow-hidden mb-6 rounded-lg">
+                        <div className="max-w-md mx-auto h-auto mb-6 rounded-lg">
                             <img
                                 src={event.picture_url}
                                 alt={event.name}
-                                className="w-full h-full object-cover"
+                                className="w-full h-auto object-contain rounded-lg"
                             />
                         </div>
                     ) : (
-                        <div className="w-full h-80 bg-light-green mb-6 flex justify-center items-center">
-                            <span className="text-white">
-                                No image available
-                            </span>
+                        <div className="max-w-2xl mx-auto h-80 bg-light-green mb-6 flex justify-center items-center rounded-lg">
+                            <span className="text-white">No image available</span>
                         </div>
                     )}
 

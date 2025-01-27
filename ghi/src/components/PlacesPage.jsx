@@ -122,7 +122,7 @@ const PlacesPage = () => {
             </div>
             <div className="min-h-screen p-4 backdrop-blur-sm">
                 <div className="max-w-6xl mx-auto">
-                    <h1 className="text-2xl font-bold text-black mb-4">
+                    <h1 className="text-2xl font-bold text-black mb-4 border-transparent p-2">
                         Search for Pet-Friendly Places
                     </h1>
 

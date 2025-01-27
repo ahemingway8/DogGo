@@ -15,14 +15,10 @@ function App() {
     const [error, setError] = useState(null)
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            <div className="container mx-auto px-4">
-                <header className="App-header"></header>
-                <Navbar />
-
-                <Outlet />
-                <ErrorNotification error={error} />
-            </div>
+        <div className="min-h-screen w-full overflow-x-hidden bg-tan">
+            <Navbar />
+            <Outlet />
+            <ErrorNotification error={error} />
         </div>
     )
 }
