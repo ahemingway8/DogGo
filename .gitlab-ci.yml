@@ -1,5 +1,13 @@
 services:
     - docker:dind
+    - postgres:14.2-bullseye
+
+variables:
+    POSTGRES_PASSWORD: test
+    CORS_HOST: http://localhost:5173
+    DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db/${POSTGRES_DB}
+    SIGNING_KEY: ${SIGNING_KEY}
+    GEOAPIFY_API_KEY: ${GEOAPIFY_API_KEY}
 
 stages:
     - test
