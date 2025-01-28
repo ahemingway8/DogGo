@@ -7,14 +7,20 @@ Clone the repository:
 git clone https://gitlab.com/dog-go1/module3-project-gamma.git
 cd your-repo-name
 Create a virtual environment and activate it:
-python -m venv env
-souce env/bin/activate #for linux/macOs
-env\Scripts\activate #for windows
+python -m venv .venv
+source .venv/bin/activate #for linux/macOs
+.\.venv\Scripts\Activate.ps1 #for windows
 Install dependencies:
 pip install -r requirements.txt
 Set up environment variables in a .env file:
 GEOAPIFY_API_KEY=your_geoapify_api_key
+Run Docker Desktop
 Run the application:
+docker compose build
+docker compose up
+http://localhost:5173/ #brings up the application
+http://localhost:8000/ #brings up fast API endpoint testing
+
 
 ## API EndPoints
 ### Public Routes
