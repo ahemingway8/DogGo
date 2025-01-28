@@ -176,32 +176,35 @@ const handleInputChange = (e) => {
                     </h1>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div className="col-span-2">
+                        <div className="col-span-2 relative">
                             <input
                                 type="text"
                                 onChange={handleInputChange}
                                 placeholder="Enter an address"
                                 className="w-full p-2 border border-green bg-white rounded"
                             />
-                            <ul className="autocomplete-dropdown">
-                                {suggestions.map((suggestion, index) => (
-                                    <li
-                                        key={index}
-                                        className="autocomplete-item"
-                                        onClick={async () => {
-                                            setSuggestions([])
-                                            setAddress(suggestion.address)
-                                            setMapCenter([
-                                                suggestion.latitude,
-                                                suggestion.longitude,
-                                            ])
-                                            await handleSearch(suggestion.address);
-                                        }}
-                                    >
-                                        {suggestion.address}
-                                    </li>
-                                ))}
-                            </ul>
+                            {suggestions.length > 0 && (
+                                <ul className="absolute w-full bg-white border border-gray-200 rounded-md shadow-lg mt-1 max-h-60 overflow-y-auto z-50">
+                                    {suggestions.map((suggestion, index) => (
+                                        <li
+                                            key={index}
+                                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0 text-gray-700"
+                                            onClick={async () => {
+                                                setSuggestions([])
+                                                setAddress(suggestion.address)
+                                                setMapCenter([
+                                                    suggestion.latitude,
+                                                    suggestion.longitude,
+                                                ])
+                                                await handleSearch(suggestion.address);
+                                            }}
+                                        >
+                                            {suggestion.address}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+
                         </div>
 
                         <button
@@ -213,7 +216,7 @@ const handleInputChange = (e) => {
                         </button>
                     </div>
 
-                    <div className="filter-options mb-4 text-black">
+                    <div className="filter-options mb-8 text-black">
                         <h3 className="font-semibold mb-2">Filter by:</h3>
                         <div className="flex flex-wrap gap-4">
                             {filterOptions.map((option) => (
@@ -243,7 +246,7 @@ const handleInputChange = (e) => {
                     )}
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="col-span-2">
+                        <div className="col-span-2 relative z-[1]">
                             <PlacesMap
                                 locations={locations}
                                 center={mapCenter}
