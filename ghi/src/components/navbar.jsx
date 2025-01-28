@@ -149,7 +149,7 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    <div className="text-2xl font-bold">
+                    <div className="text-2xl font-heading font-bold">
                         <Link to="/" className="flex items-center gap-2 hover:text-tan">
                             <svg
                                 className="h-8 w-8 -mt-3"
