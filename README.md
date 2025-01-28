@@ -31,7 +31,7 @@ Run the application:
 
 ## ScreenShots
 ### Home Page
-![Home Page]()
+![Home Page](ghi/public/Screenshot%202025-01-27%20at%205.17.21 PM.png)
 
 ## Deliverables
 
