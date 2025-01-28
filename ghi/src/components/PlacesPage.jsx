@@ -59,19 +59,19 @@ const PlacesPage = () => {
         return data.data
     }
 
-    const handleSearch = async () => {
+    const handleSearch = async (selectedAddress = address) => {
         const categories = filters.length > 0 ? filters.join(',') : 'pet'
 
-        if (!address.trim()) {
+        if (!selectedAddress.trim()) {
             setError('Please enter an address.')
-            return
+            return;
         }
 
         setLoading(true)
         setError(null)
 
         try {
-            const coords = await geocodeAddress(address)
+            const coords = await geocodeAddress(selectedAddress)
 
             setMapCenter([coords.latitude, coords.longitude])
 
@@ -189,13 +189,13 @@ const handleInputChange = (e) => {
                                         key={index}
                                         className="autocomplete-item"
                                         onClick={async () => {
-                                            setAddress(suggestion.address)
                                             setSuggestions([])
+                                            setAddress(suggestion.address)
                                             setMapCenter([
                                                 suggestion.latitude,
                                                 suggestion.longitude,
                                             ])
-                                            await handleSearch()
+                                            await handleSearch(suggestion.address);
                                         }}
                                     >
                                         {suggestion.address}
