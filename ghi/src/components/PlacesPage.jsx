@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import PlacesMap from './PlacesMap'
+import { debounce } from 'lodash';
 
 const PawPrint = ({ className }) => (
     <svg
@@ -20,6 +21,7 @@ const PlacesPage = () => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const [mapCenter, setMapCenter] = useState([40.7128, -74.006])
+    const [suggestions, setSuggestions] = useState([])
     const filterOptions = [
         { label: 'Pet Shops', value: 'pet.shop' },
         { label: 'Dog Parks', value: 'pet.dog_park' },
@@ -98,6 +100,53 @@ const PlacesPage = () => {
         }
     }
 
+const fetchSuggestions = async (query) => {
+    if (!query.trim()) {
+        setSuggestions([])
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `${
+                import.meta.env.VITE_API_HOST
+            }/api/autocomplete?query=${encodeURIComponent(query)}`
+        )
+
+        if (!response.ok) {
+            throw new Error(
+                `HTTP Error: ${response.status} ${response.statusText}`
+            )
+        }
+
+        const rawText = await response.text()
+
+        let data
+        try {
+            data = JSON.parse(rawText)
+        } catch (jsonError) {
+            throw new Error('Failed to parse JSON')
+        }
+
+        if (data && data.success && Array.isArray(data.data)) {
+            setSuggestions(data.data)
+        } else {
+            console.warn('Unexpected response structure:', data)
+            setSuggestions([])
+        }
+    } catch (error) {
+        console.error('Error fetching suggestions:', error)
+        setSuggestions([])
+    }
+}
+
+const debouncedFetchSuggestions = debounce(fetchSuggestions, 300);
+
+const handleInputChange = (e) => {
+    const query = e.target.value;
+    debouncedFetchSuggestions(query);
+};
+
     return (
         <>
             <div className="fixed inset-0 pointer-events-none overflow-hidden">
@@ -130,14 +179,25 @@ const PlacesPage = () => {
                         <div className="col-span-2">
                             <input
                                 type="text"
-                                placeholder="Enter an address, city, or zip"
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
-                                className="w-full p-2 border border-green bg-white rounded"
-                                onKeyPress={(e) => {
-                                    if (e.key === 'Enter') handleSearch()
-                                }}
+                                onChange={handleInputChange}
+                                placeholder="Enter an address"
                             />
+                            <ul className='autocomplete-dropdown'>
+                                {suggestions.map((suggestion, index) => (
+                                    <li
+                                        key={index}
+                                        className='autocomplete-item'
+                                        onClick={async () => {
+                                            setAddress(suggestion.address);
+                                            setSuggestions([]);
+                                            setMapCenter([suggestion.latitude, suggestion.longitude]);
+                                            await handleSearch();
+                                        }}
+                                    >
+                                        {suggestion.address}
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
 
                         <button
