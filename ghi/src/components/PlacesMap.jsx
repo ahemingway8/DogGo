@@ -1,52 +1,59 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet'
-import 'leaflet/dist/leaflet.css'
-import L from 'leaflet'
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
-import markerIcon from 'leaflet/dist/images/marker-icon.png'
-import markerShadow from 'leaflet/dist/images/marker-shadow.png'
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
-delete L.Icon.Default.prototype._getIconUrl
-L.Icon.Default.mergeOptions({
-    iconRetinaUrl: markerIcon2x,
-    iconUrl: markerIcon,
-    shadowUrl: markerShadow,
-})
+
+delete L.Icon.Default.prototype._getIconUrl;
+
+const pawPrintSVG = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+    <circle cx="24" cy="24" r="24" fill="#496134" />
+    <g fill="none" stroke="#F3F3F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M35.8,31.1c2.3-2.7 3.7-6.2 3.7-10.1c0-8.6-6.9-15.5-15.5-15.5c-3,0-5.8,0.9-8.2,2.3" />
+        <path d="M10.4,13.6c-1.2,2.2-1.9,4.7-1.9,7.4c0,3.8 1.4,7.3 3.7,10.1c0,0 7.4,8.4 9.7,10.6c1.2,1.1 3,1.1 4.1,0c1.5-1.4 3.2-3.3 5.4-5.8" />
+        <g transform="translate(14,10) scale(0.4)" fill="#F3F3F3" stroke="none">
+            <path d="M 17 3 A 1.50015 1.50015 0 1 0 17 6 C 18.494256 6 20 7.6252653 20 10 C 20 12.374735 18.494256 14 17 14 C 15.505744 14 14 12.374735 14 10 C 14 9.3543874 14.117022 8.7488633 14.318359 8.21875 A 1.50015 1.50015 0 1 0 11.513672 7.1542969 C 11.181009 8.0301835 11 8.9936126 11 10 C 11 13.701265 13.524256 17 17 17 C 20.475744 17 23 13.701265 23 10 C 23 6.2987347 20.475744 3 17 3 z M 31 3 C 27.524256 3 25 6.2987347 25 10 C 25 13.701265 27.524256 17 31 17 A 1.50015 1.50015 0 1 0 31 14 C 29.505744 14 28 12.374735 28 10 C 28 7.6252653 29.505744 6 31 6 C 32.494256 6 34 7.6252653 34 10 C 34 10.82345 33.808539 11.580467 33.496094 12.203125 A 1.5001758 1.5001758 0 1 0 36.177734 13.548828 C 36.705289 12.497486 37 11.28455 37 10 C 37 6.2987347 34.475744 3 31 3 z M 8 16 C 4.7736242 16 2.3566159 18.866029 2.0371094 22.212891 A 1.50015 1.50015 0 1 0 5.0234375 22.498047 C 5.225931 20.376908 6.6123758 19 8 19 C 9.4942555 19 11 20.625265 11 23 C 11 25.374735 9.4942555 27 8 27 C 7.4771264 27 6.994296 26.827346 6.5371094 26.480469 A 1.5006106 1.5006106 0 1 0 4.7226562 28.871094 C 5.6414697 29.568217 6.7828736 30 8 30 C 11.475744 30 14 26.701265 14 23 C 14 19.298735 11.475744 16 8 16 z M 40 16 C 36.524256 16 34 19.298735 34 23 C 34 26.701265 36.524256 30 40 30 C 43.475744 30 46 26.701265 46 23 C 46 21.612536 45.656746 20.30806 45.042969 19.199219 A 1.5001831 1.5001831 0 1 0 42.417969 20.652344 C 42.776191 21.299503 43 22.109464 43 23 C 43 25.374735 41.494256 27 40 27 C 38.505744 27 37 25.374735 37 23 C 37 20.625265 38.505744 19 40 19 A 1.50015 1.50015 0 1 0 40 16 z M 24 19 C 20.790583 19 18.642899 21.429382 17.460938 23.753906 A 1.50015 1.50015 0 1 0 20.134766 25.113281 C 21.052804 23.307805 22.319417 22 24 22 C 25.560111 22 26.724684 23.058996 27.638672 24.640625 C 28.55266 26.222254 29 28.290991 29 29 C 29 29.922188 29.388991 30.756426 29.841797 31.326172 C 30.294603 31.895917 30.780191 32.282068 31.201172 32.658203 C 32.043134 33.410474 32.659418 33.986385 32.910156 35.402344 C 33.169406 36.864135 32.789034 38.252823 32.003906 39.279297 A 1.50015 1.50015 0 1 0 34.386719 41.101562 C 35.683591 39.406036 36.268032 37.161115 35.863281 34.878906 C 35.46502 32.629865 34.138507 31.259151 33.199219 30.419922 C 32.729575 30.000307 32.364054 29.678676 32.189453 29.458984 C 32.014853 29.239292 32 29.202312 32 29 C 32 27.418009 31.44734 25.236246 30.236328 23.140625 C 29.025316 21.045004 26.939889 19 24 19 z M 17.320312 28.292969 A 1.50015 1.50015 0 0 0 15.964844 29.246094 C 15.883494 29.44557 15.289195 29.959033 14.378906 30.826172 C 13.468617 31.693311 12.407056 33.058191 12.101562 35.087891 C 11.423512 39.58947 14.706583 43.90101 19.332031 43.998047 A 1.50015 1.50015 0 0 0 19.333984 43.998047 C 21.105527 44.034437 22.664274 43.333664 23.982422 42.324219 C 25.192725 43.259416 26.60509 43.936307 28.21875 43.994141 A 1.50015 1.50015 0 1 0 28.326172 40.996094 C 27.025602 40.949483 25.908347 40.39754 25.125 39.507812 A 1.50015 1.50015 0 0 0 22.875 39.507812 C 22.036634 40.459995 20.817193 41.029222 19.394531 41 C 16.583979 40.94104 14.636458 38.389577 15.066406 35.535156 C 15.260913 34.242856 15.759555 33.653158 16.447266 32.998047 C 17.134977 32.342936 18.175535 31.76843 18.742188 30.378906 A 1.50015 1.50015 0 0 0 17.320312 28.292969 z" />
+
+    </g>
+  </g>
+</svg>
+`;
+
+const customIcon = new L.Icon({
+  iconUrl: `data:image/svg+xml;base64,${btoa(pawPrintSVG)}`,
+  iconSize: [48, 48],
+  iconAnchor: [24, 48],
+  popupAnchor: [0, -48],
+});
 
 const MapCenterUpdater = ({ center }) => {
-    const map = useMap()
-    map.setView(center, map.getZoom())
-    return null
-}
+  const map = useMap();
+  map.setView(center, map.getZoom());
+  return null;
+};
 
 const PlacesMap = ({ locations = [], center }) => {
-    return (
-        <MapContainer
-            center={center}
-            zoom={13}
-            style={{ height: '500px', width: '100%' }}
-        >
-            <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            />
+  return (
+    <MapContainer center={center} zoom={13} style={{ height: '500px', width: '100%' }}>
+      <TileLayer
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+      />
 
-            {/* Update map center dynamically */}
-            <MapCenterUpdater center={center} />
+      {/* Update map center dynamically */}
+      <MapCenterUpdater center={center} />
 
-            {locations.map((location, index) => (
-                <Marker
-                    key={index}
-                    position={[location.latitude, location.longitude]}
-                >
-                    <Popup>
-                        <strong>{location.name}</strong>
-                        <br />
-                        {location.address}
-                    </Popup>
-                </Marker>
-            ))}
-        </MapContainer>
-    )
-}
+      {locations.map((location, index) => (
+        <Marker key={index} position={[location.latitude, location.longitude]} icon={customIcon}>
+          <Popup>
+            <strong>{location.name}</strong>
+            <br />
+            {location.address}
+          </Popup>
+        </Marker>
+      ))}
+    </MapContainer>
+  );
+};
 
-export default PlacesMap
+export default PlacesMap;
