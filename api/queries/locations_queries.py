@@ -91,3 +91,30 @@ class LocationRepository:
 
         except Exception as e:
             return {"success": False, "error": str(e)}
+
+    def autocomplete_address(self, query: str):
+        api_key = getenv("GEOAPIFY_API_KEY")
+        url = "https://api.geoapify.com/v1/geocode/autocomplete"
+        params = {
+            "text": query,
+            "apiKey": api_key,
+            "limit": 10,
+        }
+
+        try:
+            response = requests.get(url, params=params)
+            response.raise_for_status()
+            data = response.json()
+
+            suggestions = [
+                {
+                    "address": feature["properties"]["formatted"],
+                    "latitude": feature["properties"]["lat"],
+                    "longitude": feature["properties"]["lon"],
+                }
+                for feature in data.get("features", [])
+            ]
+
+            return {"success": True, "data": suggestions}
+        except Exception as e:
+            return {"success": False, "error": str(e)}

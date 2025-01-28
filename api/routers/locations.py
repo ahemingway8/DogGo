@@ -40,3 +40,11 @@ async def geocode_address(
     repo: LocationRepository = Depends(),
 ):
     return repo.geocode_address(address)
+
+
+@router.get("/api/autocomplete")
+async def autocomplete(
+    query: str = Query(..., description="Text input for autocomplete"),
+    repo: LocationRepository = Depends(),
+):
+    return repo.autocomplete_address(query)
