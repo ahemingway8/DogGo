@@ -105,7 +105,7 @@ const EventsListPage = () => {
 
             if (data.success) {
                 hideToast()
-                await fetchEvents() // Refresh the events list
+                await fetchEvents()
             } else {
                 setError(data.error || 'Failed to delete event')
             }

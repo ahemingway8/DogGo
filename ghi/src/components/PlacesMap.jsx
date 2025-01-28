@@ -40,7 +40,6 @@ const PlacesMap = ({ locations = [], center }) => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
 
-      {/* Update map center dynamically */}
       <MapCenterUpdater center={center} />
 
       {locations.map((location, index) => (
