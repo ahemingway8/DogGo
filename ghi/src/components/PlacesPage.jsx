@@ -181,17 +181,21 @@ const handleInputChange = (e) => {
                                 type="text"
                                 onChange={handleInputChange}
                                 placeholder="Enter an address"
+                                className="w-full p-2 border border-green bg-white rounded"
                             />
-                            <ul className='autocomplete-dropdown'>
+                            <ul className="autocomplete-dropdown">
                                 {suggestions.map((suggestion, index) => (
                                     <li
                                         key={index}
-                                        className='autocomplete-item'
+                                        className="autocomplete-item"
                                         onClick={async () => {
-                                            setAddress(suggestion.address);
-                                            setSuggestions([]);
-                                            setMapCenter([suggestion.latitude, suggestion.longitude]);
-                                            await handleSearch();
+                                            setAddress(suggestion.address)
+                                            setSuggestions([])
+                                            setMapCenter([
+                                                suggestion.latitude,
+                                                suggestion.longitude,
+                                            ])
+                                            await handleSearch()
                                         }}
                                     >
                                         {suggestion.address}
