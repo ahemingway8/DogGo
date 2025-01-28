@@ -62,7 +62,7 @@ const PlacesPage = () => {
     const handleSearch = async (selectedAddress = address) => {
         const categories = filters.length > 0 ? filters.join(',') : 'pet'
 
-        if (!selectedAddress.trim()) {
+        if (typeof selectedAddress !== 'string' || !selectedAddress.trim()) {
             setError('Please enter an address.')
             return;
         }
