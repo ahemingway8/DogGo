@@ -17,9 +17,10 @@ GEOAPIFY_API_KEY=your_geoapify_api_key
 Run the application:
 
 ## API EndPoints
+### Public Routes
 - GET / -HomePage with links to find places and Events.
 - GET /redirect/{page_name} -Redirects users to the specified page (places or events).
-
+### Protected Routes
 - GET /places -fetches dog-friendly locations (requires JWT).
 - POST /api/events -Creates a new event (requires JWT).
 - GET /api/events -Lists all events.
@@ -32,6 +33,12 @@ Run the application:
 ## ScreenShots
 ### Home Page
 ![Home Page](ghi/public/Screenshot%202025-01-27%20at%205.17.21 PM.png)
+
+### Places Page
+![Places Page](ghi/public/Screenshot%202025-01-27%20at%205.33.07 PM.png)
+
+### Events Page
+![Events Page](ghi/public/Screenshot%202025-01-27%20at%205.35.52 PM.png)
 
 ## Deliverables
 
