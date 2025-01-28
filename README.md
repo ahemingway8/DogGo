@@ -1,16 +1,37 @@
-# Module3 Project Gamma
+# DOGGO!
+DogGo is an application that helps users find pet-friendly locations and events nearby. The app features secure enpoints for users to explore dog-friendly spots, create events, and search for locations using external APIs.
 
 ## Getting started
 
-You have a project repository, now what? The next section
-lists all of the deliverables that are due at the end of the
-week. Below is some guidance for getting started on the
-tasks for this week.
+Clone the repository:
+git clone https://gitlab.com/dog-go1/module3-project-gamma.git
+cd your-repo-name
+Create a virtual environment and activate it:
+python -m venv env
+souce env/bin/activate #for linux/macOs
+env\Scripts\activate #for windows
+Install dependencies:
+pip install -r requirements.txt
+Set up environment variables in a .env file:
+GEOAPIFY_API_KEY=your_geoapify_api_key
+Run the application:
 
-## Install Extensions
+## API EndPoints
+- GET / -HomePage with links to find places and Events.
+- GET /redirect/{page_name} -Redirects users to the specified page (places or events).
 
--   Prettier: <https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode>
--   Black Formatter: <https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter>
+- GET /places -fetches dog-friendly locations (requires JWT).
+- POST /api/events -Creates a new event (requires JWT).
+- GET /api/events -Lists all events.
+- PUT /api/events/{event_id} -Updates an event (requires JWT).
+- DELETE /api/events/{event_id} - Deletes an event (requires JWT).
+
+- GET /api/locations - Search pet-friendly locations using Geoapify.
+- GET /api/geocode - Converts an address to latitude and longitude.
+
+## ScreenShots
+### Home Page
+![Home Page]()
 
 ## Deliverables
 
@@ -20,109 +41,7 @@ tasks for this week.
 -   [ ] GitLab issue board is setup and in use (or project management tool of choice)
 -   [ ] Journals
 
-## Project layout
 
-The layout of the project is just like all of the projects
-you did with `docker-compose` in module #2. You will create
-a directory in the root of the repository for each service
-that you add to your project just like those previous
-projects were setup.
-
-### Directories
-
-Several directories have been added to your project. The
-directories `docs` and `journals` are places for you and
-your team-mates to, respectively, put any documentation
-about your project that you create and to put your
-project-journal entries. See the _README.md_ file in each
-directory for more info.
-
-The other directories, `ghi` and `api`, are services, that
-you can start building off of.
-
-Inside of `ghi` is a minimal React app that has an "under construction" page.
-This app is written using the [Vite](https://vitejs.dev/) bundler. The example
-code is also using [jsdoc](https://jsdoc.app/) to provide type hints for
-JavaScript. You are not required to use JSDoc yourself, and you will be removing
-these examples and providing your own code for `App.jsx`
-
-Inside of `api` is a minimal FastAPI application.
-"Where are all the files?" you might ask? Well, the
-`main.py` file is the whole thing, and go take look inside
-of it... There's not even much in there..., hmm? That is
-FastAPI, we'll learn more about it in the coming days. Can
-you figure out what this little web-application does even
-though you haven't learned about FastAPI yet?
-
-Also in `api` is a directory for your migrations.
-If you choose to use PostgreSQL, then you'll want to use
-migrations to control your database. Unlike Django, where
-migrations were automatically created for you, you'll write
-yours by hand using DDL. Don't worry about not knowing what
-DDL means; we have you covered. There's a sample migration
-in there that creates two tables so you can see what they
-look like.
-
-The Dockerfile and Dockerfile.dev run your migrations
-for you automatically.
-
-### Other files
-
-The following project files have been created as a minimal
-starting point. Please follow the guidance for each one for
-a most successful project.
-
--   `docker-compose.yaml`: there isn't much in here, just a
-    **really** simple UI and FastAPI service. Add services
-    (like a database) to this file as you did with previous
-    projects in module #2.
--   `.gitlab-ci.yml`: This is your "ci/cd" file where you will
-    configure automated unit tests, code quality checks, and
-    the building and deployment of your production system.
-    Currently, all it does is deploy an "under construction"
-    page to your production UI on GitLab and a sample backend
-    to CapRover. We will learn much more about this file.
--   `.gitignore`: This is a file that prevents unwanted files
-    from getting added to your repository, files like
-    `pyc` files, `__pycache__`, etc. We've set it up so that
-    it has a good default configuration for Python projects.
--   `.env.sample`: This file is a template to copy when
-    creating environment variables for your team. Create a
-    copy called `.env` and put your own passwords in here
-    without fear of it being committed to git (see `.env`
-    listed in `.gitignore`). You can also put team related
-    environment variables in here, things like api and signing
-    keys that shouldn't be committed; these should be
-    duplicated in your deployed environments.
-
-### Installing python dependencies locally
-
-In order for VSCode's built in code completion and intelligence to
-work correctly, it needs the dependencies from the requirements.txt file
-installed. We do this inside docker, but not in the workspace.
-
-So we need to create a virtual environment and pip install the requirements.
-
-From inside the `api` folder:
-
-```bash
-python -m venv .venv
-```
-
-Then activate the virtual environment
-
-```bash
-source .venv/bin/activate
-```
-
-And finally install the dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-Then make sure the venv is selected in VSCode by checking the lower right of the
-VSCode status bar
 
 ### Setup GitLab repo/project
 
