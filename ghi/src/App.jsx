@@ -15,7 +15,7 @@ function App() {
     const [error, setError] = useState(null)
 
     return (
-        <div className="min-h-screen w-full overflow-x-hidden bg-tan">
+        <div className="min-h-screen w-full overflow-x-hidden bg-tan/55">
             <Navbar />
             <Outlet />
             <ErrorNotification error={error} />
