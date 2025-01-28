@@ -1,25 +1,44 @@
 # DOGGO!
 DogGo is an application that helps users find pet-friendly locations and events nearby. The app features secure enpoints for users to explore dog-friendly spots, create events, and search for locations using external APIs.
 
+## Application Authors
+- April Hemingway
+- Zachary Ornelas
+- Hayden Schreiber
+- Ciera Villalpando
+
+## Design
+### Wireframe
+![Wireframe](ghi/public/DOGGO.png)
+
+### Home Page
+![Home Page](ghi/public/Screenshot%202025-01-27%20at%205.17.21 PM.png)
+
+### Places Page
+![Places Page](ghi/public/Screenshot%202025-01-27%20at%205.33.07 PM.png)
+
+### Events Page
+![Events Page](ghi/public/Screenshot%202025-01-27%20at%205.35.52 PM.png)
+
 ## Getting started
 
-Clone the repository:
-git clone https://gitlab.com/dog-go1/module3-project-gamma.git
-cd your-repo-name
-Create a virtual environment and activate it:
-python -m venv .venv
-source .venv/bin/activate #for linux/macOs
-.\.venv\Scripts\Activate.ps1 #for windows
-Install dependencies:
-pip install -r requirements.txt
-Set up environment variables in a .env file:
-GEOAPIFY_API_KEY=your_geoapify_api_key
-Run Docker Desktop
-Run the application:
-docker compose build
-docker compose up
-http://localhost:5173/ #brings up the application
-http://localhost:8000/ #brings up fast API endpoint testing
+- Clone the repository:
+- git clone https://gitlab.com/dog-go1/module3-project-gamma.git
+- cd your-repo-name
+- Create a virtual environment and activate it:
+- python -m venv .venv
+- source .venv/bin/activate #for linux/macOs
+- .\.venv\Scripts\Activate.ps1 #for windows
+- Install dependencies:
+- pip install -r requirements.txt
+- Set up environment variables in a .env file:
+- GEOAPIFY_API_KEY=your_geoapify_api_key
+- Run Docker Desktop
+- Run the application:
+- docker compose build
+- docker compose up
+- http://localhost:5173/ #brings up the application
+- http://localhost:8000/ #brings up fast API endpoint testing
 
 
 ## API EndPoints
@@ -36,15 +55,6 @@ http://localhost:8000/ #brings up fast API endpoint testing
 - GET /api/locations - Search pet-friendly locations using Geoapify.
 - GET /api/geocode - Converts an address to latitude and longitude.
 
-## ScreenShots
-### Home Page
-![Home Page](ghi/public/Screenshot%202025-01-27%20at%205.17.21 PM.png)
-
-### Places Page
-![Places Page](ghi/public/Screenshot%202025-01-27%20at%205.33.07 PM.png)
-
-### Events Page
-![Events Page](ghi/public/Screenshot%202025-01-27%20at%205.35.52 PM.png)
 
 ## Deliverables
 
