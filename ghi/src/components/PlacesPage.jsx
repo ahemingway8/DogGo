@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import PlacesMap from './PlacesMap'
+import { debounce } from 'lodash';
 
 const PawPrint = ({ className }) => (
     <svg
@@ -20,6 +21,7 @@ const PlacesPage = () => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const [mapCenter, setMapCenter] = useState([40.7128, -74.006])
+    const [suggestions, setSuggestions] = useState([])
     const filterOptions = [
         { label: 'Pet Shops', value: 'pet.shop' },
         { label: 'Dog Parks', value: 'pet.dog_park' },
@@ -57,19 +59,19 @@ const PlacesPage = () => {
         return data.data
     }
 
-    const handleSearch = async () => {
+    const handleSearch = async (selectedAddress = address) => {
         const categories = filters.length > 0 ? filters.join(',') : 'pet'
 
-        if (!address.trim()) {
+        if (!selectedAddress.trim()) {
             setError('Please enter an address.')
-            return
+            return;
         }
 
         setLoading(true)
         setError(null)
 
         try {
-            const coords = await geocodeAddress(address)
+            const coords = await geocodeAddress(selectedAddress)
 
             setMapCenter([coords.latitude, coords.longitude])
 
@@ -97,6 +99,53 @@ const PlacesPage = () => {
             setLoading(false)
         }
     }
+
+const fetchSuggestions = async (query) => {
+    if (!query.trim()) {
+        setSuggestions([])
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `${
+                import.meta.env.VITE_API_HOST
+            }/api/autocomplete?query=${encodeURIComponent(query)}`
+        )
+
+        if (!response.ok) {
+            throw new Error(
+                `HTTP Error: ${response.status} ${response.statusText}`
+            )
+        }
+
+        const rawText = await response.text()
+
+        let data
+        try {
+            data = JSON.parse(rawText)
+        } catch (jsonError) {
+            throw new Error('Failed to parse JSON')
+        }
+
+        if (data && data.success && Array.isArray(data.data)) {
+            setSuggestions(data.data)
+        } else {
+            console.warn('Unexpected response structure:', data)
+            setSuggestions([])
+        }
+    } catch (error) {
+        console.error('Error fetching suggestions:', error)
+        setSuggestions([])
+    }
+}
+
+const debouncedFetchSuggestions = debounce(fetchSuggestions, 300);
+
+const handleInputChange = (e) => {
+    const query = e.target.value;
+    debouncedFetchSuggestions(query);
+};
 
     return (
         <>
@@ -127,17 +176,35 @@ const PlacesPage = () => {
                     </h1>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div className="col-span-2">
+                        <div className="col-span-2 relative">
                             <input
                                 type="text"
-                                placeholder="Enter an address, city, or zip"
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
+                                onChange={handleInputChange}
+                                placeholder="Enter an address"
                                 className="w-full p-2 border border-green bg-white rounded"
-                                onKeyPress={(e) => {
-                                    if (e.key === 'Enter') handleSearch()
-                                }}
                             />
+                            {suggestions.length > 0 && (
+                                <ul className="absolute w-full bg-white border border-gray-200 rounded-md shadow-lg mt-1 max-h-60 overflow-y-auto z-50">
+                                    {suggestions.map((suggestion, index) => (
+                                        <li
+                                            key={index}
+                                            className="px-4 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0 text-gray-700"
+                                            onClick={async () => {
+                                                setSuggestions([])
+                                                setAddress(suggestion.address)
+                                                setMapCenter([
+                                                    suggestion.latitude,
+                                                    suggestion.longitude,
+                                                ])
+                                                await handleSearch(suggestion.address);
+                                            }}
+                                        >
+                                            {suggestion.address}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+
                         </div>
 
                         <button
@@ -149,7 +216,7 @@ const PlacesPage = () => {
                         </button>
                     </div>
 
-                    <div className="filter-options mb-4 text-black">
+                    <div className="filter-options mb-8 text-black">
                         <h3 className="font-semibold mb-2">Filter by:</h3>
                         <div className="flex flex-wrap gap-4">
                             {filterOptions.map((option) => (
@@ -179,7 +246,7 @@ const PlacesPage = () => {
                     )}
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="col-span-2">
+                        <div className="col-span-2 relative z-[1]">
                             <PlacesMap
                                 locations={locations}
                                 center={mapCenter}
