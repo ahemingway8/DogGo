@@ -99,6 +99,8 @@ class LocationRepository:
             "text": query,
             "apiKey": api_key,
             "limit": 10,
+            "filter": "countrycode:us",
+            "bias": "countrycode:us",
         }
 
         try:
@@ -113,6 +115,7 @@ class LocationRepository:
                     "longitude": feature["properties"]["lon"],
                 }
                 for feature in data.get("features", [])
+                if feature["properties"].get("country_code") == "us"
             ]
 
             return {"success": True, "data": suggestions}
