@@ -170,7 +170,7 @@ const EventsListPage = () => {
             <div className="mb-8">
                 <div className="relative z-10 bg-white/10 backdrop-blur-sm rounded-lg p-6">
                     <div className="flex justify-between items-center mb-6">
-                        <h1 className="text-3xl font-bold text-black">
+                        <h1 className="text-center text-4xl font-bold text-black">
                             Dog Events
                         </h1>
                         <button
@@ -236,11 +236,11 @@ const EventsListPage = () => {
                                         </div>
                                     )}
                                     <div className="p-6">
-                                        <h3 className="text-xl font-semibold text-white mb-2">
+                                        <h3 className="text-2xl text-center font-semibold text-white mb-2">
                                             {event.name}
                                         </h3>
 
-                                        <div className="flex flex-wrap gap-4 text-sm text-white">
+                                        <div className="flex flex-wrap gap-4 text-md text-white">
                                             <div className="flex items-center">
                                                 <svg
                                                     className="h-6 w-6 mr-2"

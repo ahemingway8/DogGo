@@ -141,7 +141,7 @@ const EventDetailPage = () => {
             <div className="max-w-6xl mx-auto px-4 py-6 bg-white/20 backdrop-blur-sm rounded-lg">
                 <div className="mb-8 rounded-lg p-4">
                     <div className="flex justify-between items-center mb-6">
-                        <h1 className="text-4xl font-bold text-black">
+                        <h1 className="text-4xl font-bold text-black mt-2">
                             {event?.name}
                         </h1>
                     </div>

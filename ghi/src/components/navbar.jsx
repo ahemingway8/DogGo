@@ -149,10 +149,10 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    <div className="text-2xl font-heading font-bold">
+                    <div className="text-4xl font-heading font-bold">
                         <Link to="/" className="flex items-center gap-2 hover:text-tan">
                             <svg
-                                className="h-8 w-8 -mt-3"
+                                className="h-14 w-14 -mt-3"
                                 viewBox="0,0,256,256"
                             >
                                 <g transform="scale(2,2)">
@@ -162,7 +162,7 @@ const Navbar = () => {
                                     <path d="M97,49c-1.65685,0 -3,1.34315 -3,3c0,1.65685 1.34315,3 3,3c1.65685,0 3,-1.34315 3,-3c0,-1.65685 -1.34315,-3 -3,-3z" fill="#ffffff" />
                                 </g>
                             </svg>
-                            <span className="mt-1">DogGo!</span>
+                            <span className="mt-2">DogGo!</span>
                         </Link>
                     </div>
 
