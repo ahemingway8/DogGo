@@ -43,7 +43,7 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className="bg-green text-white fixed top-0 left-0 right-0 z-20 border-green p-1">
+            <nav className="bg-green text-xl text-white fixed top-0 left-0 right-0 z-20 border-green p-1">
                 <div className="container mx-auto flex justify-between items-center py-4 px-6">
                     <div
                         className="relative"
@@ -55,7 +55,7 @@ const Navbar = () => {
                             aria-label="Toggle menu"
                         >
                             <svg
-                                className="h-7 w-7 mt-1"
+                                className="h-10 w-10 mt-1"
                                 xmlns="http://www.w3.org/2000/svg"
                                 x="0px"
                                 y="0px"
@@ -149,10 +149,10 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    <div className="text-2xl font-bold">
+                    <div className="text-4xl font-heading font-bold">
                         <Link to="/" className="flex items-center gap-2 hover:text-tan">
                             <svg
-                                className="h-8 w-8 -mt-3"
+                                className="h-14 w-14 -mt-3"
                                 viewBox="0,0,256,256"
                             >
                                 <g transform="scale(2,2)">
@@ -162,7 +162,7 @@ const Navbar = () => {
                                     <path d="M97,49c-1.65685,0 -3,1.34315 -3,3c0,1.65685 1.34315,3 3,3c1.65685,0 3,-1.34315 3,-3c0,-1.65685 -1.34315,-3 -3,-3z" fill="#ffffff" />
                                 </g>
                             </svg>
-                            <span className="mt-1">DogGo!</span>
+                            <span className="mt-2">DogGo!</span>
                         </Link>
                     </div>
 
@@ -172,8 +172,8 @@ const Navbar = () => {
                         onMouseLeave={handleProfileMouseLeave}
                     >
                         <button className="flex items-center gap-2 text-white hover:text-tan">
-                            <svg viewBox="0 0 256 256" className="w-8 h-8 -mt-1">
-                                <g transform="scale(5.33333,5.33333)" stroke="#f3f3f3" strokeWidth="3" strokeMiterlimit="10" fill="none">
+                            <svg viewBox="0 0 256 256" className="w-10 h-10 -mt-1">
+                                <g transform="scale(5.33333,5.33333)" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" fill="none">
                                     <path
                                         d="M38.8,35c-3.4,4.5-8.8,7.5-14.8,7.5c-10.2,0-18.5-8.3-18.5-18.5c0-2.1,0.4-4.1,1-6"
                                         strokeLinecap="round"

@@ -18,7 +18,7 @@ export default {
         },
         extend: {
             fontFamily: {
-                sans: ['Gluten', 'serif'],
+                sans: ['Ubuntu', 'serif'],
                 heading: ['Gluten', 'serif'],
             },
         },
