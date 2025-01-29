@@ -184,6 +184,11 @@ const handleInputChange = (e) => {
                                     setAddress(e.target.value);
                                     handleInputChange(e);
                                 }}
+                                onKeyDown={(e) => {
+                                    if (e.key == 'Enter') {
+                                        handleSearch(address);
+                                    }
+                                }}
                                 placeholder="Enter an address"
                                 className="w-full p-2 border border-green bg-white rounded"
                             />
