@@ -114,7 +114,7 @@ const EventsEditForm = () => {
             const data = await response.json()
 
             if (data.success) {
-                navigate('/events')
+                navigate('/my-events')
             } else {
                 setError(data.error || 'Failed to update event')
             }
@@ -160,7 +160,7 @@ const EventsEditForm = () => {
                         Edit Event
                     </h1>
                     <button
-                        onClick={() => navigate('/events')}
+                        onClick={() => navigate('events')}
                         className="px-4 py-2 text-white border border-green bg-green rounded-lg hover:bg-dark-green hover:text-white transition-colors"
                     >
                         Cancel

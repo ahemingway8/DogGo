@@ -1,12 +1,9 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import useAuthService from '../hooks/useAuthService'
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useToast } from './toast';
+import useAuthService from '../hooks/useAuthService';
 
 const API_HOST = import.meta.env.VITE_API_HOST
-
-if (!API_HOST) {
-    throw new Error('VITE_API_HOST is not defined')
-}
 
 const PawPrint = ({ className }) => (
     <svg
@@ -20,68 +17,85 @@ const PawPrint = ({ className }) => (
     </svg>
 )
 
-const EventsListPage = () => {
+const MyEventsPage = () => {
     const [events, setEvents] = useState([])
     const [filteredEvents, setFilteredEvents] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState(null)
     const [searchTerm, setSearchTerm] = useState('')
     const navigate = useNavigate()
-    const { isLoggedIn, user } = useAuthService()
+    const { user } = useAuthService()
+    const { showToast, hideToast, Toast } = useToast()
 
     useEffect(() => {
-        fetchEvents()
-    }, [])
+        const fetchAndFilterEvents = async () => {
+            if (!searchTerm) {
+                try {
+                    const response = await fetch(`${API_HOST}/api/events`, {
+                        credentials: 'include',
+                    });
+                    const data = await response.json();
 
-    useEffect(() => {
-        filterEvents()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchTerm, events])
+                    if (data.success) {
+                        const userEvents = data.data.filter(
+                            event => event.created_by === user?.id
+                        );
+                        setEvents(userEvents);
+                        setFilteredEvents(userEvents);
+                    } else {
+                        setError(data.error || 'Failed to load events');
+                    }
+                } catch (err) {
+                    setError('Failed to fetch events');
+                    console.error(err);
+                }
+            } else {
+                const filtered = events.filter(
+                    (event) =>
+                        event.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        event.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        event.address?.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+                setFilteredEvents(filtered);
+            }
+        };
 
-    const fetchEvents = async () => {
+        fetchAndFilterEvents();
+    }, [searchTerm, user?.id, events]);
+
+    const handleDeleteEvent = async (eventId) => {
+        showToast({
+            message: 'Are you sure you want to delete this event?',
+            showConfirm: true,
+            onConfirm: () => confirmDelete(eventId),
+        })
+    }
+
+    const confirmDelete = async (eventId) => {
         try {
-            setIsLoading(true)
-            const response = await fetch(`${API_HOST}/api/events`, {
+            const response = await fetch(`${API_HOST}/api/events/${eventId}`, {
+                method: 'DELETE',
                 credentials: 'include',
             })
             const data = await response.json()
 
             if (data.success) {
-                setEvents(data.data)
+                hideToast()
+                setEvents((prevEvents) =>
+                    prevEvents.map((event) =>
+                        event.id === eventId ? {...event, deleted: true } : event
+                    )
+                )
+                setFilteredEvents((prevFilteredEvents) =>
+                    prevFilteredEvents.map((event) =>
+                        event.id === eventId ? { ...event, deleted: true } : event
+                    )
+                )
             } else {
-                setError(data.error || 'Failed to load events')
+                setError(data.error || 'Failed to delete event')
             }
         } catch (err) {
-            setError('Failed to fetch events')
+            setError('Failed to delete event')
             console.error(err)
-        } finally {
-            setIsLoading(false)
-        }
-    }
-
-    const filterEvents = () => {
-        if (!searchTerm) {
-            setFilteredEvents(events)
-            return
-        }
-
-        const filtered = events.filter(
-            (event) =>
-                event.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                event.description
-                    ?.toLowerCase()
-                    .includes(searchTerm.toLowerCase()) ||
-                event.address?.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-
-        setFilteredEvents(filtered)
-    }
-
-    const handleCreateEventClick = () => {
-        if (isLoggedIn) {
-            navigate('/events/new')
-        } else {
-            navigate('/signin')
         }
     }
 
@@ -100,14 +114,6 @@ const EventsListPage = () => {
             console.error('Error formatting date:', err)
             return dateTimeStr
         }
-    }
-
-    if (isLoading) {
-        return (
-            <div className="flex justify-center items-center min-h-screen">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#6F8B51]"></div>
-            </div>
-        )
     }
 
     return (
@@ -132,21 +138,30 @@ const EventsListPage = () => {
                 <PawPrint className="absolute z-[-14] -rotate-75 bottom-1/3 left-1/2 text-dark-tan opacity-45 scale-90" />
                 <PawPrint className="absolute z-[-15] rotate-30 top-2/3 right-1/2 text-dark-tan opacity-25 scale-100" />
             </div>
+            {Toast}
             <div className="mb-8">
                 <div className="relative z-10 bg-white/10 backdrop-blur-sm rounded-lg p-6">
                     <div className="flex justify-between items-center mb-6">
                         <h1 className="text-center text-4xl font-bold text-black">
-                            Dog Events
+                            My Events
                         </h1>
-                        <button
-                            onClick={handleCreateEventClick}
-                            className="px-4 py-2 bg-green text-xl text-white rounded-lg hover:bg-dark-green transition-colors"
-                        >
-                            Create Event
-                        </button>
+                        <div className="flex gap-4">
+                            <button
+                                onClick={() => navigate('/events')}
+                                className="px-4 py-2 bg-green text-xl text-white rounded-lg hover:bg-dark-green transition-colors"
+                            >
+                                All Events
+                            </button>
+                            <button
+                                onClick={() => navigate('/events/new')}
+                                className="px-4 py-2 bg-green text-xl text-white rounded-lg hover:bg-dark green transition-colrs"
+                            >
+                                Create Event
+                            </button>
+                        </div>
                     </div>
 
-                    <div className="relative mb-6">
+                    <div  className="relative mb-6">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 48 48"
@@ -157,12 +172,13 @@ const EventsListPage = () => {
                             strokeLinecap="round"
                             strokeLinejoin="round"
                         >
-                            <path d="M32.4,26.2l8.1,8.1c1.7,1.7 1.7,4.5 0,6.2v0c-1.7,1.7 -4.5,1.7 -6.2,0l-4.3,-4.3"></path><path d="M8,25c-1.8,-4.7 -0.8,-10.2 3,-14c3.8,-3.8 9.5,-4.8 14.2,-2.9"></path>
+                            <path d="M32.4,26.2l8.1,8.1c1.7,1.7 1.7,4.5 0,6.2v0c-1.7,1.7 -4.5,1.7 -6.2,0l-4.3,-4.3"></path>
+                            <path d="M8,25c-1.8,-4.7 -0.8,-10.2 3,-14c3.8,-3.8 9.5,-4.8 14.2,-2.9"></path>
                             <path d="M31.3,13.1c3.4,5.1 2.8,12.1 -1.7,16.6c-4.9,4.9 -12.6,5.1 -17.7,0.8"></path>
                         </svg>
                         <input
                             type="text"
-                            placeholder="Search events..."
+                            placeholder="Search your events..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="text-lg w-full pl-10 pr-4 py-2 -mt-2 border border-green rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
@@ -175,18 +191,18 @@ const EventsListPage = () => {
                         </div>
                     )}
 
-                    {filteredEvents.length === 0 ? (
+                    {filteredEvents.filter(event => !event.deleted).length === 0 ? (
                         <div className="text-center py-12">
                             <h3 className="text-lg font-medium text-black">
-                                No events found
+                                You haven't created any events yet
                             </h3>
                             <p className="text-black mt-2">
-                                Check back later for more events!
+                                Create your first event to get started!
                             </p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {filteredEvents.map((event) => (
+                            {filteredEvents.filter(event => !event.deleted).map((event) => (
                                 <div
                                     key={event.id}
                                     className="bg-light-green rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 border-8 border-light-green overflow-hidden"
@@ -239,9 +255,7 @@ const EventsListPage = () => {
                                                         </g>
                                                     </g>
                                                 </svg>
-                                                {formatDateTime(
-                                                    event.date_time
-                                                )}
+                                                {formatDateTime(event.date_time)}
                                             </div>
                                             <div className="flex items-center">
                                                 <svg
@@ -270,20 +284,40 @@ const EventsListPage = () => {
                                                         `/events/${event.id}`
                                                     )
                                                 }
-                                                className="w-30 px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
+                                                className="w-20 px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
                                             >
                                                 View Details
+                                            </button>
+                                            <button
+                                                onClick={() =>
+                                                    navigate(
+                                                        `/events/edit/${event.id}`
+                                                    )
+                                                }
+                                                className="w-20 px-4 py-2 border border-green bg-green text-white rounded-lg hover:bg-dark-green hover:text-white transition-colors"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() =>
+                                                    handleDeleteEvent(
+                                                        event.id
+                                                    )
+                                                }
+                                                className="w-20 px-4 py-2 border border-red bg-red text-white rounded-lg hover:bg-dark-red hover:text-white transition-colors"
+                                            >
+                                                Delete
                                             </button>
                                         </div>
                                     </div>
                                 </div>
-                            ))}
+                                ))}
                         </div>
                     )}
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default EventsListPage
+export default MyEventsPage;

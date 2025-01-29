@@ -9,6 +9,7 @@ const Navbar = () => {
     const { Toast, showToast } = useToast()
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false)
+    const [subMenuOpen, setSubMenuOpen] = useState(false)
 
     const handleMenuMouseEnter = () => setMenuOpen(true)
     const handleMenuMouseLeave = () => {
@@ -27,6 +28,8 @@ const Navbar = () => {
             }
         }, 100)
     }
+
+    const toggleSubMenu = () => setSubMenuOpen(prevState => !prevState)
 
     const handleLogout = async () => {
         try {
@@ -135,14 +138,53 @@ const Navbar = () => {
                                             Places
                                         </Link>
                                     </li>
-                                    <li>
-                                        <Link
-                                            to="/events"
-                                            className="block px-4 py-2 hover:bg-light-green"
-                                            onClick={() => setMenuOpen(false)}
+                                    <li className="relative">
+                                        <button
+                                            onClick={toggleSubMenu}
+                                            className="block w-full px-4 py-2 hover:bg-light-green flex items-center justify-between"
                                         >
                                             Events
-                                        </Link>
+                                            <span className={`ml-2 transform transition-transform ${subMenuOpen ? 'rotate-180' : ''}`}>
+                                                 <svg
+                                                    className="h-4 w-4"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    viewBox="0 0 24 24"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path d="M6 9l6 6 6-6"></path>
+                                                </svg>
+                                            </span>
+                                        </button>
+
+                                        {subMenuOpen && (
+                                            <div className="sub-menu-dropdown absolute top-full mt-2 w-48 bg-light-green text-white shadow-md rounded-lg">
+                                                <ul className="py-2">
+                                                    <li>
+                                                        <Link
+                                                            to="/events"
+                                                            className="block px-4 py-2 hover:bg-green"
+                                                            onClick={() => setMenuOpen(false)}
+                                                        >
+                                                            All Events
+                                                        </Link>
+                                                    </li>
+                                                    <li>
+                                                        <Link
+                                                            to="/my-events"
+                                                            className="block px-4 py-2 hover:bg-green"
+                                                            onClick={() => setMenuOpen(false)}
+                                                        >
+                                                            My Events
+                                                        </Link>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        )}
                                     </li>
                                 </ul>
                             </div>
