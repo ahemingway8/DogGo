@@ -7,6 +7,7 @@ router = APIRouter()
 
 DOG_API_URL = "http://dog-api.kinduff.com/api/facts"
 
+
 @router.get("/")
 async def main_page():
     return {
@@ -21,11 +22,10 @@ async def main_page():
 
 
 @router.get("/redirect/{page_name}")
-async def redirect_user(page_name: str ):
+async def redirect_user(page_name: str):
     if page_name not in ["places", "events"]:
         raise HTTPException(status_code=404, detail="Invalid Page")
     return {"message": f"Redirecting to {page_name}"}
-
 
 
 @router.get("/places")
@@ -46,7 +46,9 @@ async def get_dog_facts():
         data = response.json()
 
         if "facts" not in data or not data["facts"]:
-            raise HTTPException(status_code=500, detail="Invalid response from API")
+            raise HTTPException(
+                status_code=500,
+                detail="Invalid response from API")
 
         first_fact = data["facts"][0]
         return {"fact": first_fact}
