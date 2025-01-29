@@ -48,7 +48,7 @@ const MyEventsPage = () => {
         };
 
         fetchAndFilterEvents();
-    }, [searchTerm, user?.id]);
+    }, [searchTerm, user?.id, events]);
 
     const handleDeleteEvent = async (eventId) => {
         showToast({
@@ -68,7 +68,16 @@ const MyEventsPage = () => {
 
             if (data.success) {
                 hideToast()
-                setEvents(events.filter(event => event.id !== eventId))
+                setEvents((prevEvents) =>
+                    prevEvents.map((event) =>
+                        event.id === eventId ? {...event, deleted: true } : event
+                    )
+                )
+                setFilteredEvents((prevFilteredEvents) =>
+                    prevFilteredEvents.map((event) =>
+                        event.id === eventId ? { ...event, deleted: true } : event
+                    )
+                )
             } else {
                 setError(data.error || 'Failed to delete event')
             }
@@ -150,7 +159,7 @@ const MyEventsPage = () => {
                         </div>
                     )}
 
-                    {filteredEvents.length === 0 ? (
+                    {filteredEvents.filter(event => !event.deleted).length === 0 ? (
                         <div className="text-center py-12">
                             <h3 className="text-lg font-medium text-black">
                                 You haven't created any events yet
@@ -161,7 +170,7 @@ const MyEventsPage = () => {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {filteredEvents.map((event) => (
+                            {filteredEvents.filter(event => !event.deleted).map((event) => (
                                 <div
                                     key={event.id}
                                     className="bg-light-green rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 border-8 border-light-green overflow-hidden"
