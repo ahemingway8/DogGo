@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useToast } from './toast'
 import useAuthService from '../hooks/useAuthService'
 
 const API_HOST = import.meta.env.VITE_API_HOST
@@ -29,7 +28,6 @@ const EventsListPage = () => {
     const [searchTerm, setSearchTerm] = useState('')
     const navigate = useNavigate()
     const { isLoggedIn, user } = useAuthService()
-    const { showToast, hideToast, Toast } = useToast()
 
     useEffect(() => {
         fetchEvents()
@@ -87,34 +85,6 @@ const EventsListPage = () => {
         }
     }
 
-    const handleDeleteEvent = async (eventId) => {
-        showToast({
-            message: 'Are you sure you want to delete this event?',
-            showConfirm: true,
-            onConfirm: () => confirmDelete(eventId),
-        })
-    }
-
-    const confirmDelete = async (eventId) => {
-        try {
-            const response = await fetch(`${API_HOST}/api/events/${eventId}`, {
-                method: 'DELETE',
-                credentials: 'include',
-            })
-            const data = await response.json()
-
-            if (data.success) {
-                hideToast()
-                await fetchEvents()
-            } else {
-                setError(data.error || 'Failed to delete event')
-            }
-        } catch (err) {
-            setError('Failed to delete event')
-            console.error(err)
-        }
-    }
-
     const formatDateTime = (dateTimeStr) => {
         try {
             const date = new Date(dateTimeStr)
@@ -140,13 +110,8 @@ const EventsListPage = () => {
         )
     }
 
-    const canModifyEvent = (event) => {
-        return user && event.created_by === user.id
-    }
-
     return (
         <div className="max-w-6xl mx-auto px-4 py-6">
-            {Toast}
             <div className="fixed inset-0 pointer-events-none overflow-hidden -z-9">
                 <PawPrint className="absolute z-[-1] -rotate-45 top-12 left-12 text-dark-tan opacity-80 scale-75" />
                 <PawPrint className="absolute z-[-2] -rotate-12 top-24 left-1/4 text-dark-tan opacity-30" />
