@@ -232,7 +232,7 @@ const EventDetailPage = () => {
                         <div className="flex gap-4 mt-4">
                             <button
                                 onClick={() => navigate('/events')}
-                                className="text-md px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
+                                className="text-lg px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
                             >
                                 Back to Events List
                             </button>
@@ -242,13 +242,13 @@ const EventDetailPage = () => {
                                         onClick={() =>
                                             navigate(`/events/edit/${id}`)
                                         }
-                                        className="px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
+                                        className="text-lg px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
                                     >
                                         Edit
                                     </button>
                                     <button
                                         onClick={handleDelete}
-                                        className="px-4 py-2 bg-red text-white rounded-lg hover:bg-dark-red transition-colors"
+                                        className="text-lg px-4 py-2 bg-red text-white rounded-lg hover:bg-dark-red transition-colors"
                                     >
                                         Delete
                                     </button>
