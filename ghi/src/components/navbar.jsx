@@ -144,6 +144,15 @@ const Navbar = () => {
                                             Events
                                         </Link>
                                     </li>
+                                     <li>
+                                        <Link
+                                            to="/my-events"
+                                            className="block px-4 py-2 hover:bg-light-green"
+                                            onClick={() => setMenuOpen(false)}
+                                        >
+                                            My Events
+                                        </Link>
+                                    </li>
                                 </ul>
                             </div>
                         )}
