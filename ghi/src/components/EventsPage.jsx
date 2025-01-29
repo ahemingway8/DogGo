@@ -170,12 +170,12 @@ const EventsListPage = () => {
             <div className="mb-8">
                 <div className="relative z-10 bg-white/10 backdrop-blur-sm rounded-lg p-6">
                     <div className="flex justify-between items-center mb-6">
-                        <h1 className="text-3xl font-bold text-black">
+                        <h1 className="text-center text-4xl font-bold text-black">
                             Dog Events
                         </h1>
                         <button
                             onClick={handleCreateEventClick}
-                            className="px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
+                            className="px-4 py-2 bg-green text-xl text-white rounded-lg hover:bg-dark-green transition-colors"
                         >
                             Create Event
                         </button>
@@ -200,7 +200,7 @@ const EventsListPage = () => {
                             placeholder="Search events..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-green rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
+                            className="text-lg w-full pl-10 pr-4 py-2 -mt-2 border border-green rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
                         />
                     </div>
 
@@ -236,14 +236,14 @@ const EventsListPage = () => {
                                         </div>
                                     )}
                                     <div className="p-6">
-                                        <h3 className="text-xl font-semibold text-white mb-2">
+                                        <h3 className="text-2xl text-center font-semibold text-white mb-2">
                                             {event.name}
                                         </h3>
 
-                                        <div className="flex flex-wrap gap-4 text-sm text-white">
+                                        <div className="flex flex-wrap gap-4 text-lg text-white">
                                             <div className="flex items-center">
                                                 <svg
-                                                    className="h-6 w-6 mr-2"
+                                                    className="h-8 w-8 mr-2"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0,0,256,256"
                                                     width="48px"
@@ -280,7 +280,7 @@ const EventsListPage = () => {
                                             </div>
                                             <div className="flex items-center">
                                                 <svg
-                                                    className="h-6 w-6 mr-2"
+                                                    className="h-8 w-8 mr-2"
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     viewBox="0 0 48 48"
                                                     width="48"
@@ -298,14 +298,14 @@ const EventsListPage = () => {
                                                 {event.address}
                                             </div>
                                         </div>
-                                        <div className="mt-4 flex gap-2">
+                                        <div className="mt-4 flex justify-between gap-2">
                                             <button
                                                 onClick={() =>
                                                     navigate(
                                                         `/events/${event.id}`
                                                     )
                                                 }
-                                                className="px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
+                                                className="w-20 px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
                                             >
                                                 View Details
                                             </button>
@@ -318,7 +318,7 @@ const EventsListPage = () => {
                                                                     `/events/edit/${event.id}`
                                                                 )
                                                             }
-                                                            className="px-4 py-2 border border-green bg-green text-white rounded-lg hover:bg-dark-green hover:text-white transition-colors"
+                                                            className="w-20 px-4 py-2 border border-green bg-green text-white rounded-lg hover:bg-dark-green hover:text-white transition-colors"
                                                         >
                                                             Edit
                                                         </button>
@@ -328,7 +328,7 @@ const EventsListPage = () => {
                                                                     event.id
                                                                 )
                                                             }
-                                                            className="px-4 py-2 border border-red bg-red text-white rounded-lg hover:bg-dark-red hover:text-white transition-colors"
+                                                            className="w-20 px-4 py-2 border border-red bg-red text-white rounded-lg hover:bg-dark-red hover:text-white transition-colors"
                                                         >
                                                             Delete
                                                         </button>
