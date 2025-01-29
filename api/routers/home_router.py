@@ -1,11 +1,13 @@
-from fastapi import FastAPI, Depends, HTTPException
-from fastapi.responses import RedirectResponse
-from utils.authentication import try_get_jwt_user_data
-
-app = FastAPI()
+from fastapi import APIRouter, HTTPException
+import requests
 
 
-@app.get("/")
+router = APIRouter()
+
+
+DOG_API_URL = "http://dog-api.kinduff.com/api/facts"
+
+@router.get("/")
 async def main_page():
     return {
         "message": "Discover Dog-Friendly Places Near You!",
@@ -18,25 +20,34 @@ async def main_page():
     }
 
 
-@app.get("/redirect/{page_name}")
-async def redirect_user(page_name: str, user=Depends(try_get_jwt_user_data)):
+@router.get("/redirect/{page_name}")
+async def redirect_user(page_name: str ):
     if page_name not in ["places", "events"]:
         raise HTTPException(status_code=404, detail="Invalid Page")
-    if user:
-        return RedirectResponse(url=f"/{page_name}")
-    else:
-        return RedirectResponse(url="/signup")
+    return {"message": f"Redirecting to {page_name}"}
 
 
-@app.get("/places")
-async def places_page(user=Depends(try_get_jwt_user_data)):
-    if not user:
-        raise HTTPException(status_code=401, detail="Not authorized")
+
+@router.get("/places")
+async def places_page():
     return {"message": "Find Dog-Friendly Spots!"}
 
 
-@app.get("/events")
-async def event_page(user=Depends(try_get_jwt_user_data)):
-    if not user:
-        raise HTTPException(status_code=401, detail="Not Authorized")
+@router.get("/events")
+async def event_page():
     return {"message": "Find Dog-Friendly Events!"}
+
+
+@router.get("/api/dog-facts")
+async def get_dog_facts():
+    try:
+        response = requests.get(DOG_API_URL)
+        response.raise_for_status()
+        data = response.json()
+
+        if "facts" not in data:
+            raise HTTPException(status_code=500, detail="Invalid response from API")
+        return {"facts": data["facts"]}
+
+    except requests.RequestException:
+        raise HTTPException(status_code=500, detail="Error fetching dog facts")
