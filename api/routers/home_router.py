@@ -45,9 +45,12 @@ async def get_dog_facts():
         response.raise_for_status()
         data = response.json()
 
-        if "facts" not in data:
+        if "facts" not in data or not data["facts"]:
             raise HTTPException(status_code=500, detail="Invalid response from API")
-        return {"facts": data["facts"]}
+
+        # Always use the first fact from the array to ensure consistency
+        first_fact = data["facts"][0]
+        return {"fact": first_fact}
 
     except requests.RequestException:
         raise HTTPException(status_code=500, detail="Error fetching dog facts")
