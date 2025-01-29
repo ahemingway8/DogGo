@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import PlacesMap from './PlacesMap'
 import { debounce } from 'lodash';
 
@@ -22,12 +22,19 @@ const PlacesPage = () => {
     const [loading, setLoading] = useState(false)
     const [mapCenter, setMapCenter] = useState([40.7128, -74.006])
     const [suggestions, setSuggestions] = useState([])
+    const searchContainerRef = useRef(null)
     const filterOptions = [
         { label: 'Pet Shops', value: 'pet.shop' },
         { label: 'Dog Parks', value: 'pet.dog_park' },
         { label: 'Veterinarians', value: 'pet.veterinary' },
         { label: 'Pet Grooming Salons', value: 'pet.service' },
     ]
+
+    const handleGlobalClick = (e) => {
+        if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
+            setSuggestions([]);
+        }
+    };
 
     const handleFilterChange = (value) => {
         setFilters((prevFilters) =>
@@ -148,7 +155,7 @@ const handleInputChange = (e) => {
 };
 
     return (
-        <>
+        <div onClick={handleGlobalClick}>
             <div className="fixed inset-0 pointer-events-none overflow-hidden">
                 <PawPrint className="absolute z-[-1] -rotate-45 top-12 left-12 text-dark-tan opacity-90 scale-75" />
                 <PawPrint className="absolute z-[-2] -rotate-12 top-24 left-1/4 text-dark-tan opacity-40" />
@@ -176,7 +183,11 @@ const handleInputChange = (e) => {
                     </h1>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                        <div className="col-span-2 relative">
+                        <div
+                            className="col-span-2 relative"
+                            ref={searchContainerRef}
+                            onClick={(e) => e.stopPropagation()}
+                        >
                             <input
                                 type="text"
                                 value={address}
@@ -186,6 +197,7 @@ const handleInputChange = (e) => {
                                 }}
                                 onKeyDown={(e) => {
                                     if (e.key == 'Enter') {
+                                        setSuggestions([]);
                                         handleSearch(address);
                                     }
                                 }}
@@ -204,7 +216,7 @@ const handleInputChange = (e) => {
                                                 setMapCenter([
                                                     suggestion.latitude,
                                                     suggestion.longitude,
-                                                ])
+                                                ]);
                                                 await handleSearch(suggestion.address);
                                             }}
                                         >
@@ -290,8 +302,8 @@ const handleInputChange = (e) => {
                     </div>
                 </div>
             </div>
-        </>
-    )
-}
+        </div>
+    );
+};
 
 export default PlacesPage
