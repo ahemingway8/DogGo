@@ -23,21 +23,21 @@ DogGo is an application that helps users find pet-friendly locations and events 
 ## Getting started
 
 - Clone the repository:
-- git clone https://gitlab.com/dog-go1/module3-project-gamma.git
-- cd your-repo-name
+- ```git clone https://gitlab.com/dog-go1/module3-project-gamma.git```
+- ```cd your-repo-name```
 - Create a virtual environment and activate it:
-- python -m venv .venv
-- source .venv/bin/activate #for linux/macOs
-- .\.venv\Scripts\Activate.ps1 #for windows
+    - ```python -m venv .venv```
+    - ```source .venv/bin/activate #for linux/macOs```
+    - ```.\.venv\Scripts\Activate.ps1 #for windows```
 - Install dependencies:
-- pip install -r requirements.txt
+    - ```pip install -r requirements.txt```
 - Set up environment variables in a .env file:
-- GEOAPIFY_API_KEY=your_geoapify_api_key
+    - GEOAPIFY_API_KEY=your_geoapify_api_key
 - Run Docker Desktop
 - Run the application:
-- docker compose build
-- docker compose up
-- http://localhost:5173/ #brings up the application
+    - ```docker compose build```
+    - ```docker compose up```
+    - http://localhost:5173/ #brings up the application
 
 
 ## API Documentation
@@ -94,3 +94,10 @@ For detailed documentation, visit :
 - https://apidocs.geoapify.com/docs/places/#about
 
 Note: You'll need to obtain a Geoapify API key from https://www.geoapify.com
+
+
+### The Future
+- Implement User Profiles for users to save events that interest them and display events the user created
+- Implement a Meet My Dog onto the User Profile where users can upload a picture of their dog(s) and the user can write about their dog's age, weight, breed, temperment and personality.
+- Implement a services(e.g. pet waste disposal, dog walker, dog sitter etc...) page when a user can offer services, and users can leave reviews of services.
+- Implement a donations page with links to specific animal charities/organizations where users can donate. Also have a suggestion box where users can send an email suggesting animal charities/organizations.
