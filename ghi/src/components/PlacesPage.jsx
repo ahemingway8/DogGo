@@ -62,7 +62,7 @@ const PlacesPage = () => {
     const handleSearch = async (selectedAddress = address) => {
         const categories = filters.length > 0 ? filters.join(',') : 'pet'
 
-        if (!selectedAddress.trim()) {
+        if (typeof selectedAddress !== 'string' || !selectedAddress.trim()) {
             setError('Please enter an address.')
             return;
         }
@@ -179,7 +179,16 @@ const handleInputChange = (e) => {
                         <div className="col-span-2 relative">
                             <input
                                 type="text"
-                                onChange={handleInputChange}
+                                value={address}
+                                onChange={(e) => {
+                                    setAddress(e.target.value);
+                                    handleInputChange(e);
+                                }}
+                                onKeyDown={(e) => {
+                                    if (e.key == 'Enter') {
+                                        handleSearch(address);
+                                    }
+                                }}
                                 placeholder="Enter an address"
                                 className="w-full p-2 border border-green bg-white rounded"
                             />
@@ -191,7 +200,7 @@ const handleInputChange = (e) => {
                                             className="px-4 py-2 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0 text-gray-700"
                                             onClick={async () => {
                                                 setSuggestions([])
-                                                setAddress(suggestion.address)
+                                                setAddress(suggestion.address || '')
                                                 setMapCenter([
                                                     suggestion.latitude,
                                                     suggestion.longitude,
@@ -208,7 +217,7 @@ const handleInputChange = (e) => {
                         </div>
 
                         <button
-                            onClick={handleSearch}
+                            onClick={() => handleSearch(address)}
                             className="px-4 py-2 bg-green text-white rounded hover:bg-dark-green transition-colors"
                             disabled={loading}
                         >
