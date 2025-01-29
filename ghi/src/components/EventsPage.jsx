@@ -305,35 +305,10 @@ const EventsListPage = () => {
                                                         `/events/${event.id}`
                                                     )
                                                 }
-                                                className="w-20 px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
+                                                className="w-30 px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
                                             >
                                                 View Details
                                             </button>
-                                            {isLoggedIn &&
-                                                canModifyEvent(event) && (
-                                                    <>
-                                                        <button
-                                                            onClick={() =>
-                                                                navigate(
-                                                                    `/events/edit/${event.id}`
-                                                                )
-                                                            }
-                                                            className="w-20 px-4 py-2 border border-green bg-green text-white rounded-lg hover:bg-dark-green hover:text-white transition-colors"
-                                                        >
-                                                            Edit
-                                                        </button>
-                                                        <button
-                                                            onClick={() =>
-                                                                handleDeleteEvent(
-                                                                    event.id
-                                                                )
-                                                            }
-                                                            className="w-20 px-4 py-2 border border-red bg-red text-white rounded-lg hover:bg-dark-red hover:text-white transition-colors"
-                                                        >
-                                                            Delete
-                                                        </button>
-                                                    </>
-                                                )}
                                         </div>
                                     </div>
                                 </div>

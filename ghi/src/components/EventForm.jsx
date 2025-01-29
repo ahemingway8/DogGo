@@ -107,7 +107,7 @@ const EventForm = () => {
             const data = await response.json()
 
             if (data.success) {
-                navigate('/events')
+                navigate('/my-events')
             } else {
                 setError(data.error || 'Failed to save event')
             }

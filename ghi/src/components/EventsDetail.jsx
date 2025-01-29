@@ -240,6 +240,14 @@ const EventDetailPage = () => {
                                 <>
                                     <button
                                         onClick={() =>
+                                            navigate('/my-events')
+                                        }
+                                        className="text-lg px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
+                                    >
+                                        My Events
+                                    </button>
+                                    <button
+                                        onClick={() =>
                                             navigate(`/events/edit/${id}`)
                                         }
                                         className="text-lg px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
