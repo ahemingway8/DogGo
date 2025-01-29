@@ -160,7 +160,7 @@ const EventDetailPage = () => {
                         </div>
                     )}
 
-                    <div className="bg-light-green rounded-lg shadow-md border border-light-green    p-6">
+                    <div className="bg-light-green rounded-lg shadow-md border border-light-green p-6">
                         <div className="mb-4">
                             <h3 className="text-3xl font-semibold text-white">
                                 Event Details
@@ -229,30 +229,32 @@ const EventDetailPage = () => {
                                 {event.description}
                             </p>
                         </div>
-                        <button
-                            onClick={() => navigate('/events')}
-                            className="mt-4 px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
-                        >
-                            Back to Events List
-                        </button>
-                        {canModifyEvent && (
-                            <>
-                                <button
-                                    onClick={() =>
-                                        navigate(`/events/edit/${id}`)
-                                    }
-                                    className="px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    onClick={handleDelete}
-                                    className="px-4 py-2 bg-red text-white rounded-lg hover:bg-dark-red transition-colors"
-                                >
-                                    Delete
-                                </button>
-                            </>
-                        )}
+                        <div className="flex gap-4 mt-4">
+                            <button
+                                onClick={() => navigate('/events')}
+                                className="text-md px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
+                            >
+                                Back to Events List
+                            </button>
+                            {canModifyEvent && (
+                                <>
+                                    <button
+                                        onClick={() =>
+                                            navigate(`/events/edit/${id}`)
+                                        }
+                                        className="px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={handleDelete}
+                                        className="px-4 py-2 bg-red text-white rounded-lg hover:bg-dark-red transition-colors"
+                                    >
+                                        Delete
+                                    </button>
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

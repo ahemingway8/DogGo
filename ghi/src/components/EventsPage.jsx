@@ -298,14 +298,14 @@ const EventsListPage = () => {
                                                 {event.address}
                                             </div>
                                         </div>
-                                        <div className="mt-4 flex gap-2">
+                                        <div className="mt-4 flex justify-between gap-2">
                                             <button
                                                 onClick={() =>
                                                     navigate(
                                                         `/events/${event.id}`
                                                     )
                                                 }
-                                                className="px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
+                                                className="w-20 px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
                                             >
                                                 View Details
                                             </button>
@@ -318,7 +318,7 @@ const EventsListPage = () => {
                                                                     `/events/edit/${event.id}`
                                                                 )
                                                             }
-                                                            className="px-4 py-2 border border-green bg-green text-white rounded-lg hover:bg-dark-green hover:text-white transition-colors"
+                                                            className="w-20 px-4 py-2 border border-green bg-green text-white rounded-lg hover:bg-dark-green hover:text-white transition-colors"
                                                         >
                                                             Edit
                                                         </button>
@@ -328,7 +328,7 @@ const EventsListPage = () => {
                                                                     event.id
                                                                 )
                                                             }
-                                                            className="px-4 py-2 border border-red bg-red text-white rounded-lg hover:bg-dark-red hover:text-white transition-colors"
+                                                            className="w-20 px-4 py-2 border border-red bg-red text-white rounded-lg hover:bg-dark-red hover:text-white transition-colors"
                                                         >
                                                             Delete
                                                         </button>
