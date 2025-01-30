@@ -14,7 +14,6 @@ export default function SignInForm() {
     }
 
     if (user) {
-        console.log('user', user)
         return <Navigate to="/" />
     }
 
