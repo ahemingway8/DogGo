@@ -9,7 +9,7 @@ steps = [
             location VARCHAR(255),
             contact TEXT,
             picture_url TEXT,
-            created_by INTEGER REFERENCES users(id
+            created_by INTEGER REFERENCES users(id)
         );
         """,
         """
