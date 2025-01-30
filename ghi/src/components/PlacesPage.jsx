@@ -176,7 +176,7 @@ const PlacesPage = () => {
                         Search for Pet-Friendly Places
                     </h1>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div className="grid grid-cols-1 items-center md:grid-cols-3 gap-4 mb-6">
                         <div className="col-span-2">
                             <div className="flex" ref={searchContainerRef} onClick={(e) => e.stopPropagation()} >
                                 <div className="flex-1 relative">
