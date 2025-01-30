@@ -47,7 +47,7 @@ const Navbar = () => {
     return (
         <>
             <nav className="bg-green text-xl text-white fixed top-0 left-0 right-0 z-20 border-green p-1">
-                <div className="container mx-auto flex justify-between items-center py-4 px-6">
+                <div className="flex justify-between items-center py-4 px-3">
                     <div
                         className="relative"
                         onMouseEnter={handleMenuMouseEnter}
@@ -139,11 +139,17 @@ const Navbar = () => {
                                         </Link>
                                     </li>
                                     {isLoggedIn && (
-                                        <li className="relative">
-                                            <button
-                                                onClick={toggleSubMenu}
-                                                className="block w-full px-4 py-2 hover:bg-light-green flex items-center justify-between"
-                                            >
+                                        <li className="relative"
+                                            onMouseEnter={() => setSubMenuOpen(true)}
+                                            onMouseLeave={() => {
+                                                setTimeout(() => {
+                                                    if (!document.querySelector('.sub-menu-dropdown:hover')) {
+                                                        setSubMenuOpen(false)
+                                                    }
+                                                }, 100)
+                                            }}
+                                        >
+                                            <div className="block w-full px-4 py-2 hover:bg-light-green flex items-center justify-between">
                                                 Events
                                                 <span className={`ml-2 transform transition-transform ${subMenuOpen ? 'rotate-180' : ''}`}>
                                                     <svg
@@ -160,10 +166,18 @@ const Navbar = () => {
                                                         <path d="M6 9l6 6 6-6"></path>
                                                     </svg>
                                                 </span>
-                                            </button>
+                                            </div>
 
                                             {subMenuOpen && (
-                                                <div className="sub-menu-dropdown absolute top-full mt-2 w-48 bg-light-green text-white shadow-md rounded-lg">
+                                                <div className="sub-menu-dropdown absolute left-full top-0 w-48 bg-light-green text-white shadow-md rounded-lg"
+                                                    onMouseLeave={() => {
+                                                        setTimeout(() => {
+                                                            if (!document.querySelector('.events-item:hover')) {
+                                                                setSubMenuOpen(false)
+                                                            }
+                                                        }, 100)
+                                                    }}
+                                                >
                                                     <ul className="py-2">
                                                         <li>
                                                             <Link
