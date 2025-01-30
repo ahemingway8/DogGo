@@ -170,8 +170,8 @@ const PlacesPage = () => {
                 <PawPrint className="absolute z-[-14] -rotate-75 bottom-1/3 left-1/2 text-dark-tan opacity-55 scale-90" />
                 <PawPrint className="absolute z-[-15] rotate-30 top-2/3 right-1/2 text-dark-tan opacity-35 scale-100" />
             </div>
-            <div className="min-h-screen p-4 backdrop-blur-sm">
-                <div className="max-w-6xl mx-auto">
+            <div className="min-h-screen p-4">
+                <div className="max-w-6xl mx-auto bg-white/10 backdrop-blur-sm">
                     <h1 className="text-4xl text-center font-bold text-black mb-4 mt-7 border-transparent p-2">
                         Search for Pet-Friendly Places
                     </h1>
