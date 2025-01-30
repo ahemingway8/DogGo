@@ -176,7 +176,7 @@ const PlacesPage = () => {
                         Search for Pet-Friendly Places
                     </h1>
 
-                    <div className="grid grid-cols-1 items-center md:grid-cols-3 gap-4 mb-6">
+                    <div className="max-w-3xl mx-auto mb-6">
                         <div className="col-span-2">
                             <div className="flex" ref={searchContainerRef} onClick={(e) => e.stopPropagation()} >
                                 <div className="flex-1 relative">
@@ -274,8 +274,8 @@ const PlacesPage = () => {
                     </div>
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="col-span-2 relative z-[1]">
+                <div className="max-w-3xl mx-auto">
+                    <div className="w-full mb-6 relative z-[1]">
                         <PlacesMap
                             locations={locations}
                             center={mapCenter}
@@ -285,7 +285,7 @@ const PlacesPage = () => {
                         <h2 className="text-lg text-black font-bold mb-2">
                             Found Locations
                         </h2>
-                        <div className="space-y-2 overflow-y-auto max-h-[500px] z-0">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {locations.length > 0 ? (
                                 locations.map((location, index) => (
                                     <div
