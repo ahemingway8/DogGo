@@ -4,7 +4,7 @@ Entry point for the FastAPI Application
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth_router, events, locations, home_router
+from routers import auth_router, events, locations, home_router, services_router
 import os
 
 app = FastAPI()
@@ -21,6 +21,7 @@ app.include_router(auth_router.router)
 app.include_router(events.router)
 app.include_router(locations.router)
 app.include_router(home_router.router)
+app.include_router(services_router.router)
 
 
 @app.get("/api/launch-details")

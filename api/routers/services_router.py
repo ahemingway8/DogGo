@@ -33,3 +33,14 @@ def delete_service(service_id: int, user: JWTUserData = Depends(try_get_jwt_user
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You need to be logged in to delete a service")
     return repo.delete(service_id, user.id)
 
+@router.post("/api/services/{service_id}/reviews", response_model=Result[ReviewOut])
+def create_review(service_id: int, review: ReviewIn, user: JWTUserData = Depends(try_get_jwt_user_data), repo: ServiceRepository = Depends()):
+    if not user:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="You need to be logged in to leave a review")
+    review.created_by = user.id
+    review.service_id = service_id
+    return repo.create_review(review)
+
+@router.get("/api/services/{service_id}/reviews", response_model=Result[List[ReviewOut]])
+def get_reviews(service_id: int, repo: ServiceRepository = Depends()):
+    return repo.get_reviews(service_id)

@@ -63,3 +63,29 @@ class ServiceRepository:
                     return Result(success=True, data=True)
         except Exception as e:
             return Result(success=False, error=str(e))
+
+    def create_review(self, review: ReviewIn) -> Result[ReviewOut]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=class_row(ReviewOut)) as db:
+                    db.execute(
+                        """
+                        INSERT INTO reviews (rating, comment, service_id, created_by)
+                        VALUES (%s, %s, %s, %s)
+                        RETURNING *;
+                        """,
+                        [review.rating, review.comment, review.service_id, review.created_by]
+                    )
+                    created_review = db.fetchone()
+                    return Result(success=True, data=created_review)
+        except Exception as e:
+            return Result(success=False, error=str(e))
+
+    def get_reviews(self, service_id: int) -> Result[List[ReviewOut]]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor(row_factory=class_row(ReviewOut)) as db:
+                    db.execute("SELECT * FROM reviews WHERE service_id = %s", [service_id])
+                    return Result(success=True, data=db.fetchall())
+        except Exception as e:
+            return Result(success=False, error=str(e))
