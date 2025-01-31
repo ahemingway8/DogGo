@@ -9,10 +9,13 @@ import EventForm from './components/EventForm';
 import EventsEditForm from './components/EventUpdateForm';
 import EventDetailPage from './components/EventsDetail';
 import PlacesPage from './components/PlacesPage';
+import ServicesListPage from './components/ServicesListPage';
+import CreateServiceForm from './components/CreateServiceForm';
 import AuthProvider from './components/AuthProvider';
 import App from './App';
 import './index.css';
 import MyEventsPage from './components/MyEventsPage';
+
 
 const BASE_URL = import.meta.env.BASE_URL
 if (!BASE_URL) {
@@ -60,6 +63,14 @@ const router = createBrowserRouter(
                 {
                     path: '/my-events',
                     element: <MyEventsPage />,
+                },
+                {
+                    path: '/services',
+                    element: <ServicesListPage />,
+                },
+                {
+                    path: '/services/create',
+                    element: <CreateServiceForm />,
                 },
             ],
         },
