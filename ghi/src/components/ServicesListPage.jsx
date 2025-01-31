@@ -188,7 +188,7 @@ const ServicesListPage = () => {
                                     className="bg-light-green rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 border-8 border-light-green overflow-hidden"
                                 >
                                     {service.picture_url && (
-                                        <div className="w-full h-48 overflow-hidden">
+                                        <div className="w-full h-50 overflow-hidden">
                                             <img
                                                 src={service.picture_url}
                                                 alt={service.name}
