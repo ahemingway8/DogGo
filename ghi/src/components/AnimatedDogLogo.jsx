@@ -1,5 +1,3 @@
-import React from 'react';
-
 const AnimatedDogLogo = () => {
     return (
         <div className="logo-container">

@@ -11,7 +11,6 @@ router = APIRouter()
 @router.post("/api/events", response_model=Result[EventOut])
 def create_event(
     event: EventIn,
-    response: Response,
     user: JWTUserData = Depends(try_get_jwt_user_data),
     repo: EventRepository = Depends(),
 ) -> Result[EventOut]:
