@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Response, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from utils.result import Result
 from typing import List
 from queries.events_queries import EventIn, EventRepository, EventOut
@@ -11,7 +11,6 @@ router = APIRouter()
 @router.post("/api/events", response_model=Result[EventOut])
 def create_event(
     event: EventIn,
-    response: Response,
     user: JWTUserData = Depends(try_get_jwt_user_data),
     repo: EventRepository = Depends(),
 ) -> Result[EventOut]:
@@ -64,7 +63,6 @@ def delete_event(
             detail="You need to be logged in to delete an event",
         )
 
-    print(f"Delete request for event {event_id} by user {user.id}")
     result = repo.delete(event_id, user.id)
 
     if not result.success:

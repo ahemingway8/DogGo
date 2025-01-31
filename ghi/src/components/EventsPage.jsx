@@ -27,7 +27,7 @@ const EventsListPage = () => {
     const [error, setError] = useState(null)
     const [searchTerm, setSearchTerm] = useState('')
     const navigate = useNavigate()
-    const { isLoggedIn, user } = useAuthService()
+    const { isLoggedIn } = useAuthService()
 
     useEffect(() => {
         fetchEvents()
