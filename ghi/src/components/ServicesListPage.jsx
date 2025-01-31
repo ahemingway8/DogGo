@@ -84,7 +84,6 @@ const ServicesListPage = () => {
 
             <ul className="space-y-6 relative z-10">
                 {services.map((service) => {
-
                     return (
                         <li
                             key={service.id}
@@ -114,18 +113,18 @@ const ServicesListPage = () => {
                             </p>
 
                             {/* Show delete button if user created the service */}
-                            {user && user.id === String(service.created_by) && (
-                                <>
-                                    <button
-                                        onClick={() => handleDelete(service.id)}
-                                        className="mt-4 px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors "
-                                    >
-                                        Delete
-                                    </button>
-                                </>
+                            {user && user.id === service.created_by && (
+                                <button
+                                    onClick={() => handleDelete(service.id)}
+                                    className="mt-4 px-4 py-2 text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors"
+                                    style={{ backgroundColor: '#dc2626' }} // Force a red background color
+                                >
+                                    Delete
+                                </button>
                             )}
                         </li>
-                    )})}
+                    )
+                })}
             </ul>
         </div>
     )
