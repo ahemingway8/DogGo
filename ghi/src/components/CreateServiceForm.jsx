@@ -155,9 +155,7 @@ const CreateServiceForm = () => {
 
             <div className="relative z-10 bg-white/10 backdrop-blur-sm rounded-lg p-6">
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-3xl font-bold text-black">
-                        {id ? 'Edit' : 'Create New Service'}
-                    </h1>
+                    <h1 className="text-3xl font-bold text-black"></h1>
                     <button
                         onClick={() => navigate('/services')}
                         className="px-4 py-2 text-white border border-green bg-green rounded-lg hover:bg-dark-green hover:text-white transition-colors"
@@ -176,17 +174,17 @@ const CreateServiceForm = () => {
                     onSubmit={handleSubmit}
                     className="bg-light-green p-6 rounded-lg shadow-md"
                 >
-                    <h2 className="text-xl font-semibold mb-2">Create a New Service</h2>
+                    <h2 className="text-xl font-semibold mb-2">
+                        Add Services
+                    </h2>
                     {error && <p className="text-red-500">{error}</p>}
                     <div className="grid gap-6">
                         <div>
-                            <label className="block text-sm font-medium text-white mb-1">
-                                Service Name
-                            </label>
+
                             <input
                                 type="text"
                                 name="name"
-                                placeholder='Service Name'
+                                placeholder="Service Name"
                                 value={formData.name}
                                 onChange={handleChange}
                                 className="w-full p-2 border border-green rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
@@ -195,30 +193,23 @@ const CreateServiceForm = () => {
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium text-white mb-1">
-                                Description
-                            </label>
                             <textarea
                                 name="description"
                                 value={formData.description}
                                 onChange={handleChange}
-                                placeholder='Description'
+                                placeholder="Description"
                                 className="w-full p-2 border border-green rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
                                 rows="3"
                                 required
                             />
                         </div>
 
-
                         <div>
-                            <label className="block text-sm font-medium text-white mb-1">
-                                Price
-                            </label>
                             <input
                                 type="number"
                                 name="price"
                                 value={formData.price}
-                                placeholder='Price'
+                                placeholder="Price no decimals"
                                 onChange={handleChange}
                                 className="w-full p-2 border border-green rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
                                 required
@@ -226,68 +217,61 @@ const CreateServiceForm = () => {
                         </div>
 
                         <div className="grid gap-6">
-                        <div>
-                            <label className="block text-sm font-medium text-white mb-1">
-                                Location
-                            </label>
-                            <input
-                                type="text"
-                                name="location"
-                                value={formData.location}
-                                placeholder='Location'
-                                onChange={handleChange}
-                                className="w-full p-2 border border-green rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
-                                required
-                            />
-                        </div>
+                            <div>
+                                <input
+                                    type="text"
+                                    name="location"
+                                    value={formData.location}
+                                    placeholder="Location"
+                                    onChange={handleChange}
+                                    className="w-full p-2 border border-green rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
+                                    required
+                                />
+                            </div>
 
-                        <div className="grid gap-6">
-                        <div>
-                            <label className="block text-sm font-medium text-white mb-1">
-                                Contact
-                            </label>
-                            <input
-                                type="text"
-                                name="contact"
-                                value={formData.contact}
-                                placeholder='Contact Information'
-                                onChange={handleChange}
-                                className="w-full p-2 border border-green rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
-                                required
-                            />
-                        </div>
+                            <div className="grid gap-6">
+                                <div>
+                                    <input
+                                        type="text"
+                                        name="contact"
+                                        value={formData.contact}
+                                        placeholder="Contact Information"
+                                        onChange={handleChange}
+                                        className="w-full p-2 border border-green rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
+                                        required
+                                    />
+                                </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-white mb-1">
-                                Picture URL (optional)
-                            </label>
-                            <input
-                                type="url"
-                                value={formData.picture_url || ''}
-                                onChange={(e) =>
-                                    setFormData({
-                                        ...formData,
-                                        picture_url: e.target.value,
-                                    })
-                                }
-                                className="w-full p-2 border border-green rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
-                                placeholder="https://example.com/image.jpg"
-                            />
-                        </div>
-                    </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-white mb-1">
+                                        Picture URL (optional)
+                                    </label>
+                                    <input
+                                        type="url"
+                                        value={formData.picture_url || ''}
+                                        onChange={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                picture_url: e.target.value,
+                                            })
+                                        }
+                                        className="w-full p-2 border border-green rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
+                                        placeholder="https://example.com/image.jpg"
+                                    />
+                                </div>
+                            </div>
 
-                    <div className="mt-6">
-                        <button
-                            type="submit"
-                            className="w-full px-6 py-2 bg-white text-black rounded-lg hover:bg-gray transition-colors"
-                        >
-                            {id ? 'Update' : 'Create Service'}
-                        </button>
-                    </div>
-                    </div>
+                            <div className="mt-6">
+                                <button
+                                    type="submit"
+                                    className="w-full px-6 py-2 bg-white text-black rounded-lg hover:bg-gray transition-colors"
+                                >
+                                    {id ? 'Update' : 'Create Service'}
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </form>
-
             </div>
         </div>
     )

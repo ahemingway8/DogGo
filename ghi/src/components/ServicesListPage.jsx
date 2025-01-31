@@ -82,11 +82,24 @@ return (
 
         {error && <p className="text-red-500">{error}</p>}
 
-        <ul className="space-y-4">
+        <ul className="space-y-6 relative z-10">
             {services.map((service) => (
-                <li key={service.id} className="p-4 border rounded shadow">
-                    <h2 className="text-xl font-semibold">{service.name}</h2>
-                    <p>{service.description}</p>
+                <li
+                    key={service.id}
+                    className="p-6 bg-white border border-gray-300 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+                >
+                    
+                    {service.picture_url && (
+                        <img
+                            src={service.picture_url}
+                            alt={service.name}
+                            className="w-full h-64 object-cover rounded-t-lg mb-4"
+                        />
+                    )}
+                    <h2 className="text-xl font-semibold text-gray-800">
+                        {service.name}
+                    </h2>
+                    <p className="text-gray-600">{service.description}</p>
                     <p className="text-gray-500">Price: ${service.price}</p>
                     <p className="text-gray-500">
                         Location: {service.location}
@@ -97,6 +110,7 @@ return (
         </ul>
     </div>
 )
+
 };
 
 export default ServicesListPage;
