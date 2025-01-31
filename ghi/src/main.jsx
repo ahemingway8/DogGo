@@ -9,6 +9,7 @@ import EventForm from './components/EventForm';
 import EventsEditForm from './components/EventUpdateForm';
 import EventDetailPage from './components/EventsDetail';
 import PlacesPage from './components/PlacesPage';
+import ServicesListPage from './components/ServicesListPage';
 import AuthProvider from './components/AuthProvider';
 import App from './App';
 import './index.css';
@@ -60,6 +61,10 @@ const router = createBrowserRouter(
                 {
                     path: '/my-events',
                     element: <MyEventsPage />,
+                },
+                {
+                    path: '/services',
+                    element: <ServicesListPage />,
                 },
             ],
         },

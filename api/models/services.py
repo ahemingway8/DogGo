@@ -1,6 +1,5 @@
 from pydantic import BaseModel, HttpUrl
 from typing import Optional
-from datetime import datetime
 
 
 class ServiceIn(BaseModel):
