@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Response, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from utils.result import Result
 from typing import List
 from queries.events_queries import EventIn, EventRepository, EventOut
