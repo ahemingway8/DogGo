@@ -25,7 +25,7 @@ const PawPrint = ({ className }) => (
 const CreateServiceForm = () => {
     const { id } = useParams()
     const navigate = useNavigate()
-    const { isLoggedIn } = useAuthService()
+    const { isLoggedIn, user } = useAuthService()
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
 
@@ -36,6 +36,7 @@ const CreateServiceForm = () => {
         location: '',
         contact: '',
         picture_url: '',
+
     }
 
     const [formData, setFormData] = useState(initialFormState)
@@ -104,6 +105,7 @@ const CreateServiceForm = () => {
                 body: JSON.stringify({
                     ...formData,
                     picture_url: formData.picture_url || DEFAULT_IMAGE_URL,
+                    created_by: user.id,
                 }),
             })
 
@@ -197,6 +199,7 @@ const CreateServiceForm = () => {
                                 Description
                             </label>
                             <textarea
+                                name="description"
                                 value={formData.description}
                                 onChange={handleChange}
                                 placeholder='Description'
