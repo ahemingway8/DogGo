@@ -194,7 +194,7 @@ const MyEventsPage = () => {
                     {filteredEvents.filter(event => !event.deleted).length === 0 ? (
                         <div className="text-center py-12">
                             <h3 className="text-lg font-medium text-black">
-                                You haven't created any events yet
+                                You have not created any events yet
                             </h3>
                             <p className="text-black mt-2">
                                 Create your first event to get started!

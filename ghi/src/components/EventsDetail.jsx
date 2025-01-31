@@ -104,7 +104,7 @@ const EventDetailPage = () => {
             const data = await response.json()
             if (data.success) {
                 hideToast()
-                navigate('/events')
+                navigate('/my-events')
             } else {
                 setError(data.error || 'Failed to delete event')
             }

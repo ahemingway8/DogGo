@@ -35,7 +35,6 @@ def search_pet_friendly_locations(
 
 @router.get("/api/geocode")
 async def geocode_address(
-    response: Response,
     address: str = Query(..., description="Address to geocode"),
     repo: LocationRepository = Depends(),
 ):
