@@ -64,7 +64,6 @@ def delete_event(
             detail="You need to be logged in to delete an event",
         )
 
-    print(f"Delete request for event {event_id} by user {user.id}")
     result = repo.delete(event_id, user.id)
 
     if not result.success:

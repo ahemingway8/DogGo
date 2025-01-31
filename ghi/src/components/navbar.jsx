@@ -59,7 +59,7 @@ const Navbar = () => {
                             aria-label="Toggle menu"
                         >
                             <svg
-                                className="h-10 w-10 mt-1"
+                                className="h-7 w-7 mt-1"
                                 xmlns="http://www.w3.org/2000/svg"
                                 x="0px"
                                 y="0px"
@@ -219,7 +219,7 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    <div className="text-4xl font-heading font-bold">
+                    <div className="text-3xl font-heading font-bold">
                         <Link to="/" className="flex items-center gap-2 hover:text-tan logo-container">
                             <AnimatedDogLogo />
                             <span className="mt-2">DogGo!</span>
@@ -232,7 +232,7 @@ const Navbar = () => {
                         onMouseLeave={handleProfileMouseLeave}
                     >
                         <button className="flex items-center gap-2 text-white hover:text-tan">
-                            <svg viewBox="0 0 256 256" className="w-10 h-10 -mt-1">
+                            <svg viewBox="0 0 256 256" className="w-7 h-7 -mt-1">
                                 <g transform="scale(5.33333,5.33333)" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" fill="none">
                                     <path
                                         d="M38.8,35c-3.4,4.5-8.8,7.5-14.8,7.5c-10.2,0-18.5-8.3-18.5-18.5c0-2.1,0.4-4.1,1-6"
