@@ -30,8 +30,6 @@ const Navbar = () => {
         }, 100)
     }
 
-    const toggleSubMenu = () => setSubMenuOpen(prevState => !prevState)
-
     const handleLogout = async () => {
         try {
             await signout()
