@@ -59,11 +59,9 @@ const Navbar = () => {
                             <svg
                                 className="h-7 w-7 mt-1"
                                 xmlns="http://www.w3.org/2000/svg"
-                                x="0px"
-                                y="0px"
+                                viewBox="0 0 48 48"
                                 width="25"
                                 height="25"
-                                viewBox="0 0 48 48"
                             >
                                 <path
                                     fill="none"
@@ -137,12 +135,28 @@ const Navbar = () => {
                                             Places
                                         </Link>
                                     </li>
+                                    <li>
+                                        <Link
+                                            to="/services"
+                                            className="block px-4 py-2 hover:bg-light-green"
+                                            onClick={() => setMenuOpen(false)}
+                                        >
+                                            Services
+                                        </Link>
+                                    </li>
                                     {isLoggedIn && (
-                                        <li className="relative"
-                                            onMouseEnter={() => setSubMenuOpen(true)}
+                                        <li
+                                            className="relative"
+                                            onMouseEnter={() =>
+                                                setSubMenuOpen(true)
+                                            }
                                             onMouseLeave={() => {
                                                 setTimeout(() => {
-                                                    if (!document.querySelector('.sub-menu-dropdown:hover')) {
+                                                    if (
+                                                        !document.querySelector(
+                                                            '.sub-menu-dropdown:hover'
+                                                        )
+                                                    ) {
                                                         setSubMenuOpen(false)
                                                     }
                                                 }, 100)
@@ -150,7 +164,13 @@ const Navbar = () => {
                                         >
                                             <div className="block w-full px-4 py-2 hover:bg-light-green flex items-center justify-between">
                                                 Events
-                                                <span className={`ml-2 transform transition-transform ${subMenuOpen ? 'rotate-180' : ''}`}>
+                                                <span
+                                                    className={`ml-2 transform transition-transform ${
+                                                        subMenuOpen
+                                                            ? 'rotate-180'
+                                                            : ''
+                                                    }`}
+                                                >
                                                     <svg
                                                         className="h-4 w-4"
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -168,11 +188,18 @@ const Navbar = () => {
                                             </div>
 
                                             {subMenuOpen && (
-                                                <div className="sub-menu-dropdown absolute left-full top-0 w-48 bg-light-green text-white shadow-md rounded-lg"
+                                                <div
+                                                    className="sub-menu-dropdown absolute left-full top-0 w-48 bg-light-green text-white shadow-md rounded-lg"
                                                     onMouseLeave={() => {
                                                         setTimeout(() => {
-                                                            if (!document.querySelector('.events-item:hover')) {
-                                                                setSubMenuOpen(false)
+                                                            if (
+                                                                !document.querySelector(
+                                                                    '.events-item:hover'
+                                                                )
+                                                            ) {
+                                                                setSubMenuOpen(
+                                                                    false
+                                                                )
                                                             }
                                                         }, 100)
                                                     }}
@@ -182,7 +209,11 @@ const Navbar = () => {
                                                             <Link
                                                                 to="/events"
                                                                 className="block px-4 py-2 hover:bg-green"
-                                                                onClick={() => setMenuOpen(false)}
+                                                                onClick={() =>
+                                                                    setMenuOpen(
+                                                                        false
+                                                                    )
+                                                                }
                                                             >
                                                                 All Events
                                                             </Link>
@@ -191,7 +222,11 @@ const Navbar = () => {
                                                             <Link
                                                                 to="/my-events"
                                                                 className="block px-4 py-2 hover:bg-green"
-                                                                onClick={() => setMenuOpen(false)}
+                                                                onClick={() =>
+                                                                    setMenuOpen(
+                                                                        false
+                                                                    )
+                                                                }
                                                             >
                                                                 My Events
                                                             </Link>
@@ -202,11 +237,13 @@ const Navbar = () => {
                                         </li>
                                     )}
                                     {!isLoggedIn && (
-                                         <li>
+                                        <li>
                                             <Link
                                                 to="/events"
                                                 className="block px-4 py-2 hover:bg-light-green"
-                                                onClick={() => setMenuOpen(false)}
+                                                onClick={() =>
+                                                    setMenuOpen(false)
+                                                }
                                             >
                                                 Events
                                             </Link>
@@ -218,7 +255,10 @@ const Navbar = () => {
                     </div>
 
                     <div className="text-3xl font-heading font-bold">
-                        <Link to="/" className="flex items-center gap-2 hover:text-tan logo-container">
+                        <Link
+                            to="/"
+                            className="flex items-center gap-2 hover:text-tan logo-container"
+                        >
                             <AnimatedDogLogo />
                             <span className="mt-2">DogGo!</span>
                         </Link>
@@ -230,8 +270,17 @@ const Navbar = () => {
                         onMouseLeave={handleProfileMouseLeave}
                     >
                         <button className="flex items-center gap-2 text-white hover:text-tan">
-                            <svg viewBox="0 0 256 256" className="w-7 h-7 -mt-1">
-                                <g transform="scale(5.33333,5.33333)" stroke="currentColor" strokeWidth="3" strokeMiterlimit="10" fill="none">
+                            <svg
+                                viewBox="0 0 256 256"
+                                className="w-7 h-7 -mt-1"
+                            >
+                                <g
+                                    transform="scale(5.33333,5.33333)"
+                                    stroke="currentColor"
+                                    strokeWidth="3"
+                                    strokeMiterlimit="10"
+                                    fill="none"
+                                >
                                     <path
                                         d="M38.8,35c-3.4,4.5-8.8,7.5-14.8,7.5c-10.2,0-18.5-8.3-18.5-18.5c0-2.1,0.4-4.1,1-6"
                                         strokeLinecap="round"
@@ -242,14 +291,8 @@ const Navbar = () => {
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                     />
-                                    <circle
-                                        cx="24"
-                                        cy="18"
-                                        r="4.5"
-                                    />
-                                    <path
-                                        d="M32.5,30.3c0-1.6-1.3-2.8-2.8-2.8h-11.4c-1.6,0-2.8,1.3-2.8,2.8v0c0,2.7,3.4,5.2,8.5,5.2c5.1,0,8.5-2.5,8.5-5.2z"
-                                    />
+                                    <circle cx="24" cy="18" r="4.5" />
+                                    <path d="M32.5,30.3c0-1.6-1.3-2.8-2.8-2.8h-11.4c-1.6,0-2.8,1.3-2.8,2.8v0c0,2.7,3.4,5.2,8.5,5.2c5.1,0,8.5-2.5,8.5-5.2z" />
                                 </g>
                             </svg>
                         </button>
