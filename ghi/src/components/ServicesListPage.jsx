@@ -33,14 +33,14 @@ const ServicesListPage = () => {
 
     useEffect(() => {
         filterServices()
-    }), [searchTerm, services]
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [searchTerm, services])
 
     const fetchServices = async () => {
         try {
             setIsLoading(true)
             const response = await fetch('http://localhost:8000/api/services')
             const data = await response.json()
-            console.log(data)
 
             if (data.success) {
                 setServices(data.data)
