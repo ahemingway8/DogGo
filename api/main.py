@@ -4,7 +4,13 @@ Entry point for the FastAPI Application
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth_router, events, locations, home_router, services_router
+from routers import (
+    auth_router,
+    events,
+    locations,
+    home_router,
+    services_router
+)
 import os
 
 app = FastAPI()
