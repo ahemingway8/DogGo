@@ -1,6 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 
-// eslint-disable-next-line react-refresh/only-export-components
 const ToastComponent = ({
     message,
     duration = 3000,
@@ -45,35 +44,4 @@ const ToastComponent = ({
     )
 }
 
-const useToast = () => {
-    const [toast, setToast] = useState(null)
-
-    const showToast = (params) => {
-        if (typeof params === 'string') {
-            setToast({
-                message: params,
-                duration: 3000,
-                showConfirm: false,
-            })
-        } else {
-            setToast({
-                message: params.message,
-                duration: params.duration || 3000,
-                showConfirm: params.showConfirm || false,
-                onConfirm: params.onConfirm,
-            })
-        }
-    }
-
-    const hideToast = () => {
-        setToast(null)
-    }
-
-    return {
-        Toast: toast ? <ToastComponent {...toast} onClose={hideToast} /> : null,
-        showToast,
-        hideToast,
-    }
-}
-
-export { useToast }
+export default ToastComponent;

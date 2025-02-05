@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import useAuthService from '../hooks/useAuthService'
-import { useToast } from './toast'
+import { useToast } from '../hooks/useToast'
 import AnimatedDogLogo from './AnimatedDogLogo'
 
 const Navbar = () => {

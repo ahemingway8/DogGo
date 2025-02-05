@@ -1,20 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import SignInForm from './components/SignInForm';
-import SignUpForm from './components/SignUpForm';
-import HomePage from './components/HomePage';
-import EventsListPage from './components/EventsPage';
-import EventForm from './components/EventForm';
-import EventsEditForm from './components/EventUpdateForm';
-import EventDetailPage from './components/EventsDetail';
-import PlacesPage from './components/PlacesPage';
-import ServicesListPage from './components/ServicesListPage';
-import CreateServiceForm from './components/CreateServiceForm';
+import SignInForm from './pages/SignInForm';
+import SignUpForm from './pages/SignUpForm';
+import HomePage from './pages/HomePage';
+import EventsListPage from './pages/EventsPage';
+import EventForm from './pages/EventForm';
+import EventsEditForm from './pages/EventUpdateForm';
+import EventDetailPage from './pages/EventsDetail';
+import PlacesPage from './pages/PlacesPage';
+import ServicesListPage from './pages/ServicesListPage';
+import CreateServiceForm from './pages/CreateServiceForm';
 import AuthProvider from './components/AuthProvider';
 import App from './App';
 import './index.css';
-import MyEventsPage from './components/MyEventsPage';
+import MyEventsPage from './pages/MyEventsPage';
 
 
 const BASE_URL = import.meta.env.BASE_URL
