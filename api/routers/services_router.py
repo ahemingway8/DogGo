@@ -9,6 +9,42 @@ from models.jwt import JWTUserData
 router = APIRouter()
 
 
+@router.put("/api/services/{service_id}", response_model=Result[ServiceOut])
+def update_service(
+    service_id: int,
+    service: ServiceIn,
+    user: JWTUserData = Depends(try_get_jwt_user_data),
+    repo: ServiceRepository = Depends()
+):
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="You need to be logged in to update a service"
+        )
+
+    service_data = service.model_dump()
+    service_data["created_by"] = user.id
+    update_result = repo.update(service_id, ServiceIn(**service_data), user.id)
+
+    if not update_result.success:
+        if update_result.error == "Service not found":
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=update_result.error
+            )
+        elif update_result.error == "Unauthorized":
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail=update_result.error
+            )
+        else:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=update_result.error
+            )
+    return update_result
+
+
 @router.post("/api/services", response_model=Result[ServiceOut])
 def create_service(
     service: ServiceIn,

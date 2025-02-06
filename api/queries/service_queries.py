@@ -6,6 +6,64 @@ from psycopg.rows import class_row
 
 
 class ServiceRepository:
+    def update(
+            self,
+            service_id: int,
+            service: ServiceIn,
+            user_id: int
+    ) -> Result[ServiceOut]:
+        try:
+            with pool.connection() as conn:
+                with conn.cursor() as db:
+                    db.execute(
+                        "SELECT created_by FROM services WHERE id = %s",
+                        [service_id]
+                    )
+                    result = db.fetchone()
+                    if not result:
+                        return Result(success=False, error="Service not found")
+                    if result[0] != user_id:
+                        return Result(success=False, error="Unauthorized")
+
+                with conn.cursor(row_factory=class_row(ServiceOut)) as db:
+                    picture_url = None
+                    if service.picture_url:
+                        picture_url = str(service.picture_url)
+
+                    db.execute(
+                        """
+                        UPDATE services
+                        SET name = %s,
+                            description = %s,
+                            price = %s,
+                            location = %s,
+                            contact = %s,
+                            picture_url = %s
+                        WHERE id = %s
+                        AND created_by = %s
+                        RETURNING *;
+                        """,
+                        [
+                            service.name,
+                            service.description,
+                            service.price,
+                            service.location,
+                            service.contact,
+                            picture_url,
+                            service_id,
+                            user_id
+                        ]
+                    )
+                    updated_service = db.fetchone()
+                    if not updated_service:
+                        return Result(
+                            success=False,
+                            error="Service update failed"
+                        )
+                    return Result(success=True, data=updated_service)
+        except Exception as e:
+            return Result(success=False, error=str(e))
+
     def create(self, service: ServiceIn) -> Result[ServiceOut]:
         try:
             with pool.connection() as conn:

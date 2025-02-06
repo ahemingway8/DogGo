@@ -31,6 +31,8 @@ DogGo is an application that helps users find pet-friendly locations and events 
     - ```.\.venv\Scripts\Activate.ps1 #for windows```
 - Install dependencies:
     - ```pip install -r requirements.txt```
+- Retrieve Geoapify api key from:
+    - https://www.geoapify.com/places-api/
 - Set up environment variables in a .env file:
     - GEOAPIFY_API_KEY=your_geoapify_api_key
 - Run Docker Desktop

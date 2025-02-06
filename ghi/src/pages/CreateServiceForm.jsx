@@ -103,7 +103,7 @@ const CreateServiceForm = () => {
             const data = await response.json()
 
             if (data.success) {
-                navigate('/services')
+                navigate('/my-services')
             } else {
                 setError(data.error || 'Failed to save service')
             }
@@ -127,7 +127,7 @@ const CreateServiceForm = () => {
                 <div className="flex justify-between items-center mb-6">
                     <h1 className="text-3xl font-bold text-black"></h1>
                     <button
-                        onClick={() => navigate('/services')}
+                        onClick={() => navigate('/my-services')}
                         className="px-4 py-2 text-white border border-green bg-green rounded-lg hover:bg-dark-green hover:text-white transition-colors"
                     >
                         Cancel
