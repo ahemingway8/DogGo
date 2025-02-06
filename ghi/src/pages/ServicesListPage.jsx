@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAuthService from '../hooks/useAuthService'
-import { useToast } from '../hooks/useToast'
 
+const API_HOST = import.meta.env.VITE_API_HOST
+
+if (!API_HOST) {
+    throw new Error('VITE_API_HOST is not defined')
+}
 
 const ServicesListPage = () => {
     const [services, setServices] = useState([])
@@ -11,8 +15,7 @@ const ServicesListPage = () => {
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState('')
     const navigate = useNavigate()
-    const { user } = useAuthService()
-    const { showToast, hideToast, Toast} = useToast()
+    const { isLoggedIn } = useAuthService()
 
 
     useEffect(() => {
@@ -27,7 +30,9 @@ const ServicesListPage = () => {
     const fetchServices = async () => {
         try {
             setIsLoading(true)
-            const response = await fetch('http://localhost:8000/api/services')
+            const response = await fetch(`${API_HOST}/api/services`, {
+                credentials: 'include',
+            })
             const data = await response.json()
 
             if (data.success) {
@@ -35,6 +40,9 @@ const ServicesListPage = () => {
             } else {
                 setError(data.error || 'Failed to load services')
             }
+        } catch (err) {
+            setError('Failed to fetch services')
+            console.error(err)
         } finally {
             setIsLoading(false)
         }
@@ -54,34 +62,12 @@ const ServicesListPage = () => {
         setFilteredServices(filtered)
     }
 
-    const handleDelete = async (serviceId) => {
-        showToast({
-            message: 'Are you sure you want to delete this service?',
-            showConfirm: true,
-            onConfirm: async () => {
-                try {
-                    const response = await fetch(
-                        `http://localhost:8000/api/services/${serviceId}`,
-                        {
-                            method: 'DELETE',
-                            credentials: 'include',
-                        }
-                    )
-                    const data = await response.json()
-                    if (data.success) {
-                        setServices(
-                            services.filter((service) => service.id !== serviceId)
-                        )
-                        hideToast()
-                    } else {
-                        setError(data.error || 'Failed to delete service.')
-                    }
-                } catch (error) {
-                    console.error('Error deleting service:', error)
-                    setError('Failed to delete service.')
-                }
-            }
-        })
+    const handlePostServiceClick = () => {
+        if (isLoggedIn) {
+            navigate('/services/create')
+        } else {
+            navigate('/signin')
+        }
     }
 
     if (isLoading) {
@@ -94,7 +80,6 @@ const ServicesListPage = () => {
 
     return (
         <div className="max-w-6xl mx-auto px-4 py-6">
-            {Toast}
             <div className="mb-8">
                 <div className="relative z-10 bg-white/10 backdrop-blur-sm rounded-lg p-6">
                     <div className="flex justify-between items-center mb-6">
@@ -102,7 +87,7 @@ const ServicesListPage = () => {
                             Pet Services
                         </h1>
                         <button
-                            onClick={() => navigate('/services/create')}
+                            onClick={handlePostServiceClick}
                             className="px-4 py-2 bg-green text-xl text-white rounded-lg hover:bg-dark-green transition-colors"
                         >
                             Post a Service
@@ -145,7 +130,7 @@ const ServicesListPage = () => {
                                 No services found
                             </h3>
                             <p className="text-black mt-2">
-                                Be the first to aadd a service!
+                                Check back later for more services!
                             </p>
                         </div>
                     ) : (
@@ -168,25 +153,19 @@ const ServicesListPage = () => {
                                         <h2 className="text-2xl font-semibold text-white mb-2">
                                             {service.name}
                                         </h2>
-                                        <p className="text-white mb-2">
-                                            {service.description}
-                                        </p>
                                         <div className="text-white">
                                             <p>Price: ${service.price}</p>
                                             <p>Location: {service.location}</p>
                                             <p>Contact: {service.contact}</p>
                                         </div>
-
-                                        {user && user.id === service.created_by && (
-                                            <div className="mt-4 flex gap-2">
-                                                <button
-                                                    onClick={() => handleDelete(service.id)}
-                                                    className="w-full px-4 py-2 bg-red text-white rounded-lg hover:bg-dark-red transition-colors"
-                                                >
-                                                    Delete
-                                                </button>
-                                            </div>
-                                        )}
+                                        <div className="mt-4 flex gap-2">
+                                            <button
+                                                onClick={() => navigate(`/services/${service.id}`)}
+                                                className="w-30 px-4 py-2 bg-green text-white rounded-lg hover:bg-dark-green transition-colors"
+                                            >
+                                                View Details
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             ))}

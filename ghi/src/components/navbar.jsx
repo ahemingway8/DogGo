@@ -10,7 +10,8 @@ const Navbar = () => {
     const { Toast, showToast } = useToast()
     const [menuOpen, setMenuOpen] = useState(false)
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false)
-    const [subMenuOpen, setSubMenuOpen] = useState(false)
+    const [eventsSubMenuOpen, setEventsSubMenuOpen] = useState(false)
+    const [servicesSubMenuOpen, setServicesSubMenuOpen] = useState(false)
 
     const handleMenuMouseEnter = () => setMenuOpen(true)
     const handleMenuMouseLeave = () => {
@@ -135,119 +136,169 @@ const Navbar = () => {
                                             Places
                                         </Link>
                                     </li>
-                                    <li>
-                                        <Link
-                                            to="/services"
-                                            className="block px-4 py-2 hover:bg-light-green"
-                                            onClick={() => setMenuOpen(false)}
-                                        >
-                                            Services
-                                        </Link>
-                                    </li>
-                                    {isLoggedIn && (
-                                        <li
-                                            className="relative"
-                                            onMouseEnter={() =>
-                                                setSubMenuOpen(true)
-                                            }
-                                            onMouseLeave={() => {
-                                                setTimeout(() => {
-                                                    if (
-                                                        !document.querySelector(
-                                                            '.sub-menu-dropdown:hover'
-                                                        )
-                                                    ) {
-                                                        setSubMenuOpen(false)
-                                                    }
-                                                }, 100)
-                                            }}
-                                        >
-                                            <div className="block w-full px-4 py-2 hover:bg-light-green flex items-center justify-between">
-                                                Events
-                                                <span
-                                                    className={`ml-2 transform transition-transform ${
-                                                        subMenuOpen
-                                                            ? 'rotate-180'
-                                                            : ''
-                                                    }`}
-                                                >
-                                                    <svg
-                                                        className="h-4 w-4"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth="2"
-                                                        viewBox="0 0 24 24"
-                                                        aria-hidden="true"
-                                                    >
-                                                        <path d="M6 9l6 6 6-6"></path>
-                                                    </svg>
-                                                </span>
-                                            </div>
-
-                                            {subMenuOpen && (
-                                                <div
-                                                    className="sub-menu-dropdown absolute left-full top-0 w-48 bg-light-green text-white shadow-md rounded-lg"
-                                                    onMouseLeave={() => {
-                                                        setTimeout(() => {
-                                                            if (
-                                                                !document.querySelector(
-                                                                    '.events-item:hover'
-                                                                )
-                                                            ) {
-                                                                setSubMenuOpen(
-                                                                    false
-                                                                )
-                                                            }
-                                                        }, 100)
-                                                    }}
-                                                >
-                                                    <ul className="py-2">
-                                                        <li>
-                                                            <Link
-                                                                to="/events"
-                                                                className="block px-4 py-2 hover:bg-green"
-                                                                onClick={() =>
-                                                                    setMenuOpen(
-                                                                        false
-                                                                    )
-                                                                }
-                                                            >
-                                                                All Events
-                                                            </Link>
-                                                        </li>
-                                                        <li>
-                                                            <Link
-                                                                to="/my-events"
-                                                                className="block px-4 py-2 hover:bg-green"
-                                                                onClick={() =>
-                                                                    setMenuOpen(
-                                                                        false
-                                                                    )
-                                                                }
-                                                            >
-                                                                My Events
-                                                            </Link>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            )}
-                                        </li>
-                                    )}
-                                    {!isLoggedIn && (
-                                        <li>
-                                            <Link
-                                                to="/events"
-                                                className="block px-4 py-2 hover:bg-light-green"
-                                                onClick={() =>
-                                                    setMenuOpen(false)
+                                    {isLoggedIn ? (
+                                        <>
+                                            <li
+                                                className="relative"
+                                                onMouseEnter={() =>
+                                                    setEventsSubMenuOpen(true)
                                                 }
+                                                onMouseLeave={() => {
+                                                    setTimeout(() => {
+                                                        if (
+                                                            !document.querySelector(
+                                                                '.events-submenu-dropdown:hover'
+                                                            )
+                                                        ) {
+                                                            setEventsSubMenuOpen(false)
+                                                        }
+                                                    }, 100)
+                                                }}
                                             >
-                                                Events
-                                            </Link>
-                                        </li>
+                                                <div className="block w-full px-4 py-2 hover:bg-light-green flex items-center justify-between">
+                                                    Events
+                                                    <span
+                                                        className={`ml-2 transform transition-transform ${
+                                                            eventsSubMenuOpen
+                                                                ? 'rotate-180'
+                                                                : ''
+                                                        }`}
+                                                    >
+                                                        <svg
+                                                            className="h-4 w-4"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth="2"
+                                                            viewBox="0 0 24 24"
+                                                            aria-hidden="true"
+                                                        >
+                                                            <path d="M6 9l6 6 6-6"></path>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+
+                                                {eventsSubMenuOpen && (
+                                                    <div
+                                                        className="events-submenu absolute left-full top-0 w-48 bg-light-green text-white shadow-md rounded-lg"
+                                                        onMouseLeave={() => setEventsSubMenuOpen(false)}
+                                                    >
+                                                        <ul className="py-2">
+                                                            <li>
+                                                                <Link
+                                                                    to="/events"
+                                                                    className="block px-4 py-2 hover:bg-green"
+                                                                    onClick={() =>
+                                                                        setMenuOpen(
+                                                                            false
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    All Events
+                                                                </Link>
+                                                            </li>
+                                                            <li>
+                                                                <Link
+                                                                    to="/my-events"
+                                                                    className="block px-4 py-2 hover:bg-green"
+                                                                    onClick={() =>
+                                                                        setMenuOpen(
+                                                                            false
+                                                                        )
+                                                                    }
+                                                                >
+                                                                    My Events
+                                                                </Link>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                )}
+                                            </li>
+
+                                            <li
+                                                className="relative"
+                                                onMouseEnter={() => setServicesSubMenuOpen(true)}
+                                                onMouseLeave={() => {
+                                                    setTimeout(() => {
+                                                        if (!document.querySelector('.services-submenu:hover')) {
+                                                            setServicesSubMenuOpen(false)
+                                                        }
+                                                    }, 100)
+                                                }}
+                                            >
+                                                <div className="block w-full px-4 py-2 hover:bg-light-green flex items-center justify-between">
+                                                    Services
+                                                    <span className={`ml-2 transform transition-transform ${servicesSubMenuOpen ? 'rotate-180' : ''}`}>
+                                                        <svg
+                                                            className="h-4 w-4"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            stroke="currentColor"
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth="2"
+                                                            viewBox="0 0 24 24"
+                                                            aria-hidden="true"
+                                                        >
+                                                            <path d="M6 9l6 6 6-6"></path>
+                                                        </svg>
+                                                    </span>
+                                                </div>
+
+                                                {servicesSubMenuOpen && (
+                                                    <div
+                                                        className="services-submenu absolute left-full top-0 w-48 bg-light-green text-white shadow-md rounded-lg"
+                                                        onMouseLeave={() => setServicesSubMenuOpen(false)}
+                                                    >
+                                                        <ul className="py-2">
+                                                            <li>
+                                                                <Link
+                                                                    to="/services"
+                                                                    className="block px-4 py-2 hover:bg-green"
+                                                                    onClick={() => setMenuOpen(false)}
+                                                                >
+                                                                    All Services
+                                                                </Link>
+                                                            </li>
+                                                            <li>
+                                                                <Link
+                                                                    to="/my-services"
+                                                                    className="block px-4 py-2 hover:bg-green"
+                                                                    onClick={() => setMenuOpen(false)}
+                                                                >
+                                                                    My Services
+                                                                </Link>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                )}
+                                            </li>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <li>
+                                                <Link
+                                                    to="/events"
+                                                    className="block px-4 py-2 hover:bg-light-green"
+                                                    onClick={() =>
+                                                        setMenuOpen(false)
+                                                    }
+                                                >
+                                                    Events
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link
+                                                    to="/services"
+                                                    className="block px-4 py-2 hover:bg-light-green"
+                                                    onClick={() => setMenuOpen(false)}
+                                                >
+                                                    Services
+                                                </Link>
+                                            </li>
+                                        </>
                                     )}
                                 </ul>
                             </div>

@@ -15,6 +15,9 @@ import AuthProvider from './components/AuthProvider';
 import App from './App';
 import './index.css';
 import MyEventsPage from './pages/MyEventsPage';
+import MyServices from './pages/MyServices';
+import ServiceDetail from './pages/ServiceDetail';
+import ServiceUpdateForm from './pages/ServiceUpdateForm';
 
 
 const BASE_URL = import.meta.env.BASE_URL
@@ -71,6 +74,18 @@ const router = createBrowserRouter(
                 {
                     path: '/services/create',
                     element: <CreateServiceForm />,
+                },
+                {
+                    path: '/my-services',
+                    element: <MyServices />,
+                },
+                {
+                    path: 'services/:id',
+                    element: <ServiceDetail />,
+                },
+                {
+                    path: 'services/edit/:id',
+                    element: <ServiceUpdateForm />,
                 },
             ],
         },
