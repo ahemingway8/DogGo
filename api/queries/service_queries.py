@@ -6,7 +6,12 @@ from psycopg.rows import class_row
 
 
 class ServiceRepository:
-    def update(self, service_id: int, service: ServiceIn, user_id: int) -> Result[ServiceOut]:
+    def update(
+            self,
+            service_id: int,
+            service: ServiceIn,
+            user_id: int
+    ) -> Result[ServiceOut]:
         try:
             with pool.connection() as conn:
                 with conn.cursor() as db:
@@ -51,7 +56,10 @@ class ServiceRepository:
                     )
                     updated_service = db.fetchone()
                     if not updated_service:
-                        return Result(success=False, error="Service update failed")
+                        return Result(
+                            success=False,
+                            error="Service update failed"
+                        )
                     return Result(success=True, data=updated_service)
         except Exception as e:
             return Result(success=False, error=str(e))

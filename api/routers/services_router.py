@@ -8,6 +8,7 @@ from models.jwt import JWTUserData
 
 router = APIRouter()
 
+
 @router.put("/api/services/{service_id}", response_model=Result[ServiceOut])
 def update_service(
     service_id: int,
@@ -41,8 +42,8 @@ def update_service(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail=update_result.error
             )
-        
     return update_result
+
 
 @router.post("/api/services", response_model=Result[ServiceOut])
 def create_service(
