@@ -23,7 +23,7 @@ DogGo is an application that helps users find pet-friendly locations and events 
 ## Getting started
 
 - Clone the repository:
-- ```git clone https://gitlab.com/dog-go1/module3-project-gamma.git```
+- ```git clone https://github.com/ahemingway8/DogGo.git```
 - ```cd your-repo-name```
 - Create a virtual environment and activate it:
     - ```python -m venv .venv```
